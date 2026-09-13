@@ -188,6 +188,54 @@
         "padding_bottom": 8
       }
     },
+    "shoppable_reels_YMLHFF": {
+      "type": "shoppable-reels",
+      "blocks": {
+        "reel_BA9WzJ": {
+          "type": "reel",
+          "settings": {
+            "video_url": "",
+            "product": ""
+          }
+        },
+        "reel_byhjpU": {
+          "type": "reel",
+          "settings": {
+            "video_url": "",
+            "product": ""
+          }
+        },
+        "reel_Tjb3ef": {
+          "type": "reel",
+          "settings": {
+            "video_url": "",
+            "product": ""
+          }
+        },
+        "reel_xDwRg4": {
+          "type": "reel",
+          "settings": {
+            "video_url": "",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_BA9WzJ",
+        "reel_byhjpU",
+        "reel_Tjb3ef",
+        "reel_xDwRg4"
+      ],
+      "name": "Shoppable Reels",
+      "settings": {
+        "title": "Shop the Collection Live",
+        "font_size": 24,
+        "heading_alignment": "center",
+        "text_transform": "none",
+        "auto_rotate": true,
+        "auto_rotate_speed": 4
+      }
+    },
     "featured_collection_pqTwDH": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -389,6 +437,7 @@
     "collection-list",
     "image-banner",
     "featured_collection_RGb6rU",
+    "shoppable_reels_YMLHFF",
     "featured_collection_pqTwDH",
     "custom_liquid_H7zxnG",
     "featured_collection_QfW6Nk",
