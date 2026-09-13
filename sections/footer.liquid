@@ -128,7 +128,15 @@
 
       <div class="atypical-footer__bottom-right">
         <small class="atypical-footer__copyright">
-          {{ section.settings.copyright_text }}
+          {%- assign raw_copyright = section.settings.copyright_text -%}
+          {%- if raw_copyright contains 'Think Grow Media' -%}
+            {%- assign copyright_parts = raw_copyright | split: 'Think Grow Media' -%}
+            {{ copyright_parts[0] }}<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="atypical-footer__credit-link">Think Grow Media(www.thinkgrowmedia.com)</a>
+          {%- elsif raw_copyright != blank -%}
+            {{ raw_copyright }}
+          {%- else -%}
+            &copy; {{ 'now' | date: '%Y' }} ATYPICAL | Designed and Managed by <a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="atypical-footer__credit-link">Think Grow Media(www.thinkgrowmedia.com)</a>
+          {%- endif -%}
         </small>
       </div>
     </div>
@@ -640,7 +648,7 @@
       "type": "text",
       "id": "copyright_text",
       "label": "Copyright Text",
-      "default": "© 2026 ATYPICAL|Designed and Managed by Think Grow Media"
+      "default": "© 2026 ATYPICAL | Designed and Managed by Think Grow Media(www.thinkgrowmedia.com)"
     },
     {
       "type": "header",

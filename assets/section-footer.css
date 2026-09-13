@@ -521,11 +521,11 @@
 
 .atypical-footer__grid {
   display: grid;
-  grid-template-columns: 1.75fr 1fr 1fr;
-  column-gap: 70px;
+  grid-template-columns: 1.8fr 1fr 1fr;
+  column-gap: 80px;
   row-gap: 40px;
-  padding-top: 10px;
-  padding-bottom: 56px;
+  padding-top: 12px;
+  padding-bottom: 52px;
 }
 
 .atypical-footer__col--brand {
@@ -536,7 +536,12 @@
   display: inline-block;
   text-decoration: none;
   color: inherit;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  transition: opacity 0.2s ease;
+}
+
+.atypical-footer__logo-link:hover {
+  opacity: 0.82;
 }
 
 .atypical-footer__logo-img {
@@ -550,7 +555,7 @@
   font-size: 3.4rem;
   font-weight: 900;
   font-style: italic;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.05em;
   text-transform: lowercase;
   color: rgb(var(--color-foreground));
   display: inline-block;
@@ -560,19 +565,19 @@
 
 .atypical-footer__description p {
   font-size: 1.35rem;
-  line-height: 1.68;
-  color: rgba(var(--color-foreground), 0.85);
+  line-height: 1.72;
+  color: rgba(var(--color-foreground), 0.76);
   margin: 0;
   font-weight: 400;
   letter-spacing: 0.01em;
 }
 
 .atypical-footer__heading {
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
   color: rgb(var(--color-foreground));
-  margin: 0 0 24px 0;
-  letter-spacing: -0.01em;
+  margin: 0 0 22px 0;
+  letter-spacing: -0.015em;
   line-height: 1.2;
 }
 
@@ -586,8 +591,8 @@
 }
 
 .atypical-footer__link {
-  font-size: 1.45rem;
-  color: rgba(var(--color-foreground), 0.85);
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.75);
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
   display: inline-block;
@@ -604,9 +609,10 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding-top: 24px;
+  padding-top: 28px;
   padding-bottom: 24px;
   position: relative;
+  border-top: 1px solid rgba(var(--color-foreground), 0.07);
 }
 
 .atypical-footer__bottom-left {
@@ -624,7 +630,7 @@
 
 .atypical-footer__policy-link {
   font-size: 1.25rem;
-  color: rgba(var(--color-foreground), 0.65);
+  color: rgba(var(--color-foreground), 0.6);
   text-decoration: none;
   transition: color 0.2s ease;
   font-weight: 400;
@@ -636,11 +642,25 @@
 }
 
 .atypical-footer__copyright {
-  font-size: 1.2rem;
-  color: rgba(var(--color-foreground), 0.65);
+  font-size: 1.18rem;
+  color: rgba(var(--color-foreground), 0.6);
   display: inline-block;
-  line-height: 1.4;
+  line-height: 1.5;
   font-weight: 400;
+}
+
+.atypical-footer__credit-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, border-bottom 0.2s ease;
+  border-bottom: 1px dotted rgba(var(--color-foreground), 0.35);
+  padding-bottom: 1px;
+}
+
+.atypical-footer__credit-link:hover {
+  color: rgb(var(--color-foreground));
+  border-bottom-style: solid;
 }
 
 /* Floating Pill Button */
@@ -653,21 +673,21 @@
   padding: 6px 24px 6px 6px;
   text-decoration: none;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.16), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.13), 0 3px 8px -2px rgba(0, 0, 0, 0.05);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease;
   cursor: pointer;
 }
 
 .atypical-footer__pill-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 18px 42px -4px rgba(0, 0, 0, 0.24), 0 6px 14px -2px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2.5px) scale(1.02);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.18), 0 5px 12px -2px rgba(0, 0, 0, 0.07);
 }
 
 .atypical-footer__pill-icon {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #3c3c3c;
+  background: #363636;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -676,7 +696,7 @@
 }
 
 .atypical-footer__pill-btn:hover .atypical-footer__pill-icon {
-  background: #202020;
+  background: #1e1e1e;
   transform: rotate(15deg) scale(1.06);
 }
 
@@ -710,8 +730,9 @@
 
   .atypical-footer__bottom {
     grid-template-columns: 1fr;
-    row-gap: 24px;
+    row-gap: 22px;
     text-align: center;
+    padding-top: 24px;
   }
 
   .atypical-footer__bottom-left,
@@ -724,14 +745,19 @@
 
 @media screen and (max-width: 749px) {
   .atypical-footer__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 28px;
     row-gap: 32px;
-    padding-bottom: 40px;
+    padding-bottom: 36px;
+  }
+
+  .atypical-footer__col--brand {
+    grid-column: 1 / -1;
   }
 
   .atypical-footer__bottom {
-    padding-top: 16px;
-    row-gap: 20px;
+    padding-top: 20px;
+    row-gap: 18px;
   }
 
   .atypical-footer__pill-btn {
@@ -739,13 +765,13 @@
   }
 
   .atypical-footer__pill-icon {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
   }
 
   .atypical-footer__pill-sparkles {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
   }
 
   .atypical-footer__pill-text {
