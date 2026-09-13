@@ -54,11 +54,9 @@
               {%- endif -%}
             </div>
           </div>
-          {%- if settings.cart_drawer_collection != blank -%}
-            <div class="cart-drawer__collection">
-              {% render 'card-collection', card_collection: settings.cart_drawer_collection, columns: 1 %}
-            </div>
-          {%- endif -%}
+          <div class="cart-drawer-empty-upsell-wrapper">
+            {%- render 'cart-drawer-upsell' -%}
+          </div>
         </div>
       {%- endif -%}
       <div class="drawer__header">
@@ -479,6 +477,7 @@
                 </table>
               </div>
             {%- endif -%}
+            {%- render 'cart-drawer-upsell' -%}
             <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
             <p id="CartDrawer-LineItemStatus" class="visually-hidden" aria-hidden="true" role="status">
               {{ 'accessibility.loading' | t }}

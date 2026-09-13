@@ -412,3 +412,351 @@ cart-drawer-items::-webkit-scrollbar-track-piece {
     margin-left: 0;
   }
 }
+
+/* ==========================================================================
+   Luxury Streetwear Cart Drawer & Upsell Section
+   ========================================================================== */
+
+.drawer__inner {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.drawer__header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.6rem 0;
+}
+
+.drawer__heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+}
+
+.drawer__close {
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.drawer__close:hover {
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+.cart-drawer .cart-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.2rem 0;
+}
+
+.cart-drawer .cart-item__image {
+  border-radius: 8px;
+  background-color: #1a1a1a;
+}
+
+.cart-drawer .cart-item__name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.cart-drawer .product-option {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1.1rem;
+}
+
+.cart-drawer .totals__total {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cart-drawer .totals__total-value {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Glitch-free luxury checkout button */
+.cart-drawer .cart__checkout-button:before,
+.cart-drawer .cart__checkout-button:after {
+  display: none !important;
+  content: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.cart-drawer .cart__checkout-button {
+  background: #ffffff !important;
+  color: #121212 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  font-size: 1.3rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  height: 52px !important;
+  width: 100% !important;
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease !important;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15) !important;
+  cursor: pointer !important;
+}
+
+.cart-drawer .cart__checkout-button:hover {
+  opacity: 0.92 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25) !important;
+}
+
+.cart-drawer .cart__checkout-button:disabled {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Upsell / Complete The Fit Section */
+.cart-drawer-cross-sell-section {
+  margin: 16px 0 12px 0;
+  padding: 14px 0 0 0;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cart-drawer-cross-sell-header {
+  padding: 0 1.5rem 10px 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-drawer-cross-sell-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+}
+
+.cart-drawer-cross-sell-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.cart-drawer-cross-sell-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-padding: 0 1.5rem;
+  padding: 2px 1.5rem 10px 1.5rem;
+  scrollbar-width: none;
+}
+
+.cart-drawer-cross-sell-track::-webkit-scrollbar {
+  display: none;
+}
+
+.cart-drawer-mini-card {
+  flex: 0 0 142px;
+  min-width: 142px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.cart-drawer-mini-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.cart-drawer-mini-card__image-link {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+  background-color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.cart-drawer-mini-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.cart-drawer-mini-card:hover .cart-drawer-mini-card__image {
+  transform: scale(1.05);
+}
+
+.cart-drawer-mini-card__placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cart-drawer-mini-card__sizes {
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-bottom: 8px;
+  padding: 1px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cart-drawer-mini-card__sizes::-webkit-scrollbar {
+  display: none;
+}
+
+.mini-size-btn {
+  flex: 1;
+  min-width: 20px;
+  height: 22px;
+  padding: 0 4px;
+  font-size: 8.5px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+
+.mini-size-btn:hover:not(:disabled) {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.mini-size-btn.is-active {
+  background: #ffffff !important;
+  color: #121212 !important;
+  border-color: #ffffff !important;
+}
+
+.mini-size-btn:disabled,
+.mini-size-btn.is-disabled {
+  opacity: 0.3;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.cart-drawer-mini-card__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.cart-drawer-mini-card__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-drawer-mini-card__title {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.cart-drawer-mini-card__title:hover {
+  text-decoration: underline;
+}
+
+.cart-drawer-mini-card__price {
+  font-size: 10.5px;
+  margin: 3px 0 0 0;
+  line-height: 1.2;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.mini-price-current {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.mini-price-compare {
+  font-size: 9.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: line-through;
+}
+
+.cart-drawer-mini-card__add-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #121212;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cart-drawer-mini-card__add-btn:hover:not(:disabled) {
+  transform: scale(1.12);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+}
+
+.cart-drawer-mini-card__add-btn:active {
+  transform: scale(0.92);
+}
+
+.cart-drawer-mini-card__add-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cart-drawer-mini-card__add-btn.added {
+  background-color: #108a00 !important;
+  color: #ffffff !important;
+  transform: scale(1.05);
+}

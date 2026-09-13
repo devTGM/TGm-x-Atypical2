@@ -1,0 +1,215 @@
+{% comment %}
+  Renders the Cart Drawer "COMPLETE THE FIT" Upsell/Cross-Sell Widget
+  Usage:
+  {% render 'cart-drawer-upsell' %}
+{% endcomment %}
+
+{% liquid
+  assign cart_product_ids = cart.items | map: 'product_id'
+  assign upsell_products = null
+
+  if settings.cart_drawer_collection != blank and collections[settings.cart_drawer_collection].products_count > 0
+    assign upsell_products = collections[settings.cart_drawer_collection].products
+  elsif collections['latest'] != blank and collections['latest'].products_count > 0
+    assign upsell_products = collections['latest'].products
+  elsif collections['waffle-knits'] != blank and collections['waffle-knits'].products_count > 0
+    assign upsell_products = collections['waffle-knits'].products
+  elsif collections['shirts'] != blank and collections['shirts'].products_count > 0
+    assign upsell_products = collections['shirts'].products
+  elsif collections['oversized-tshirts'] != blank and collections['oversized-tshirts'].products_count > 0
+    assign upsell_products = collections['oversized-tshirts'].products
+  elsif collections['all'] != blank and collections['all'].products_count > 0
+    assign upsell_products = collections['all'].products
+  endif
+
+  assign eligible_count = 0
+  if upsell_products != blank
+    for p in upsell_products
+      unless cart_product_ids contains p.id
+        if p.available
+          assign eligible_count = eligible_count | plus: 1
+        endif
+      endunless
+    endfor
+  endif
+%}
+
+{% if eligible_count > 0 %}
+  <div class="cart-drawer-cross-sell-section">
+    <div class="cart-drawer-cross-sell-header">
+      <div class="cart-drawer-cross-sell-title-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span class="cart-drawer-cross-sell-title">COMPLETE THE FIT</span>
+      </div>
+    </div>
+
+    <div class="cart-drawer-cross-sell-track">
+      {% assign count = 0 %}
+      {% for product in upsell_products %}
+        {% unless cart_product_ids contains product.id %}
+          {% if product.available and count < 8 %}
+            {% assign count = count | plus: 1 %}
+            {% assign first_variant = product.selected_or_first_available_variant %}
+            <div class="cart-drawer-mini-card" data-product-id="{{ product.id }}">
+              <a href="{{ product.url }}" class="cart-drawer-mini-card__image-link" aria-label="{{ product.title | escape }}">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 320 }}"
+                    alt="{{ product.title | escape }}"
+                    loading="lazy"
+                    class="cart-drawer-mini-card__image"
+                    width="142"
+                    height="142"
+                  >
+                {% else %}
+                  <div class="cart-drawer-mini-card__placeholder"></div>
+                {% endif %}
+              </a>
+
+              {% if product.variants.size > 1 %}
+                <div class="cart-drawer-mini-card__sizes">
+                  {% for variant in product.variants %}
+                    <button
+                      type="button"
+                      class="mini-size-btn{% if variant.id == first_variant.id %} is-active{% endif %}{% unless variant.available %} is-disabled{% endunless %}"
+                      data-variant-id="{{ variant.id }}"
+                      data-price="{% if settings.currency_code_enabled %}{{ variant.price | money_with_currency }}{% else %}{{ variant.price | money }}{% endif %}"
+                      data-compare-price="{% if variant.compare_at_price > variant.price %}{% if settings.currency_code_enabled %}{{ variant.compare_at_price | money_with_currency }}{% else %}{{ variant.compare_at_price | money }}{% endif %}{% endif %}"
+                      {% unless variant.available %}disabled{% endunless %}
+                      onclick="selectMiniCardSize(this, '{{ variant.id }}')"
+                    >
+                      {{ variant.title }}
+                    </button>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              <div class="cart-drawer-mini-card__body">
+                <div class="cart-drawer-mini-card__text">
+                  <a href="{{ product.url }}" class="cart-drawer-mini-card__title" title="{{ product.title | escape }}">
+                    {{ product.title | escape }}
+                  </a>
+                  <p class="cart-drawer-mini-card__price">
+                    <span class="mini-price-current">
+                      {% if settings.currency_code_enabled %}{{ first_variant.price | money_with_currency }}{% else %}{{ first_variant.price | money }}{% endif %}
+                    </span>
+                    {% if first_variant.compare_at_price > first_variant.price %}
+                      <span class="mini-price-compare">
+                        {% if settings.currency_code_enabled %}{{ first_variant.compare_at_price | money_with_currency }}{% else %}{{ first_variant.compare_at_price | money }}{% endif %}
+                      </span>
+                    {% endif %}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  class="cart-drawer-mini-card__add-btn"
+                  data-variant-id="{{ first_variant.id }}"
+                  onclick="addDrawerCrossSellToCart(this, '{{ first_variant.id }}')"
+                  aria-label="Add {{ product.title | escape }} to cart"
+                  {% unless first_variant.available %}disabled{% endunless %}
+                >
+                  <span class="mini-add-icon">+</span>
+                  <span class="mini-check-icon" style="display: none;">✓</span>
+                </button>
+              </div>
+            </div>
+          {% endif %}
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+<script>
+  if (typeof window.selectMiniCardSize !== 'function') {
+    window.selectMiniCardSize = function(btn, variantId) {
+      const card = btn.closest('.cart-drawer-mini-card');
+      if (!card) return;
+      card.querySelectorAll('.mini-size-btn').forEach(function(b) {
+        b.classList.remove('is-active');
+      });
+      btn.classList.add('is-active');
+
+      const addBtn = card.querySelector('.cart-drawer-mini-card__add-btn');
+      if (addBtn) {
+        addBtn.dataset.variantId = variantId;
+        addBtn.disabled = btn.disabled;
+      }
+
+      const priceCurrent = card.querySelector('.mini-price-current');
+      if (priceCurrent && btn.dataset.price) {
+        priceCurrent.textContent = btn.dataset.price;
+      }
+
+      const priceCompare = card.querySelector('.mini-price-compare');
+      if (priceCompare) {
+        if (btn.dataset.comparePrice) {
+          priceCompare.textContent = btn.dataset.comparePrice;
+          priceCompare.style.display = 'inline';
+        } else {
+          priceCompare.style.display = 'none';
+        }
+      }
+    };
+  }
+
+  if (typeof window.addDrawerCrossSellToCart !== 'function') {
+    window.addDrawerCrossSellToCart = function(btn, fallbackVariantId) {
+      const variantId = btn.dataset.variantId || fallbackVariantId;
+      if (!variantId || btn.disabled) return;
+
+      btn.disabled = true;
+      const iconAdd = btn.querySelector('.mini-add-icon');
+      const iconCheck = btn.querySelector('.mini-check-icon');
+      if (iconAdd) iconAdd.style.display = 'none';
+      if (iconCheck) iconCheck.style.display = 'inline-block';
+      btn.classList.add('added');
+
+      const rootUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+
+      fetch(rootUrl + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          id: variantId,
+          quantity: 1,
+          sections: 'cart-drawer,cart-icon-bubble'
+        })
+      })
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(data) {
+        if (data.status) {
+          throw new Error(data.description || data.message || 'Error adding to cart');
+        }
+
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
+          cartDrawer.renderContents(data);
+        }
+
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, {
+            source: 'cart-drawer-upsell',
+            productVariantId: variantId,
+            cartData: data
+          });
+        }
+      })
+      .catch(function(err) {
+        console.error('Cross-sell add error:', err);
+        btn.disabled = false;
+        btn.classList.remove('added');
+        if (iconAdd) iconAdd.style.display = 'inline-block';
+        if (iconCheck) iconCheck.style.display = 'none';
+      });
+    };
+  }
+</script>
