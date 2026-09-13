@@ -20,18 +20,17 @@
             "show_social": true
           }
         },
-        "image_bgXQK6": {
-          "type": "image",
+        "link_list_MGCKnF": {
+          "type": "link_list",
           "settings": {
-            "image": "shopify://shop_images/Waffle_Fullsleeve.jpg",
-            "image_width": 100,
-            "alignment": "center"
+            "heading": "Shop",
+            "menu": "footer-men-1"
           }
         }
       },
       "block_order": [
         "brand_information_LyMNjc",
-        "image_bgXQK6"
+        "link_list_MGCKnF"
       ],
       "settings": {
         "color_scheme": "scheme-1",
