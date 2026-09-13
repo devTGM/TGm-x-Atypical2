@@ -1,0 +1,496 @@
+{%- comment -%}
+  Divider & Spacer Section
+  Provides clean visual separation or spacing between sections.
+  Supports subtle solid lines, ambient gradient fade lines, spacers, and centered icons/text.
+  Fully integrated with Dawn & Atypical's dark luxury theme.
+{%- endcomment -%}
+
+{%- liquid
+  assign line_color = section.settings.custom_line_color
+  if line_color != blank and line_color != 'rgba(0,0,0,0)'
+    assign line_color_css = line_color
+  else
+    assign line_color_css = 'rgb(var(--color-foreground))'
+  endif
+
+  assign line_opacity = section.settings.opacity | divided_by: 100.0
+
+  assign width_class = ''
+  case section.settings.width
+    when 'page_width'
+      assign width_class = 'page-width'
+    when 'narrow'
+      assign width_class = 'divider-width--narrow'
+    when 'compact'
+      assign width_class = 'divider-width--compact'
+    when 'custom'
+      assign width_class = 'divider-width--custom'
+    when 'full'
+      assign width_class = 'divider-width--full'
+  endcase
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .divider-container-{{ section.id }} {
+    display: flex;
+    width: 100%;
+    justify-content: {{ section.settings.alignment }};
+  }
+
+  .divider-inner-{{ section.id }} {
+    width: 100%;
+  }
+
+  .divider-width--narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .divider-width--compact {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .divider-width--custom {
+    max-width: {{ section.settings.custom_width }}%;
+    margin: 0 auto;
+  }
+
+  .divider-width--full {
+    width: 100%;
+    padding: 0;
+  }
+
+  /* Solid Line */
+  .divider-line--solid {
+    height: {{ section.settings.thickness }}px;
+    background-color: {{ line_color_css }};
+    opacity: {{ line_opacity }};
+    border: none;
+    margin: 0;
+    border-radius: 99px;
+  }
+
+  /* Dashed Line */
+  .divider-line--dashed {
+    height: 0;
+    border: none;
+    border-top: {{ section.settings.thickness }}px dashed {{ line_color_css }};
+    opacity: {{ line_opacity }};
+    margin: 0;
+  }
+
+  /* Dotted Line */
+  .divider-line--dotted {
+    height: 0;
+    border: none;
+    border-top: {{ section.settings.thickness }}px dotted {{ line_color_css }};
+    opacity: {{ line_opacity }};
+    margin: 0;
+  }
+
+  /* Gradient Fade Line (Ambient luxury fade to edges) */
+  .divider-line--gradient {
+    height: {{ section.settings.thickness }}px;
+    background: linear-gradient(90deg, transparent 0%, {{ line_color_css }} 50%, transparent 100%);
+    opacity: {{ line_opacity }};
+    border: none;
+    margin: 0;
+    border-radius: 99px;
+  }
+
+  /* Line with Center Badge / Icon / Text */
+  .divider-badge-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .divider-badge-line {
+    flex: 1;
+    height: {{ section.settings.thickness }}px;
+    background-color: {{ line_color_css }};
+    opacity: {{ line_opacity }};
+    border-radius: 99px;
+  }
+
+  .divider-badge-line--gradient-left {
+    background: linear-gradient(90deg, transparent 0%, {{ line_color_css }} 100%);
+  }
+
+  .divider-badge-line--gradient-right {
+    background: linear-gradient(90deg, {{ line_color_css }} 0%, transparent 100%);
+  }
+
+  .divider-badge-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ line_color_css }};
+    opacity: {{ line_opacity | times: 1.4 | at_most: 1.0 }};
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .divider-badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .divider-badge-icon svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient isolate">
+  <div class="divider-container-{{ section.id }} section-{{ section.id }}-padding">
+    <div class="divider-inner-{{ section.id }} {{ width_class }}">
+      {%- case section.settings.divider_type -%}
+        {%- when 'line' -%}
+          <div class="divider-line--{{ section.settings.line_style }}"></div>
+
+        {%- when 'gradient_fade' -%}
+          <div class="divider-line--gradient"></div>
+
+        {%- when 'line_with_icon' -%}
+          <div class="divider-badge-wrapper">
+            <span class="divider-badge-line divider-badge-line--gradient-left"></span>
+            <span class="divider-badge-content divider-badge-icon">
+              {%- if section.settings.icon == 'sparkle' -%}
+                <svg viewBox="0 0 24 24">
+                  <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+                </svg>
+              {%- elsif section.settings.icon == 'star' -%}
+                <svg viewBox="0 0 24 24">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              {%- elsif section.settings.icon == 'diamond' -%}
+                <svg viewBox="0 0 24 24">
+                  <polygon points="12 2 22 12 12 22 2 12 12 2"></polygon>
+                </svg>
+              {%- elsif section.settings.icon == 'circle' -%}
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="6"></circle>
+                </svg>
+              {%- endif -%}
+            </span>
+            <span class="divider-badge-line divider-badge-line--gradient-right"></span>
+          </div>
+
+        {%- when 'line_with_text' -%}
+          <div class="divider-badge-wrapper">
+            <span class="divider-badge-line divider-badge-line--gradient-left"></span>
+            {%- if section.settings.text != blank -%}
+              <span class="divider-badge-content">
+                {{ section.settings.text }}
+              </span>
+            {%- endif -%}
+            <span class="divider-badge-line divider-badge-line--gradient-right"></span>
+          </div>
+
+        {%- when 'spacer' -%}
+          {%- comment -%}Spacer only, creates vertical breathing room between sections{%- endcomment -%}
+      {%- endcase -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Divider",
+  "tag": "section",
+  "class": "section section-divider",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-4"
+    },
+    {
+      "type": "select",
+      "id": "divider_type",
+      "label": "Divider Type",
+      "options": [
+        {
+          "value": "line",
+          "label": "Standard Line"
+        },
+        {
+          "value": "gradient_fade",
+          "label": "Ambient Gradient Fade Line"
+        },
+        {
+          "value": "line_with_icon",
+          "label": "Line with Centered Icon"
+        },
+        {
+          "value": "line_with_text",
+          "label": "Line with Centered Text"
+        },
+        {
+          "value": "spacer",
+          "label": "Spacer Only (No Line)"
+        }
+      ],
+      "default": "gradient_fade"
+    },
+    {
+      "type": "select",
+      "id": "line_style",
+      "label": "Line Style (for Standard Line)",
+      "options": [
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Divider Width",
+      "options": [
+        {
+          "value": "page_width",
+          "label": "Page Width (Standard Container)"
+        },
+        {
+          "value": "narrow",
+          "label": "Narrow (800px)"
+        },
+        {
+          "value": "compact",
+          "label": "Compact (420px)"
+        },
+        {
+          "value": "full",
+          "label": "Full Width (Edge to Edge)"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Percentage"
+        }
+      ],
+      "default": "page_width"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Custom Width Percentage",
+      "default": 80
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Line Appearance"
+    },
+    {
+      "type": "range",
+      "id": "thickness",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "Line Thickness",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "min": 5,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Line Opacity",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "custom_line_color",
+      "label": "Custom Line Color (Optional)",
+      "info": "Leave blank to use theme text/border color."
+    },
+    {
+      "type": "header",
+      "content": "Icon / Text Content"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Center Icon",
+      "options": [
+        {
+          "value": "sparkle",
+          "label": "Sparkle / 4-Point Star"
+        },
+        {
+          "value": "star",
+          "label": "5-Point Star"
+        },
+        {
+          "value": "diamond",
+          "label": "Diamond"
+        },
+        {
+          "value": "circle",
+          "label": "Circle / Dot"
+        }
+      ],
+      "default": "sparkle"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Center Text (for Line with Text)",
+      "default": "ATYPICAL"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Divider",
+      "settings": {
+        "divider_type": "gradient_fade",
+        "thickness": 1,
+        "opacity": 15,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    {
+      "name": "Divider (Solid Line)",
+      "settings": {
+        "divider_type": "line",
+        "line_style": "solid",
+        "thickness": 1,
+        "opacity": 15,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    {
+      "name": "Divider (With Icon)",
+      "settings": {
+        "divider_type": "line_with_icon",
+        "icon": "sparkle",
+        "thickness": 1,
+        "opacity": 20,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    {
+      "name": "Spacer Only",
+      "settings": {
+        "divider_type": "spacer",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  ]
+}
+{% endschema %}
