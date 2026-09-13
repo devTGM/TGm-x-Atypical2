@@ -1499,6 +1499,7 @@ a.product__text {
 
 .product__info-container {
   padding-right: 1.5rem;
+  max-width: 560px;
 }
 
 .product__title h1 {
