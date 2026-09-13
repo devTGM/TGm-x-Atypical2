@@ -54,8 +54,8 @@
         "price",
         "variant-picker",
         "offers",
-        "cross_sell",
         "buy_buttons",
+        "cross_sell",
         "tabs"
       ],
       "settings": {

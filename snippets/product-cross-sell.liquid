@@ -55,11 +55,24 @@
               {{ 'image' | placeholder_svg_tag }}
             {% endif %}
           </a>
-          <div class="atypical-cross-sell-info">
-            <a href="{{ cross_product.url }}" class="atypical-cross-sell-title">
-              {{ cross_product.title | escape }}
-            </a>
-            <div class="atypical-cross-sell-meta">
+          <div class="atypical-cross-sell-body">
+            <div class="atypical-cross-sell-header-row">
+              <a href="{{ cross_product.url }}" class="atypical-cross-sell-title" title="{{ cross_product.title | escape }}">
+                {{ cross_product.title | escape }}
+              </a>
+              <button
+                type="button"
+                class="atypical-cross-sell-btn"
+                data-variant-id="{{ first_variant.id }}"
+                onclick="addCrossSellToCart(this, '{{ first_variant.id }}')"
+                aria-label="Add {{ cross_product.title | escape }} to cart"
+                {% unless first_variant.available %}disabled{% endunless %}
+              >
+                <span class="btn-state-default">{% if first_variant.available %}+ ADD{% else %}SOLD OUT{% endif %}</span>
+                <span class="btn-state-success" style="display: none;">✓ ADDED</span>
+              </button>
+            </div>
+            <div class="atypical-cross-sell-meta-row">
               <div class="atypical-cross-sell-price">
                 <span class="price-current">{{ first_variant.price | money }}</span>
                 {% if first_variant.compare_at_price > first_variant.price %}
@@ -67,37 +80,29 @@
                 {% endif %}
               </div>
               {% if cross_product.variants.size > 1 %}
-                <select
-                  class="atypical-cross-sell-variant-select"
-                  aria-label="Select size for {{ cross_product.title | escape }}"
-                  onchange="updateCrossSellVariant(this)"
-                >
-                  {% for variant in cross_product.variants %}
-                    <option
-                      value="{{ variant.id }}"
-                      data-price="{{ variant.price | money }}"
-                      data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
-                      {% unless variant.available %}disabled{% endunless %}
-                      {% if variant.id == first_variant.id %}selected{% endif %}
-                    >
-                      {{ variant.title }}{% unless variant.available %} (Sold out){% endunless %}
-                    </option>
-                  {% endfor %}
-                </select>
+                <div class="atypical-cross-sell-select-wrapper">
+                  <select
+                    class="atypical-cross-sell-variant-select"
+                    aria-label="Select size for {{ cross_product.title | escape }}"
+                    onchange="updateCrossSellVariant(this)"
+                  >
+                    {% for variant in cross_product.variants %}
+                      <option
+                        value="{{ variant.id }}"
+                        data-price="{{ variant.price | money }}"
+                        data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
+                        {% unless variant.available %}disabled{% endunless %}
+                        {% if variant.id == first_variant.id %}selected{% endif %}
+                      >
+                        {{ variant.title }}{% unless variant.available %} (Out){% endunless %}
+                      </option>
+                    {% endfor %}
+                  </select>
+                  <svg class="select-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
               {% endif %}
             </div>
           </div>
-          <button
-            type="button"
-            class="atypical-cross-sell-btn"
-            data-variant-id="{{ first_variant.id }}"
-            onclick="addCrossSellToCart(this, '{{ first_variant.id }}')"
-            aria-label="Add {{ cross_product.title | escape }} to cart"
-            {% unless first_variant.available %}disabled{% endunless %}
-          >
-            <span class="btn-state-default">{% if first_variant.available %}+ ADD{% else %}SOLD OUT{% endif %}</span>
-            <span class="btn-state-success" style="display: none;">✓ ADDED</span>
-          </button>
         </div>
         {% if displayed_count >= 2 %}{% break %}{% endif %}
       {% endif %}
@@ -108,17 +113,14 @@
 
 <style>
   .atypical-cross-sell-wrapper {
-    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.12);
-    border-radius: 14px;
-    padding: 16px;
-    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.03);
-    margin-top: 0;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.1);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.02);
+    margin-top: 18px;
+    margin-bottom: 20px;
     box-sizing: border-box;
     width: 100%;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
   .atypical-cross-sell-header {
     display: flex;
@@ -137,9 +139,9 @@
     gap: 10px;
   }
   .atypical-cross-sell-card {
-    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.1);
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.08);
     border-radius: 10px;
-    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.04);
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.03);
     padding: 10px 12px;
     display: flex;
     align-items: center;
@@ -147,18 +149,18 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .atypical-cross-sell-card:hover {
-    border-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.3);
-    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.07);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    border-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.25);
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.06);
     transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   }
   .atypical-cross-sell-thumb {
     width: 52px;
     height: 52px;
     border-radius: 8px;
     overflow: hidden;
-    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.06);
-    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.1);
+    background-color: #1a1a1a;
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.08);
     flex-shrink: 0;
     display: block;
   }
@@ -173,9 +175,18 @@
   .atypical-cross-sell-card:hover .atypical-cross-sell-thumb img {
     transform: scale(1.06);
   }
-  .atypical-cross-sell-info {
+  .atypical-cross-sell-body {
     flex-grow: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .atypical-cross-sell-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
   }
   .atypical-cross-sell-title {
     font-size: 13px;
@@ -187,60 +198,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.3;
-    margin-bottom: 3px;
+    flex: 1;
+    min-width: 0;
   }
   .atypical-cross-sell-title:hover {
     text-decoration: underline;
   }
-  .atypical-cross-sell-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .atypical-cross-sell-price {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    color: rgb(var(--color-foreground));
-  }
-  .atypical-cross-sell-price .price-compare {
-    font-size: 11px;
-    font-weight: 400;
-    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.5);
-    text-decoration: line-through;
-  }
-  .atypical-cross-sell-variant-select {
-    font-size: 11px;
-    font-weight: 600;
-    color: rgb(var(--color-foreground));
-    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.08);
-    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.2);
-    border-radius: 6px;
-    padding: 3px 8px;
-    cursor: pointer;
-    outline: none;
-    line-height: 1.2;
-  }
-  .atypical-cross-sell-variant-select option {
-    background-color: #1a1a1a;
-    color: #ffffff;
-  }
-  .atypical-cross-sell-variant-select:focus {
-    border-color: rgb(var(--color-foreground));
-  }
   .atypical-cross-sell-btn {
     flex-shrink: 0;
-    background-color: rgb(var(--color-foreground));
-    color: rgb(var(--color-background));
-    border: 1px solid rgb(var(--color-foreground));
-    font-size: 11px;
-    font-weight: 700;
+    background-color: #ffffff;
+    color: #121212;
+    border: none;
+    font-size: 10.5px;
+    font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 8px 16px;
+    padding: 6px 14px;
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -248,11 +221,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    line-height: 1.2;
   }
   .atypical-cross-sell-btn:hover:not(:disabled) {
-    opacity: 0.85;
+    opacity: 0.88;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(var(--color-foreground-rgb, 255, 255, 255), 0.2);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
   }
   .atypical-cross-sell-btn:disabled {
     opacity: 0.4;
@@ -262,6 +236,59 @@
     background-color: #108a00 !important;
     border-color: #108a00 !important;
     color: #fff !important;
+  }
+  .atypical-cross-sell-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .atypical-cross-sell-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: rgb(var(--color-foreground));
+    white-space: nowrap;
+  }
+  .atypical-cross-sell-price .price-compare {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.45);
+    text-decoration: line-through;
+  }
+  .atypical-cross-sell-select-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .atypical-cross-sell-variant-select {
+    appearance: none;
+    -webkit-appearance: none;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgb(var(--color-foreground));
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.08);
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.18);
+    border-radius: 6px;
+    padding: 2px 22px 2px 8px;
+    cursor: pointer;
+    outline: none;
+    line-height: 1.3;
+  }
+  .atypical-cross-sell-select-wrapper .select-arrow {
+    position: absolute;
+    right: 7px;
+    pointer-events: none;
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.6);
+  }
+  .atypical-cross-sell-variant-select option {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+  .atypical-cross-sell-variant-select:focus {
+    border-color: rgb(var(--color-foreground));
   }
 </style>
 
