@@ -371,6 +371,7 @@
     },
     "contact_form_CjRGBR": {
       "type": "contact-form",
+      "disabled": true,
       "name": "t:sections.contact-form.presets.name",
       "settings": {
         "heading": "Contact form",
