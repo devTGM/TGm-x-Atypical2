@@ -521,8 +521,10 @@
 
 .atypical-footer__grid {
   display: grid;
-  grid-template-columns: 1.8fr 1fr 1fr;
-  column-gap: 80px;
+  grid-template-columns: minmax(320px, 440px) 1fr 1fr;
+  max-width: 1240px;
+  margin: 0 auto;
+  column-gap: clamp(40px, 6vw, 100px);
   row-gap: 40px;
   padding-top: 12px;
   padding-bottom: 52px;
@@ -546,8 +548,10 @@
 
 .atypical-footer__logo-img {
   display: block;
+  width: 180px;
   max-width: 100%;
   height: auto;
+  object-fit: contain;
 }
 
 .atypical-footer__logo-wordmark {
@@ -609,6 +613,8 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
   padding-top: 28px;
   padding-bottom: 24px;
   position: relative;
@@ -740,6 +746,11 @@
   .atypical-footer__bottom-right {
     justify-self: center;
     text-align: center;
+  }
+
+  .atypical-footer__bottom-center {
+    order: -1;
+    margin-bottom: 6px;
   }
 }
 

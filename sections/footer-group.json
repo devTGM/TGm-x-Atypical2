@@ -30,8 +30,8 @@
         "link_list_iXHWwt": {
           "type": "link_list",
           "settings": {
-            "heading": "Quick links",
-            "menu": "footer"
+            "heading": "Info",
+            "menu": ""
           }
         }
       },
@@ -42,14 +42,21 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
+        "brand_logo_width": 180,
+        "show_floating_button": true,
+        "button_text": "Shop Best Sellers",
+        "button_link": "/collections/all",
+        "policies_label": "Terms and Policies",
+        "policies_link": "/policies/terms-of-service",
+        "copyright_text": "© 2026 ATYPICAL | Designed and Managed by Think Grow Media(www.thinkgrowmedia.com)",
         "newsletter_enable": false,
         "newsletter_heading": "",
         "enable_follow_on_shop": false,
-        "show_social": true,
+        "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false,
         "payment_enable": false,
-        "show_policy": true,
+        "show_policy": false,
         "margin_top": 0,
         "padding_top": 48,
         "padding_bottom": 36

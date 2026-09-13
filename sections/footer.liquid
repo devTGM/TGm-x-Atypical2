@@ -28,29 +28,153 @@
 {%- endstyle -%}
 
 <footer class="footer footer--atypical color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
-  {%- if section.settings.enable_custom_footer -%}
-    <div class="footer__content-top page-width">
-      <div class="atypical-footer__grid">
-        <!-- Column 1: Brand -->
+  <div class="footer__content-top page-width">
+    <div class="atypical-footer__grid">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'brand_information' -%}
+              <div class="atypical-footer__col atypical-footer__col--brand" {{ block.shopify_attributes }}>
+                <a href="{{ routes.root_url }}" class="atypical-footer__logo-link" aria-label="{{ shop.name }}">
+                  {%- if section.settings.brand_logo != blank -%}
+                    {%- assign logo_w = section.settings.brand_logo_width | default: 180 -%}
+                    <img
+                      src="{{ section.settings.brand_logo | image_url: width: logo_w }}"
+                      alt="{{ section.settings.brand_logo.alt | default: shop.name | escape }}"
+                      width="{{ logo_w }}"
+                      height="{{ logo_w | divided_by: section.settings.brand_logo.aspect_ratio | round }}"
+                      loading="lazy"
+                      class="atypical-footer__logo-img"
+                    >
+                  {%- elsif settings.logo != blank -%}
+                    {%- assign logo_w = section.settings.brand_logo_width | default: 180 -%}
+                    <img
+                      src="{{ settings.logo | image_url: width: logo_w }}"
+                      alt="{{ settings.logo.alt | default: shop.name | escape }}"
+                      width="{{ logo_w }}"
+                      height="{{ logo_w | divided_by: settings.logo.aspect_ratio | round }}"
+                      loading="lazy"
+                      class="atypical-footer__logo-img"
+                    >
+                  {%- else -%}
+                    <span class="atypical-footer__logo-wordmark">atypical</span>
+                  {%- endif -%}
+                </a>
+
+                {%- assign brand_desc = settings.brand_description -%}
+                {%- if brand_desc == blank -%}
+                  {%- assign brand_desc = section.settings.brand_description -%}
+                {%- endif -%}
+                {%- if brand_desc != blank -%}
+                  <div class="atypical-footer__description rte">
+                    <p>{{ brand_desc }}</p>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.show_social and settings.social_instagram_link != blank -%}
+                  {%- render 'social-icons', class: 'atypical-footer__social-list' -%}
+                {%- endif -%}
+              </div>
+
+            {%- when 'link_list' -%}
+              <div class="atypical-footer__col atypical-footer__col--nav" {{ block.shopify_attributes }}>
+                <h3 class="atypical-footer__heading">
+                  {%- if block.settings.heading != blank -%}
+                    {%- if block.settings.heading == 'Quick links' -%}
+                      Info
+                    {%- else -%}
+                      {{ block.settings.heading }}
+                    {%- endif -%}
+                  {%- elsif block.settings.menu != blank -%}
+                    {{ block.settings.menu.title }}
+                  {%- else -%}
+                    Menu
+                  {%- endif -%}
+                </h3>
+
+                <ul class="atypical-footer__links list-unstyled">
+                  {%- if block.settings.heading == 'Info' or block.settings.heading == 'Quick links' -%}
+                    {%- if block.settings.menu != blank and block.settings.menu != 'footer' and linklists[block.settings.menu].links.size > 0 -%}
+                      {%- for link in linklists[block.settings.menu].links -%}
+                        <li>
+                          <a href="{{ link.url }}" class="atypical-footer__link">{{ link.title }}</a>
+                        </li>
+                      {%- endfor -%}
+                    {%- else -%}
+                      <li><a href="{{ routes.account_url }}" class="atypical-footer__link">Orders</a></li>
+                      <li><a href="{{ routes.account_url }}" class="atypical-footer__link">Profile</a></li>
+                    {%- endif -%}
+                  {%- elsif block.settings.heading == 'Shop' -%}
+                    {%- if block.settings.menu != blank and linklists[block.settings.menu].links.size > 0 -%}
+                      {%- for link in linklists[block.settings.menu].links -%}
+                        <li>
+                          <a href="{{ link.url }}" class="atypical-footer__link">{{ link.title }}</a>
+                        </li>
+                      {%- endfor -%}
+                    {%- else -%}
+                      <li><a href="/collections/oversized-tshirts" class="atypical-footer__link">Tshirts</a></li>
+                      <li><a href="/collections/shirts" class="atypical-footer__link">Shirts</a></li>
+                      <li><a href="/collections/waffle-knits" class="atypical-footer__link">Winters</a></li>
+                    {%- endif -%}
+                  {%- elsif block.settings.menu != blank and linklists[block.settings.menu].links.size > 0 -%}
+                    {%- for link in linklists[block.settings.menu].links -%}
+                      <li>
+                        <a href="{{ link.url }}" class="atypical-footer__link">{{ link.title }}</a>
+                      </li>
+                    {%- endfor -%}
+                  {%- else -%}
+                    <li><a href="/collections/oversized-tshirts" class="atypical-footer__link">Tshirts</a></li>
+                    <li><a href="/collections/shirts" class="atypical-footer__link">Shirts</a></li>
+                    <li><a href="/collections/waffle-knits" class="atypical-footer__link">Winters</a></li>
+                  {%- endif -%}
+                </ul>
+              </div>
+
+            {%- when 'text' -%}
+              <div class="atypical-footer__col atypical-footer__col--text" {{ block.shopify_attributes }}>
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="atypical-footer__heading">{{ block.settings.heading }}</h3>
+                {%- endif -%}
+                <div class="atypical-footer__description rte">
+                  {{ block.settings.subtext }}
+                </div>
+              </div>
+
+            {%- when 'image' -%}
+              <div class="atypical-footer__col atypical-footer__col--image" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  <img
+                    src="{{ block.settings.image | image_url: width: block.settings.image_width }}"
+                    alt="{{ block.settings.image.alt | escape }}"
+                    width="{{ block.settings.image_width }}"
+                    height="{{ block.settings.image_width | divided_by: block.settings.image.aspect_ratio | round }}"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Default fallback 3-column layout when no blocks are added -->
         <div class="atypical-footer__col atypical-footer__col--brand">
           <a href="{{ routes.root_url }}" class="atypical-footer__logo-link" aria-label="{{ shop.name }}">
             {%- if section.settings.brand_logo != blank -%}
-              {%- assign logo_width = section.settings.brand_logo_width -%}
+              {%- assign logo_w = section.settings.brand_logo_width | default: 180 -%}
               <img
-                src="{{ section.settings.brand_logo | image_url: width: logo_width }}"
+                src="{{ section.settings.brand_logo | image_url: width: logo_w }}"
                 alt="{{ section.settings.brand_logo.alt | default: shop.name | escape }}"
-                width="{{ logo_width }}"
-                height="{{ logo_width | divided_by: section.settings.brand_logo.aspect_ratio | round }}"
+                width="{{ logo_w }}"
+                height="{{ logo_w | divided_by: section.settings.brand_logo.aspect_ratio | round }}"
                 loading="lazy"
                 class="atypical-footer__logo-img"
               >
             {%- elsif settings.logo != blank -%}
-              {%- assign logo_width = section.settings.brand_logo_width | default: 170 -%}
+              {%- assign logo_w = section.settings.brand_logo_width | default: 180 -%}
               <img
-                src="{{ settings.logo | image_url: width: logo_width }}"
+                src="{{ settings.logo | image_url: width: logo_w }}"
                 alt="{{ settings.logo.alt | default: shop.name | escape }}"
-                width="{{ logo_width }}"
-                height="{{ logo_width | divided_by: settings.logo.aspect_ratio | round }}"
+                width="{{ logo_w }}"
+                height="{{ logo_w | divided_by: settings.logo.aspect_ratio | round }}"
                 loading="lazy"
                 class="atypical-footer__logo-img"
               >
@@ -58,381 +182,74 @@
               <span class="atypical-footer__logo-wordmark">atypical</span>
             {%- endif -%}
           </a>
-
-          {%- if section.settings.brand_description != blank -%}
-            <div class="atypical-footer__description">
-              <p>{{ section.settings.brand_description }}</p>
+          {%- assign brand_desc = settings.brand_description -%}
+          {%- if brand_desc == blank -%}
+            {%- assign brand_desc = section.settings.brand_description -%}
+          {%- endif -%}
+          {%- if brand_desc != blank -%}
+            <div class="atypical-footer__description rte">
+              <p>{{ brand_desc }}</p>
             </div>
           {%- endif -%}
         </div>
 
-        <!-- Column 2: Shop -->
         <div class="atypical-footer__col atypical-footer__col--nav">
-          <h3 class="atypical-footer__heading">{{ section.settings.shop_heading }}</h3>
+          <h3 class="atypical-footer__heading">{{ section.settings.shop_heading | default: 'Shop' }}</h3>
           <ul class="atypical-footer__links list-unstyled">
-            {%- if section.settings.shop_menu != blank and linklists[section.settings.shop_menu].links.size > 0 -%}
-              {%- for link in linklists[section.settings.shop_menu].links -%}
-                <li>
-                  <a href="{{ link.url }}" class="atypical-footer__link">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            {%- else -%}
-              <li><a href="/collections/oversized-tshirts" class="atypical-footer__link">Tshirts</a></li>
-              <li><a href="/collections/shirts" class="atypical-footer__link">Shirts</a></li>
-              <li><a href="/collections/waffle-knits" class="atypical-footer__link">Winters</a></li>
-            {%- endif -%}
+            <li><a href="/collections/oversized-tshirts" class="atypical-footer__link">Tshirts</a></li>
+            <li><a href="/collections/shirts" class="atypical-footer__link">Shirts</a></li>
+            <li><a href="/collections/waffle-knits" class="atypical-footer__link">Winters</a></li>
           </ul>
         </div>
 
-        <!-- Column 3: Info -->
         <div class="atypical-footer__col atypical-footer__col--nav">
-          <h3 class="atypical-footer__heading">{{ section.settings.info_heading }}</h3>
+          <h3 class="atypical-footer__heading">{{ section.settings.info_heading | default: 'Info' }}</h3>
           <ul class="atypical-footer__links list-unstyled">
-            {%- if section.settings.info_menu != blank and linklists[section.settings.info_menu].links.size > 0 -%}
-              {%- for link in linklists[section.settings.info_menu].links -%}
-                <li>
-                  <a href="{{ link.url }}" class="atypical-footer__link">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            {%- else -%}
-              <li><a href="{{ routes.account_url }}" class="atypical-footer__link">Orders</a></li>
-              <li><a href="{{ routes.account_url }}" class="atypical-footer__link">Profile</a></li>
-            {%- endif -%}
+            <li><a href="{{ routes.account_url }}" class="atypical-footer__link">Orders</a></li>
+            <li><a href="{{ routes.account_url }}" class="atypical-footer__link">Profile</a></li>
           </ul>
         </div>
-      </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="atypical-footer__bottom page-width">
+    <div class="atypical-footer__bottom-left">
+      {%- if section.settings.policies_label != blank -%}
+        <a href="{{ section.settings.policies_link | default: '/policies/terms-of-service' }}" class="atypical-footer__policy-link">
+          {{ section.settings.policies_label }}
+        </a>
+      {%- endif -%}
     </div>
 
-    <div class="atypical-footer__bottom page-width">
-      <div class="atypical-footer__bottom-left">
-        {%- if section.settings.policies_label != blank -%}
-          <a href="{{ section.settings.policies_link | default: '/policies/terms-of-service' }}" class="atypical-footer__policy-link">
-            {{ section.settings.policies_label }}
-          </a>
+    <div class="atypical-footer__bottom-center">
+      {%- if section.settings.show_floating_button -%}
+        <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="atypical-footer__pill-btn">
+          <span class="atypical-footer__pill-icon">
+            <svg class="atypical-footer__pill-sparkles" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 3C14 6.8 17.2 10 21 10C17.2 10 14 13.2 14 17C14 13.2 10.8 10 7 10C10.8 10 14 6.8 14 3Z" fill="white"/>
+              <path d="M7 13C7 15.2 8.8 17 11 17C8.8 17 7 18.8 7 21C7 18.8 5.2 17 3 17C5.2 17 7 15.2 7 13Z" fill="white"/>
+            </svg>
+          </span>
+          <span class="atypical-footer__pill-text">{{ section.settings.button_text }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="atypical-footer__bottom-right">
+      <small class="atypical-footer__copyright">
+        {%- assign raw_copyright = section.settings.copyright_text -%}
+        {%- if raw_copyright contains 'Think Grow Media' -%}
+          {%- assign copyright_parts = raw_copyright | split: 'Think Grow Media' -%}
+          {{ copyright_parts[0] }}<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="atypical-footer__credit-link">Think Grow Media(www.thinkgrowmedia.com)</a>
+        {%- elsif raw_copyright != blank -%}
+          {{ raw_copyright }}
+        {%- else -%}
+          &copy; {{ 'now' | date: '%Y' }} ATYPICAL | Designed and Managed by <a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="atypical-footer__credit-link">Think Grow Media(www.thinkgrowmedia.com)</a>
         {%- endif -%}
-      </div>
-
-      <div class="atypical-footer__bottom-center">
-        {%- if section.settings.show_floating_button -%}
-          <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="atypical-footer__pill-btn">
-            <span class="atypical-footer__pill-icon">
-              <svg class="atypical-footer__pill-sparkles" width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M9.5 2C9.5 6.14214 6.14214 9.5 2 9.5C6.14214 9.5 9.5 12.8579 9.5 17C9.5 12.8579 12.8579 9.5 17 9.5C12.8579 9.5 9.5 6.14214 9.5 2Z" fill="white"/>
-                <path d="M18 13C18 15.2091 16.2091 17 14 17C16.2091 17 18 18.7909 18 21C18 18.7909 19.7909 17 22 17C19.7909 17 18 15.2091 18 13Z" fill="white"/>
-              </svg>
-            </span>
-            <span class="atypical-footer__pill-text">{{ section.settings.button_text }}</span>
-          </a>
-        {%- endif -%}
-      </div>
-
-      <div class="atypical-footer__bottom-right">
-        <small class="atypical-footer__copyright">
-          {%- assign raw_copyright = section.settings.copyright_text -%}
-          {%- if raw_copyright contains 'Think Grow Media' -%}
-            {%- assign copyright_parts = raw_copyright | split: 'Think Grow Media' -%}
-            {{ copyright_parts[0] }}<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="atypical-footer__credit-link">Think Grow Media(www.thinkgrowmedia.com)</a>
-          {%- elsif raw_copyright != blank -%}
-            {{ raw_copyright }}
-          {%- else -%}
-            &copy; {{ 'now' | date: '%Y' }} ATYPICAL | Designed and Managed by <a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="atypical-footer__credit-link">Think Grow Media(www.thinkgrowmedia.com)</a>
-          {%- endif -%}
-        </small>
-      </div>
+      </small>
     </div>
-  {%- else -%}
-    {%- liquid
-      assign has_social_icons = true
-      if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
-        assign has_social_icons = false
-      endif
-
-      if settings.brand_image == blank and settings.brand_headline == blank and settings.brand_description == blank
-        assign brand_empty = true
-      endif
-
-      if section.blocks.size == 1 and section.blocks[0].type == 'brand_information' and brand_empty and has_social_icons == false and section.settings.newsletter_enable == false and section.settings.enable_follow_on_shop == false
-        assign only_empty_brand = true
-      endif
-    -%}
-    {%- if section.blocks.size > 0
-      or section.settings.newsletter_enable
-      or section.settings.show_social
-      and has_social_icons == true
-      or section.settings.enable_follow_on_shop
-    -%}
-      {%- unless only_empty_brand -%}
-        <div class="footer__content-top page-width">
-          {%- if section.blocks.size > 0 -%}
-            {%- liquid
-              if section.blocks.size == 9
-                assign footer_grid_class = 'grid--3-col-tablet'
-              elsif section.blocks.size > 6
-                assign footer_grid_class = 'grid--4-col-desktop'
-              elsif section.blocks.size > 4
-                assign footer_grid_class = 'grid--3-col-tablet'
-              endif
-            -%}
-            <div
-              class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet {{ footer_grid_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              {% if settings.animations_reveal_on_scroll %}
-                data-cascade
-              {% endif %}
-            >
-              {%- for block in section.blocks -%}
-                <div
-                  class="footer-block grid__item{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                  {{ block.shopify_attributes }}
-                  {% if settings.animations_reveal_on_scroll %}
-                    data-cascade
-                    style="--animation-order: {{ forloop.index }};"
-                  {% endif %}
-                >
-                  {%- if block.settings.heading != blank -%}
-                    <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
-                  {%- endif -%}
-
-                  {%- case block.type -%}
-                    {%- when '@app' -%}
-                      {% render block %}
-                    {%- when 'text' -%}
-                      <div class="footer-block__details-content rte">
-                        {{ block.settings.subtext }}
-                      </div>
-                    {%- when 'link_list' -%}
-                      {%- if block.settings.menu != blank -%}
-                        <ul class="footer-block__details-content list-unstyled">
-                          {%- for link in block.settings.menu.links -%}
-                            <li>
-                              <a
-                                href="{{ link.url }}"
-                                class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
-                              >
-                                {{ link.title | escape }}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    {%- when 'brand_information' -%}
-                      <div class="footer-block__brand-info">
-                        {%- if settings.brand_image != blank -%}
-                          {%- assign brand_image_height = settings.brand_image_width
-                            | divided_by: settings.brand_image.aspect_ratio
-                          -%}
-                          <div
-                            class="footer-block__image-wrapper"
-                            style="max-width: min(100%, {{ settings.brand_image_width }}px);"
-                          >
-                            {{
-                              settings.brand_image
-                              | image_url: width: 1100
-                              | image_tag:
-                                loading: 'lazy',
-                                widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
-                                height: brand_image_height,
-                                width: settings.brand_image_width
-                            }}
-                          </div>
-                        {%- endif -%}
-                        {%- if settings.brand_headline != blank -%}
-                          <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
-                        {%- endif -%}
-                        {%- if settings.brand_description != blank -%}
-                          <div class="rte">{{ settings.brand_description }}</div>
-                        {%- endif -%}
-                        {%- if block.settings.show_social and has_social_icons -%}
-                          {%- render 'social-icons', class: 'footer__list-social' -%}
-                        {%- endif -%}
-                      </div>
-                    {%- when 'image' -%}
-                      <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
-                        {%- if block.settings.image != blank -%}
-                          {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
-                          <div
-                            class="footer-block__image-wrapper"
-                            style="max-width: min(100%, {{ block.settings.image_width }}px);"
-                          >
-                            <img
-                              srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
-                              src="{{ block.settings.image | image_url: width: 760 }}"
-                              alt="{{ block.settings.image.alt | escape }}"
-                              loading="lazy"
-                              width="{{ block.settings.image.width }}"
-                              height="{{ block.settings.image.height }}"
-                            >
-                          </div>
-                        {%- else -%}
-                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
-                        {%- endif -%}
-                      </div>
-                  {%- endcase -%}
-                </div>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
-
-          <div
-            class="footer-block--newsletter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-            {% endif %}
-          >
-            {%- if section.settings.newsletter_enable -%}
-              <div class="footer-block__newsletter">
-                {%- if section.settings.newsletter_heading != blank -%}
-                  <h2 class="footer-block__heading inline-richtext">{{ section.settings.newsletter_heading }}</h2>
-                {%- endif -%}
-                {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
-                  <input type="hidden" name="contact[tags]" value="newsletter">
-                  <div class="newsletter-form__field-wrapper">
-                    <div class="field">
-                      <input
-                        id="NewsletterForm--{{ section.id }}"
-                        type="email"
-                        name="contact[email]"
-                        class="field__input"
-                        value="{{ form.email }}"
-                        aria-required="true"
-                        autocorrect="off"
-                        autocapitalize="off"
-                        autocomplete="email"
-                        {% if form.errors %}
-                          autofocus
-                          aria-invalid="true"
-                          aria-describedby="ContactFooter-error"
-                        {% elsif form.posted_successfully? %}
-                          aria-describedby="ContactFooter-success"
-                        {% endif %}
-                        placeholder="{{ 'newsletter.label' | t }}"
-                        required
-                      >
-                      <label class="field__label" for="NewsletterForm--{{ section.id }}">
-                        {{ 'newsletter.label' | t }}
-                      </label>
-                      <button
-                        type="submit"
-                        class="newsletter-form__button field__button"
-                        name="commit"
-                        id="Subscribe"
-                        aria-label="{{ 'newsletter.button_label' | t }}"
-                      >
-                        <span class="svg-wrapper">
-                          {{- 'icon-arrow.svg' | inline_asset_content -}}
-                        </span>
-                      </button>
-                    </div>
-                    {%- if form.errors -%}
-                      <small class="newsletter-form__message form__message" id="ContactFooter-error">
-                        <span class="svg-wrapper">
-                          {{- 'icon-error.svg' | inline_asset_content -}}
-                        </span>
-                        {{- form.errors.translated_fields.email | capitalize }}
-                        {{ form.errors.messages.email -}}
-                      </small>
-                    {%- endif -%}
-                  </div>
-                  {%- if form.posted_successfully? -%}
-                    <h3
-                      class="newsletter-form__message newsletter-form__message--success form__message"
-                      id="ContactFooter-success"
-                      tabindex="-1"
-                      autofocus
-                    >
-                      <span class="svg-wrapper">
-                        {{- 'icon-success.svg' | inline_asset_content -}}
-                      </span>
-                      {{- 'newsletter.success' | t }}
-                    </h3>
-                  {%- endif -%}
-                {%- endform -%}
-              </div>
-            {%- endif -%}
-
-            {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-              <div class="footer__follow-on-shop">
-                {{ shop | login_button: action: 'follow' }}
-              </div>
-            {%- endif -%}
-
-            {%- if section.settings.show_social and has_social_icons -%}
-              {%- render 'social-icons', class: 'footer__list-social' -%}
-            {%- endif -%}
-          </div>
-        </div>
-      {%- endunless -%}
-    {%- endif -%}
-
-    <div
-      class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-      {% if settings.animations_reveal_on_scroll %}
-        data-cascade
-      {% endif %}
-    >
-      <div class="footer__content-bottom-wrapper page-width">
-        <div class="footer__column footer__localization isolate">
-          {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-            <localization-form>
-              {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-                <div>
-                  <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
-                  {%- render 'country-localization', localPosition: 'FooterCountry' -%}
-                </div>
-              {%- endform -%}
-            </localization-form>
-          {%- endif -%}
-
-          {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-            <localization-form>
-              {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-                <div>
-                  <h2 class="caption-large text-body" id="FooterLanguageLabel">
-                    {{ 'localization.language_label' | t }}
-                  </h2>
-                  {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
-                </div>
-              {%- endform -%}
-            </localization-form>
-          {%- endif -%}
-        </div>
-        <div class="footer__column footer__column--info">
-          {%- if section.settings.payment_enable -%}
-            <div class="footer__payment">
-              <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-              <ul class="list list-payment" role="list">
-                {%- for type in shop.enabled_payment_types -%}
-                  <li class="list-payment__item">
-                    {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                  </li>
-                {%- endfor -%}
-              </ul>
-            </div>
-          {%- endif -%}
-        </div>
-      </div>
-      <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
-        <div class="footer__copyright caption">
-          <small class="copyright__content"
-            >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
-          </small>
-          <small class="copyright__content">{{ powered_by_link }}</small>
-          {%- if section.settings.show_policy -%}
-            <ul class="policies list-unstyled">
-              {%- for policy in shop.policies -%}
-                {%- if policy != blank -%}
-                  <li>
-                    <small class="copyright__content"
-                      ><a href="{{ policy.url }}">{{ policy.title | escape }}</a></small
-                    >
-                  </li>
-                {%- endif -%}
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </div>
-      </div>
-    </div>
-  {%- endif -%}
+  </div>
 </footer>
 
 {% schema %}
