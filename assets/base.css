@@ -2875,7 +2875,7 @@ details[open] > .header__submenu {
   padding: 0;
 }
 
-/* Sunya-style Capsule Menu Button */
+/* Sunya-style Capsule Menu Item */
 .header__menu-item {
   position: relative;
   display: inline-flex;
@@ -2891,24 +2891,31 @@ details[open] > .header__submenu {
   color: #ffffff !important;
   overflow: hidden;
   cursor: pointer;
-  background-color: transparent;
-  transition: color 0.35s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: color 0.35s cubic-bezier(0.3, 1, 0.3, 1);
 }
 
-/* Text Layers for Rolling Text Animation */
-.header__menu-item .btn-text {
-  display: flex;
+/* Base resting text layer */
+.header__menu-item .btn-text:not(.btn-duplicate) {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  width: 100%;
   white-space: nowrap;
   pointer-events: none;
   z-index: 1;
   color: #ffffff !important;
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  transition: transform 0.5s cubic-bezier(0.3, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.3, 1, 0.3, 1);
 }
 
+.header__menu-item .btn-text:not(.btn-duplicate) * {
+  color: #ffffff !important;
+}
+
+/* Hover duplicate pill (white capsule with dark text, matching thesunya.co) */
 .header__menu-item .btn-text.btn-duplicate {
   position: absolute;
   top: 0;
@@ -2917,22 +2924,28 @@ details[open] > .header__submenu {
   height: 100%;
   padding: 0 1.8rem;
   border-radius: 9999px;
-  color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  display: flex;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
   transform: translateY(100%) scale(0.6);
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.5s cubic-bezier(0.3, 1, 0.3, 1);
   pointer-events: none;
 }
 
-/* Hover Transform States (only on hover / open details) */
+.header__menu-item .btn-text.btn-duplicate * {
+  color: #000000 !important;
+}
+
+/* Hover & Details Open transitions (matching thesunya.co) */
 .header__menu-item:hover .btn-text:not(.btn-duplicate),
 details[open] > .header__menu-item .btn-text:not(.btn-duplicate) {
-  transform: translateY(-100%);
+  opacity: 0;
+  transform: translateY(-10%) scale(0.6);
 }
 
 .header__menu-item:hover .btn-duplicate,
@@ -2940,22 +2953,16 @@ details[open] > .header__menu-item .btn-duplicate {
   transform: translateY(0%) scale(1);
 }
 
-/* Active Menu Item styling */
+/* Remove any active item outline or background box */
 .header__menu-item--active,
-.header__menu-item.list-menu__item--active {
-  color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Ensure all header menu items and Home specifically are white */
-.header__menu-item,
-.header__menu-item span,
-.header__menu-item .btn-text,
+.header__menu-item.list-menu__item--active,
 .header__active-menu-item,
 #HeaderMenu-home,
 #HeaderMenu-home span,
 #HeaderMenu-home .btn-text {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   color: #ffffff !important;
 }
 
@@ -2966,7 +2973,6 @@ details[open] > .header__menu-item .btn-duplicate {
   justify-content: center;
   margin-left: 0.6rem;
   line-height: 1;
-  color: currentColor;
 }
 
 .header__menu-item .menu__arrow .icon-caret,
@@ -2980,9 +2986,9 @@ summary.header__menu-item .menu__arrow .icon-caret {
   position: static !important;
   top: auto !important;
   right: auto !important;
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  transition: transform 0.5s cubic-bezier(0.3, 1, 0.3, 1) !important;
   filter: none !important;
-  color: currentColor !important;
+  color: inherit !important;
 }
 
 details[open] > .header__menu-item .menu__arrow .icon-caret,
