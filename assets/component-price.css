@@ -74,9 +74,11 @@
 }
 
 .price--on-sale .price__sale {
-  display: initial;
+  display: inline-flex;
+  align-items: baseline;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 0.8rem;
 }
 
 .price--center {
@@ -84,10 +86,19 @@
   justify-content: center;
 }
 
+.price--center .price__sale {
+  justify-content: center;
+}
+
+.price--on-sale .price-item--sale {
+  margin-right: 0;
+}
+
 .price--on-sale .price-item--regular {
   text-decoration: line-through;
   color: rgba(var(--color-foreground), 0.75);
   font-size: 1.3rem;
+  margin-right: 0;
 }
 
 .unit-price {

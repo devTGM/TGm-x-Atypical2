@@ -32,12 +32,26 @@
   {%- liquid
     assign ratio = 1
     if card_product.featured_media and media_aspect_ratio == 'portrait'
-      assign ratio = 0.8
+      assign ratio = 0.67
     elsif card_product.featured_media and media_aspect_ratio == 'adapt'
       assign ratio = card_product.featured_media.aspect_ratio
     endif
     if ratio == 0 or ratio == null
       assign ratio = 1
+    endif
+
+    assign target_compare_price = card_product.compare_at_price
+    assign target_price = card_product.price
+    if target_compare_price == blank or target_compare_price <= target_price
+      if card_product.compare_at_price_max > card_product.price_min
+        assign target_compare_price = card_product.compare_at_price_max
+        assign target_price = card_product.price_min
+      endif
+    endif
+    assign discount_percent = 0
+    if target_compare_price > target_price
+      assign discount_diff = target_compare_price | minus: target_price
+      assign discount_percent = discount_diff | times: 100.0 | divided_by: target_compare_price | round
     endif
   -%}
 
@@ -134,12 +148,12 @@
                 >
                   {{- 'products.product.sold_out' | t -}}
                 </span>
-              {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+              {%- elsif discount_percent > 0 and card_product.available -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                   class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
                 >
-                  {{- 'products.product.on_sale' | t -}}
+                  {{ discount_percent }}% OFF
                 </span>
               {%- endif -%}
             </div>
@@ -558,12 +572,12 @@
               >
                 {{- 'products.product.sold_out' | t -}}
               </span>
-            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+            {%- elsif discount_percent > 0 and card_product.available -%}
               <span
                 id="Badge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
               >
-                {{- 'products.product.on_sale' | t -}}
+                {{ discount_percent }}% OFF
               </span>
             {%- endif -%}
           </div>
@@ -576,7 +590,7 @@
     assign ratio = 1
     assign placeholder = true
     if media_aspect_ratio == 'portrait'
-      assign ratio = 0.8
+      assign ratio = 0.67
     endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">

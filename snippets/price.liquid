@@ -60,6 +60,13 @@
       {%- endcomment -%}
       <div class="price__regular">
         {%- if product.quantity_price_breaks_configured? -%}
+          <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
+          <span class="price-item price-item--regular">
+            {{-
+              'products.product.volume_pricing.price_range'
+              | t: minimum: money_price_min, maximum: money_price_max
+            -}}
+          </span>
           {%- if show_compare_at_price and compare_at_price -%}
             {%- unless product.price_varies == false and product.compare_at_price_varies %}
               <span class="visually-hidden visually-hidden--inline">
@@ -76,13 +83,6 @@
               </span>
             {%- endunless -%}
           {%- endif -%}
-          <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-          <span class="price-item price-item--regular">
-            {{-
-              'products.product.volume_pricing.price_range'
-              | t: minimum: money_price_min, maximum: money_price_max
-            -}}
-          </span>
         {%- else -%}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
           <span class="price-item price-item--regular">
@@ -91,6 +91,10 @@
         {%- endif -%}
       </div>
       <div class="price__sale">
+        <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
+        <span class="price-item price-item--sale price-item--last">
+          {{ money_price }}
+        </span>
         {%- unless product.price_varies == false and product.compare_at_price_varies %}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
           <span>
@@ -103,18 +107,33 @@
             </s>
           </span>
         {%- endunless -%}
-        <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
-        <span class="price-item price-item--sale price-item--last">
-          {{ money_price }}
-        </span>
       </div>
       {%- if product.selected_or_first_available_variant.unit_price_measurement -%}
         {% render 'unit-price', price: product.selected_or_first_available_variant.unit_price, measurement: product.selected_or_first_available_variant.unit_price_measurement %}
       {%- endif -%}
     </div>
     {%- if show_badges -%}
+      {%- liquid
+        assign target_compare_price = compare_at_price
+        assign target_price = price
+        if target_compare_price == blank or target_compare_price <= target_price
+          if product.compare_at_price_max > product.price_min
+            assign target_compare_price = product.compare_at_price_max
+            assign target_price = product.price_min
+          endif
+        endif
+        assign discount_percent = 0
+        if target_compare_price > target_price
+          assign discount_diff = target_compare_price | minus: target_price
+          assign discount_percent = discount_diff | times: 100.0 | divided_by: target_compare_price | round
+        endif
+      -%}
       <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}">
-        {{ 'products.product.on_sale' | t }}
+        {%- if discount_percent > 0 -%}
+          {{ discount_percent }}% OFF
+        {%- else -%}
+          {{ 'products.product.on_sale' | t }}
+        {%- endif -%}
       </span>
 
       <span class="badge price__badge-sold-out color-{{ settings.sold_out_badge_color_scheme }}">
