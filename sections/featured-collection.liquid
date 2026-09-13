@@ -198,14 +198,18 @@
       {%- endif -%}
     </slider-component>
 
-    {%- if section.settings.show_view_all and more_in_collection -%}
+    {%- if section.settings.show_view_all -%}
       <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <a
-          href="{{ section.settings.collection.url }}"
-          class="{% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
-          aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | escape }}"
+          href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}"
+          class="button button--secondary icon-with-text button--view-all"
+          aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | default: 'all products' | escape }}"
         >
-          {{ 'sections.featured_collection.view_all' | t }}
+          <span class="btn-fill" data-fill></span>
+          <span class="btn-text">
+            {%- render 'icon-newspaper' -%}
+            {{ 'sections.featured_collection.view_all' | t }}
+          </span>
         </a>
       </div>
     {%- endif -%}

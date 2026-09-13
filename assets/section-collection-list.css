@@ -57,5 +57,12 @@
 }
 
 .collection-list-view-all {
-  margin-top: 2rem;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin-top: 3.5rem !important;
+  margin-bottom: 1.5rem !important;
+  width: 100% !important;
 }
+

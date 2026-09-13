@@ -1087,3 +1087,120 @@
 .product-card__swatch-dot.is-active {
   box-shadow: 0 0 0 1.5px #141414, 0 0 0 3px #ffffff !important;
 }
+
+/* ==========================================================================
+   TheSunya.co Style "View all" Button (Pill Button with Catalogue Icon)
+   ========================================================================== */
+
+.collection__view-all,
+.collection-list-view-all {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin-top: 3.5rem !important;
+  margin-bottom: 2rem !important;
+  width: 100% !important;
+}
+
+.collection__view-all .button,
+.collection__view-all .button--secondary,
+.collection-list-view-all .button,
+.button--view-all {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.15rem 2.8rem !important;
+  min-width: auto !important;
+  min-height: auto !important;
+  height: auto !important;
+  border-radius: 9999px !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  font-family: inherit !important;
+  font-size: 1.35rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1 !important;
+  text-transform: capitalize !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+  box-sizing: border-box !important;
+}
+
+/* Neutralize Dawn button pseudo-elements */
+.collection__view-all .button:before,
+.collection__view-all .button:after,
+.collection-list-view-all .button:before,
+.collection-list-view-all .button:after,
+.button--view-all:before,
+.button--view-all:after {
+  display: none !important;
+}
+
+/* Inner content */
+.collection__view-all .button .btn-text,
+.collection-list-view-all .button .btn-text,
+.button--view-all .btn-text {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.85rem !important;
+  position: relative !important;
+  z-index: 2 !important;
+  color: inherit !important;
+  pointer-events: none !important;
+}
+
+/* Icon */
+.collection__view-all .button .icon-newspaper,
+.collection-list-view-all .button .icon-newspaper,
+.button--view-all .icon-newspaper {
+  width: 1.85rem !important;
+  height: 1.85rem !important;
+  stroke: currentColor !important;
+  stroke-width: 1.8 !important;
+  fill: none !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Hover state: Inversion to solid white with dark text matching Atypical & TheSunya */
+.collection__view-all .button:hover,
+.collection__view-all .button--secondary:hover,
+.collection-list-view-all .button:hover,
+.button--view-all:hover {
+  background-color: #ffffff !important;
+  color: #121212 !important;
+  border-color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 25px -4px rgba(255, 255, 255, 0.2), 0 8px 16px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.collection__view-all .button:hover .btn-text,
+.collection-list-view-all .button:hover .btn-text,
+.button--view-all:hover .btn-text {
+  color: #121212 !important;
+}
+
+.collection__view-all .button:hover .icon-newspaper,
+.collection-list-view-all .button:hover .icon-newspaper,
+.button--view-all:hover .icon-newspaper {
+  stroke: #121212 !important;
+  transform: scale(1.08) !important;
+}
+
+.collection__view-all .button:active,
+.collection-list-view-all .button:active,
+.button--view-all:active {
+  transform: translateY(0) scale(0.98) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
