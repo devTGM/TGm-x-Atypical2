@@ -1483,3 +1483,204 @@ class CartPerformance {
   });
 })();
 
+/* ==========================================================================
+   Reviews Infinite Carousel Component
+   Smooth 60fps continuous glide, touch/pointer drag, hover pause, seamless wrap
+   ========================================================================== */
+if (!customElements.get('reviews-infinite-carousel')) {
+  class ReviewsInfiniteCarousel extends HTMLElement {
+    constructor() {
+      super();
+      this.track1 = null;
+      this.track2 = null;
+      this.position = 0;
+      this.trackWidth = 0;
+      this.speed = 0.65; // pixels per frame (~39px/sec)
+      this.isPaused = false;
+      this.isDragging = false;
+      this.dragStartX = 0;
+      this.dragStartY = 0;
+      this.dragStartPos = 0;
+      this.touchDirection = null;
+      this.lastPointerX = 0;
+      this.pointerVelocity = 0;
+      this.animationFrameId = null;
+      this.resumeTimeout = null;
+      this.isVisible = true;
+
+      this.onPointerDown = this.onPointerDown.bind(this);
+      this.onPointerMove = this.onPointerMove.bind(this);
+      this.onPointerUp = this.onPointerUp.bind(this);
+      this.onMouseEnter = this.onMouseEnter.bind(this);
+      this.onMouseLeave = this.onMouseLeave.bind(this);
+      this.onVisibilityChange = this.onVisibilityChange.bind(this);
+      this.onResize = this.onResize.bind(this);
+      this.tick = this.tick.bind(this);
+    }
+
+    connectedCallback() {
+      this.track1 = this.querySelector('[data-track="1"]');
+      this.track2 = this.querySelector('[data-track="2"]');
+      if (!this.track1 || !this.track2) return;
+
+      const parsedSpeed = parseFloat(this.dataset.speed);
+      if (!isNaN(parsedSpeed) && parsedSpeed > 0) {
+        this.speed = parsedSpeed;
+      }
+
+      this.updateTrackWidth();
+
+      // Enable JS mode (stops CSS marquee animation fallback)
+      this.classList.add('js-active');
+
+      // Add Pointer / Touch event listeners
+      this.addEventListener('pointerdown', this.onPointerDown, { passive: true });
+      window.addEventListener('pointermove', this.onPointerMove, { passive: false });
+      window.addEventListener('pointerup', this.onPointerUp, { passive: true });
+      window.addEventListener('pointercancel', this.onPointerUp, { passive: true });
+
+      // Hover listeners (desktop)
+      this.addEventListener('mouseenter', this.onMouseEnter);
+      this.addEventListener('mouseleave', this.onMouseLeave);
+
+      // Window and visibility listeners
+      window.addEventListener('resize', this.onResize);
+      document.addEventListener('visibilitychange', this.onVisibilityChange);
+
+      // Intersection Observer to run loop only when visible in viewport
+      if ('IntersectionObserver' in window) {
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            this.isVisible = entry.isIntersecting;
+          });
+        }, { rootMargin: '100px' });
+        this.observer.observe(this);
+      }
+
+      // Start loop
+      this.animationFrameId = requestAnimationFrame(this.tick);
+    }
+
+    disconnectedCallback() {
+      if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+      if (this.observer) this.observer.disconnect();
+      window.removeEventListener('pointermove', this.onPointerMove);
+      window.removeEventListener('pointerup', this.onPointerUp);
+      window.removeEventListener('pointercancel', this.onPointerUp);
+      window.removeEventListener('resize', this.onResize);
+      document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    }
+
+    updateTrackWidth() {
+      if (!this.track1) return;
+      this.trackWidth = this.track1.scrollWidth;
+    }
+
+    onResize() {
+      this.updateTrackWidth();
+      this.normalizePosition();
+    }
+
+    onVisibilityChange() {
+      this.isVisible = !document.hidden;
+    }
+
+    onMouseEnter() {
+      if (!this.isDragging) {
+        this.isPaused = true;
+      }
+    }
+
+    onMouseLeave() {
+      if (!this.isDragging) {
+        this.isPaused = false;
+      }
+    }
+
+    onPointerDown(e) {
+      this.isDragging = true;
+      this.isPaused = true;
+      clearTimeout(this.resumeTimeout);
+      this.dragStartX = e.clientX;
+      this.dragStartY = e.clientY;
+      this.lastPointerX = e.clientX;
+      this.dragStartPos = this.position;
+      this.touchDirection = null;
+      this.pointerVelocity = 0;
+      this.classList.add('is-dragging');
+    }
+
+    onPointerMove(e) {
+      if (!this.isDragging) return;
+
+      const diffX = e.clientX - this.dragStartX;
+      const diffY = e.clientY - this.dragStartY;
+
+      if (!this.touchDirection) {
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 6) {
+          this.touchDirection = 'horizontal';
+        } else if (Math.abs(diffY) > 6) {
+          this.touchDirection = 'vertical';
+          this.isDragging = false;
+          this.classList.remove('is-dragging');
+          return;
+        }
+      }
+
+      if (this.touchDirection === 'horizontal' || e.pointerType === 'mouse') {
+        if (e.cancelable) e.preventDefault();
+        this.pointerVelocity = e.clientX - this.lastPointerX;
+        this.lastPointerX = e.clientX;
+        this.position = this.dragStartPos + diffX;
+        this.normalizePosition();
+        this.applyTransform();
+      }
+    }
+
+    onPointerUp() {
+      if (!this.isDragging) return;
+      this.isDragging = false;
+      this.classList.remove('is-dragging');
+
+      if (Math.abs(this.pointerVelocity) > 2) {
+        this.position += this.pointerVelocity * 5;
+        this.normalizePosition();
+        this.applyTransform();
+      }
+
+      clearTimeout(this.resumeTimeout);
+      this.resumeTimeout = setTimeout(() => {
+        this.isPaused = false;
+      }, 1500);
+    }
+
+    normalizePosition() {
+      if (!this.trackWidth || this.trackWidth <= 0) return;
+      while (this.position <= -this.trackWidth) {
+        this.position += this.trackWidth;
+      }
+      while (this.position > 0) {
+        this.position -= this.trackWidth;
+      }
+    }
+
+    applyTransform() {
+      const transformValue = `translate3d(${this.position.toFixed(2)}px, 0, 0)`;
+      if (this.track1) this.track1.style.transform = transformValue;
+      if (this.track2) this.track2.style.transform = transformValue;
+    }
+
+    tick() {
+      if (this.isVisible && !this.isPaused && !this.isDragging && this.trackWidth > 0) {
+        this.position -= this.speed;
+        this.normalizePosition();
+        this.applyTransform();
+      }
+      this.animationFrameId = requestAnimationFrame(this.tick);
+    }
+  }
+
+  customElements.define('reviews-infinite-carousel', ReviewsInfiniteCarousel);
+}
+
+
