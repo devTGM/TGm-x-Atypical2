@@ -231,7 +231,7 @@
         "title": "Shop the Collection Live",
         "font_size": 24,
         "heading_alignment": "center",
-        "text_transform": "none",
+        "text_transform": "uppercase",
         "auto_rotate": true,
         "auto_rotate_speed": 4
       }
