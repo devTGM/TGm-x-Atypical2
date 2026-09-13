@@ -203,6 +203,7 @@
         <a
           href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}"
           class="button button--secondary icon-with-text button--view-all"
+          is="hover-link"
           aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | default: 'all products' | escape }}"
         >
           <span class="btn-fill" data-fill></span>

@@ -1438,3 +1438,48 @@ class CartPerformance {
     );
   }
 }
+
+/* ==========================================================================
+   TheSunya.co Liquid Fill Button Animation
+   ========================================================================== */
+(function() {
+  document.addEventListener('mouseover', function(event) {
+    var button = event.target.closest('.button--view-all, [is="hover-link"]');
+    if (!button) return;
+
+    var fill = button.querySelector('[data-fill], .btn-fill');
+    if (!fill) return;
+
+    if (button._isTheSunyaHovered) return;
+    button._isTheSunyaHovered = true;
+
+    clearTimeout(button._resetTimeout);
+    fill.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+    fill.style.transform = 'translate3d(0, 0%, 0)';
+  });
+
+  document.addEventListener('mouseout', function(event) {
+    var button = event.target.closest('.button--view-all, [is="hover-link"]');
+    if (!button) return;
+
+    if (event.relatedTarget && button.contains(event.relatedTarget)) return;
+
+    var fill = button.querySelector('[data-fill], .btn-fill');
+    if (!fill) return;
+
+    button._isTheSunyaHovered = false;
+
+    // Exit upward
+    fill.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+    fill.style.transform = 'translate3d(0, -76%, 0)';
+
+    clearTimeout(button._resetTimeout);
+    button._resetTimeout = setTimeout(function() {
+      if (!button._isTheSunyaHovered) {
+        fill.style.transition = 'none';
+        fill.style.transform = 'translate3d(0, 76%, 0)';
+      }
+    }, 550);
+  });
+})();
+

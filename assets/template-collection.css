@@ -95,7 +95,7 @@
 }
 
 /* ==========================================================================
-   TheSunya.co Clean Minimal "View all" (Icon + Text, No Button Pill/Border)
+   TheSunya.co Style "View all" Button (Liquid Fill Animation & Brand Guidelines)
    ========================================================================== */
 
 .collection__view-all,
@@ -120,46 +120,59 @@
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.85rem !important;
-  padding: 0.6rem 1rem !important;
+  padding: 1.15rem 2.8rem !important;
   min-width: auto !important;
   min-height: auto !important;
   height: auto !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  border-radius: 9999px !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
   color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
   font-family: inherit !important;
-  font-size: 1.6rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.02em !important;
-  line-height: 1.2 !important;
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1 !important;
   text-transform: capitalize !important;
   text-decoration: none !important;
   cursor: pointer !important;
-  overflow: visible !important;
-  transition: opacity 0.2s ease, transform 0.2s ease !important;
+  overflow: hidden !important;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+  box-sizing: border-box !important;
 }
 
-/* Neutralize Dawn button pseudo-elements & fill layers */
+/* Neutralize Dawn button pseudo-elements */
 .collection__view-all .button:before,
 .collection__view-all .button:after,
-.collection__view-all .button .btn-fill,
 .collection-list-view-all .button:before,
 .collection-list-view-all .button:after,
-.collection-list-view-all .button .btn-fill,
 .button--view-all:before,
-.button--view-all:after,
-.button--view-all .btn-fill {
+.button--view-all:after {
   display: none !important;
 }
 
-/* Inner text container */
+/* TheSunya.co Liquid Fill Element */
+.collection__view-all .button .btn-fill,
+.collection-list-view-all .button .btn-fill,
+.button--view-all .btn-fill {
+  display: block !important;
+  position: absolute !important;
+  width: 160% !important;
+  height: 240% !important;
+  left: -30% !important;
+  top: -70% !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  transform: translate3d(0, 76%, 0);
+  will-change: transform;
+}
+
+/* Inner content */
 .collection__view-all .button .btn-text,
 .collection-list-view-all .button .btn-text,
 .button--view-all .btn-text {
@@ -167,26 +180,29 @@
   align-items: center !important;
   justify-content: center !important;
   gap: 0.85rem !important;
-  color: inherit !important;
+  position: relative !important;
+  z-index: 2 !important;
+  color: #ffffff !important;
   pointer-events: none !important;
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* SVG Newspaper / Catalogue Icon */
+/* Icon */
 .collection__view-all .button .icon-newspaper,
 .collection-list-view-all .button .icon-newspaper,
 .button--view-all .icon-newspaper {
-  width: 2.2rem !important;
-  height: 2.2rem !important;
+  width: 1.9rem !important;
+  height: 1.9rem !important;
   stroke: currentColor !important;
-  stroke-width: 1.75 !important;
+  stroke-width: 1.8 !important;
   fill: none !important;
   flex-shrink: 0 !important;
   display: inline-block !important;
   vertical-align: middle !important;
-  transition: transform 0.2s ease !important;
+  transition: stroke 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Hover state: Clean opacity & slight lift, NO background or pill box */
+/* Hover state: Liquid fill rises, text/icon inverts to dark luxury #121212 */
 .collection__view-all .button:hover,
 .collection__view-all .button--secondary:hover,
 .collection__view-all .button--view-all:hover,
@@ -194,34 +210,30 @@
 .collection-list-view-all .button--secondary:hover,
 .collection-list-view-all .button--view-all:hover,
 .button--view-all:hover {
-  background: transparent !important;
-  background-color: transparent !important;
-  color: #ffffff !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  opacity: 0.75 !important;
-  transform: translateY(-1px) !important;
+  border-color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 25px -4px rgba(255, 255, 255, 0.2), 0 8px 16px -2px rgba(0, 0, 0, 0.5) !important;
 }
 
 .collection__view-all .button:hover .btn-text,
 .collection-list-view-all .button:hover .btn-text,
 .button--view-all:hover .btn-text {
-  color: #ffffff !important;
+  color: #121212 !important;
 }
 
 .collection__view-all .button:hover .icon-newspaper,
 .collection-list-view-all .button:hover .icon-newspaper,
 .button--view-all:hover .icon-newspaper {
-  stroke: #ffffff !important;
-  transform: scale(1.05) !important;
+  stroke: #121212 !important;
+  transform: scale(1.06) !important;
 }
 
 .collection__view-all .button:active,
 .collection-list-view-all .button:active,
 .button--view-all:active {
-  opacity: 0.6 !important;
-  transform: translateY(0) !important;
+  transform: translateY(0) scale(0.98) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 }
+
 
 
