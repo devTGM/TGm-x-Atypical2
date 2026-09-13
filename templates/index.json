@@ -89,6 +89,27 @@
         "padding_bottom": 16
       }
     },
+    "divider_fehB4i": {
+      "type": "divider",
+      "name": "Divider",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "divider_type": "line",
+        "line_style": "solid",
+        "width": "page_width",
+        "custom_width": 80,
+        "alignment": "center",
+        "thickness": 2,
+        "opacity": 15,
+        "custom_line_color": "",
+        "icon": "sparkle",
+        "text": "ATYPICAL",
+        "padding_top": 4,
+        "padding_bottom": 0,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16
+      }
+    },
     "collection-list": {
       "type": "collection-list",
       "blocks": {
@@ -228,12 +249,15 @@
       ],
       "name": "Shoppable Reels",
       "settings": {
+        "color_scheme": "",
         "title": "Shop the Collection Live",
         "font_size": 24,
         "heading_alignment": "center",
         "text_transform": "uppercase",
         "auto_rotate": true,
-        "auto_rotate_speed": 4
+        "auto_rotate_speed": 4,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "featured_collection_pqTwDH": {
@@ -434,6 +458,7 @@
     "image_banner_WBmTFn",
     "hero-slideshow",
     "all-products",
+    "divider_fehB4i",
     "collection-list",
     "image-banner",
     "featured_collection_RGb6rU",
