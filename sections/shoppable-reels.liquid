@@ -1,7 +1,8 @@
 {%- comment -%}
   Shoppable Reels Section
   Renders a video slider carousel where each slide contains a Shoppable Reel (MP4 video).
-  Each reel features a linked product card positioned below or overlaid on the video slide.
+  Each reel features a linked product card positioned below the video slide.
+  Fully integrated with Dawn & Atypical color schemes, typography, and responsive controls.
 {%- endcomment -%}
 
 {%- liquid
@@ -12,219 +13,309 @@
   assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
 -%}
 
-<style>
-.shoppable-reels-section-{{ section.id }} {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  padding: 48px 0;
-}
-.reels-header-{{ section.id }} {
-  text-align: {{ heading_alignment }};
-  margin-bottom: 32px;
-}
-.reels-title-{{ section.id }} {
-  font-size: {{ font_size }}px;
-  font-weight: 700 !important;
-  letter-spacing: normal;
-  margin: 0;
-  text-transform: {{ text_transform }};
-  color: var(--color-foreground);
-}
-.reels-carousel-wrapper {
-  position: relative;
-  width: 100%;
-}
-.reels-grid-scroll {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 10px 24px 10px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-}
-.reels-grid-scroll::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-.reel-slide-card {
-  flex: 0 0 calc(20% - 16px);
-  min-width: 250px;
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  background: transparent;
-}
-.reel-video-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 9/16;
-  border-radius: 16px;
-  overflow: hidden;
-  background-color: #000;
-  box-shadow: 0 4px 12px rgba(var(--color-foreground-rgb), 0.08);
-}
-.reel-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.reel-mute-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.4);
-  border: none;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  cursor: pointer;
-  padding: 0;
-}
-.reel-product-card {
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  text-decoration: none;
-  color: var(--color-foreground);
-}
-.reel-product-title {
-  font-size: 13px;
-  font-weight: 500;
-  margin: 0;
-  color: var(--color-foreground);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.reel-product-price {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-foreground);
-  margin: 0;
-}
-.reels-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: var(--color-background);
-  border: 1px solid var(--color-border);
-  color: var(--color-foreground);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s, background-color 0.2s;
-}
-.reels-nav-btn:hover {
-  background-color: var(--color-selected-variant-background, #000);
-  color: var(--color-selected-variant-text, #fff);
-  transform: translateY(-50%) scale(1.05);
-}
-.reels-nav-prev {
-  left: 12px;
-}
-.reels-nav-next {
-  right: 12px;
-}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
-@media (max-width: 768px) {
-  .reel-slide-card {
-    flex: 0 0 calc(50% - 10px);
-    min-width: 170px;
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
   }
-  .reels-nav-btn {
-    display: none;
+
+  .shoppable-reels-section-{{ section.id }} {
+    background: transparent;
+    color: rgb(var(--color-foreground));
   }
+
+  .reels-header-{{ section.id }} {
+    text-align: {{ heading_alignment }};
+    margin-bottom: 28px;
+  }
+
+  .reels-title-{{ section.id }} {
+    font-size: {{ font_size }}px;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em;
+    margin: 0;
+    text-transform: {{ text_transform }};
+    color: rgb(var(--color-foreground));
+  }
+
+  .reels-carousel-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
   .reels-grid-scroll {
-    padding: 10px 16px 10px;
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 4px 16px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
   }
-}
-</style>
 
-<div class="shoppable-reels-section-{{ section.id }}">
-  <div class="page-width">
-    {%- if section.settings.title != blank -%}
-      <div class="reels-header-{{ section.id }}">
-        <h2 class="reels-title-{{ section.id }}">{{ section.settings.title }}</h2>
-      </div>
-    {%- endif -%}
+  .reels-grid-scroll::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+  }
 
-    <div class="reels-carousel-wrapper" id="reels-{{ section.id }}">
-      <button class="reels-nav-btn reels-nav-prev" aria-label="Previous Slide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </button>
+  .reel-slide-card {
+    flex: 0 0 calc(20% - 15px);
+    min-width: 240px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    transition: transform 0.25s ease;
+  }
 
-      <div class="reels-grid-scroll reels-track">
-        {%- for block in section.blocks -%}
-          {%- assign product = block.settings.product -%}
-          <div class="reel-slide-card" {{ block.shopify_attributes }}>
-            <div class="reel-video-container">
-              {%- if block.settings.video_url != blank -%}
-                <video 
-                  class="reel-video" 
-                  src="{{ block.settings.video_url }}" 
-                  loop 
-                  muted 
-                  autoplay
-                  playsinline
-                  preload="metadata"
-                ></video>
-                <button class="reel-mute-btn" aria-label="Mute Video">
-                  <svg class="mute-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <line x1="23" y1="9" x2="17" y2="15"></line>
-                    <line x1="17" y1="9" x2="23" y2="15"></line>
-                  </svg>
-                </button>
-              {%- else -%}
-                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#444; color:#fff; font-size:12px;">
-                  No Video Linked
-                </div>
+  .reel-slide-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .reel-video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9/16;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #141414;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.55);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .reel-slide-card:hover .reel-video-container {
+    border-color: rgba(var(--color-foreground), 0.22);
+    box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.75);
+  }
+
+  .reel-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 14px;
+  }
+
+  .reel-video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #181818;
+    color: rgba(var(--color-foreground), 0.5);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .reel-mute-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    background: rgba(18, 18, 18, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .reel-mute-btn:hover {
+    background: rgba(18, 18, 18, 0.9);
+    transform: scale(1.08);
+  }
+
+  .reel-product-card {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-decoration: none;
+    color: rgb(var(--color-foreground));
+    transition: opacity 0.2s ease;
+  }
+
+  .reel-product-card:hover {
+    opacity: 0.85;
+  }
+
+  .reel-product-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+    color: rgb(var(--color-foreground));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .reel-product-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+  }
+
+  .reels-nav-btn {
+    position: absolute;
+    top: calc(50% - 20px);
+    transform: translateY(-50%);
+    background: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .reels-nav-btn:hover {
+    background: #ffffff;
+    color: #121212;
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .reels-nav-prev {
+    left: 8px;
+  }
+
+  .reels-nav-next {
+    right: 8px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    .reels-nav-prev {
+      left: -20px;
+    }
+    .reels-nav-next {
+      right: -20px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .reel-slide-card {
+      flex: 0 0 calc(33.333% - 12px);
+      min-width: 210px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .reel-slide-card {
+      flex: 0 0 calc(50% - 9px);
+      min-width: 165px;
+    }
+    .reels-nav-btn {
+      display: none;
+    }
+    .reels-grid-scroll {
+      padding: 6px 12px 14px;
+      gap: 14px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient isolate">
+  <div class="shoppable-reels-section-{{ section.id }} section-{{ section.id }}-padding">
+    <div class="page-width">
+      {%- if section.settings.title != blank -%}
+        <div class="reels-header-{{ section.id }}">
+          <h2 class="reels-title-{{ section.id }}">{{ section.settings.title }}</h2>
+        </div>
+      {%- endif -%}
+
+      <div class="reels-carousel-wrapper" id="reels-{{ section.id }}">
+        <button class="reels-nav-btn reels-nav-prev" aria-label="Previous Slide">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="reels-grid-scroll reels-track">
+          {%- for block in section.blocks -%}
+            {%- assign product = block.settings.product -%}
+            <div class="reel-slide-card" {{ block.shopify_attributes }}>
+              <div class="reel-video-container">
+                {%- if block.settings.video_url != blank -%}
+                  <video 
+                    class="reel-video" 
+                    src="{{ block.settings.video_url }}" 
+                    loop 
+                    muted 
+                    autoplay
+                    playsinline
+                    preload="metadata"
+                  ></video>
+                  <button class="reel-mute-btn" aria-label="Mute Video">
+                    <svg class="mute-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                  </button>
+                {%- else -%}
+                  <div class="reel-video-placeholder">
+                    <span>No Video Linked</span>
+                  </div>
+                {%- endif -%}
+              </div>
+
+              {%- if product != blank -%}
+                <a href="{{ product.url }}" class="reel-product-card">
+                  <h4 class="reel-product-title">{{ product.title }}</h4>
+                  <p class="reel-product-price">{{ product.price | money }}</p>
+                </a>
               {%- endif -%}
             </div>
+          {%- endfor -%}
+        </div>
 
-            {%- if product != blank -%}
-              <a href="{{ product.url }}" class="reel-product-card">
-                <h4 class="reel-product-title">{{ product.title }}</h4>
-                <p class="reel-product-price">{{ product.price | money }}</p>
-              </a>
-            {%- endif -%}
-          </div>
-        {%- endfor -%}
+        <button class="reels-nav-btn reels-nav-next" aria-label="Next Slide">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
-
-      <button class="reels-nav-btn reels-nav-next" aria-label="Next Slide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
     </div>
   </div>
 </div>
 
 <script>
   (() => {
-    // Scroll handling for nav buttons and auto-rotation
     const initCarousel = (wrapper) => {
+      if (wrapper.dataset.reelsInitialized === 'true') return;
+      wrapper.dataset.reelsInitialized = 'true';
+
       const track = wrapper.querySelector('.reels-track');
       const prev = wrapper.querySelector('.reels-nav-prev');
       const next = wrapper.querySelector('.reels-nav-next');
@@ -232,18 +323,8 @@
 
       const getScrollAmount = () => {
         const firstCard = track.querySelector('.reel-slide-card');
-        return firstCard ? firstCard.clientWidth + 20 : 270;
+        return firstCard ? firstCard.clientWidth + 18 : 260;
       };
-
-      prev.addEventListener('click', () => {
-        track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
-        if (typeof resetAutoRotate === 'function') resetAutoRotate();
-      });
-
-      next.addEventListener('click', () => {
-        handleNextScroll();
-        if (typeof resetAutoRotate === 'function') resetAutoRotate();
-      });
 
       const handleNextScroll = () => {
         const maxScroll = track.scrollWidth - track.clientWidth;
@@ -254,7 +335,16 @@
         }
       };
 
-      // Check if auto rotation is enabled
+      prev.addEventListener('click', () => {
+        track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+        resetAutoRotate();
+      });
+
+      next.addEventListener('click', () => {
+        handleNextScroll();
+        resetAutoRotate();
+      });
+
       const isAutoRotate = {{ auto_rotate | json }};
       const autoRotateSpeed = {{ auto_rotate_speed | json }};
       let autoRotateInterval;
@@ -270,34 +360,34 @@
       }
     };
 
-    // Auto-play videos & Handle Mute state
     const handleVideoInteractions = () => {
       const videos = document.querySelectorAll('.reel-video');
       
       videos.forEach((video) => {
-        const parent = video.closest('.reel-video-container');
-        const muteBtn = parent.querySelector('.reel-mute-btn');
+        if (video.dataset.videoHandled === 'true') return;
+        video.dataset.videoHandled = 'true';
 
-        // Play video initially (fallback for browsers blocking native autoplay)
+        const parent = video.closest('.reel-video-container');
+        const muteBtn = parent ? parent.querySelector('.reel-mute-btn') : null;
+
         video.play().catch(() => {});
 
-        // Touch trigger for mobile play/pause
-        parent.addEventListener('click', (e) => {
-          if (e.target.closest('.reel-mute-btn')) return; // let mute btn click pass through
-          if (video.paused) {
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        });
+        if (parent) {
+          parent.addEventListener('click', (e) => {
+            if (e.target.closest('.reel-mute-btn')) return;
+            if (video.paused) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+        }
 
-        // Handle Mute Button toggle
         if (muteBtn) {
           muteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             video.muted = !video.muted;
             
-            // Toggle icon
             if (video.muted) {
               muteBtn.innerHTML = `
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -319,13 +409,23 @@
       });
     };
 
-    // Init all carousels on page load
-    document.querySelectorAll('.reels-carousel-wrapper').forEach(initCarousel);
-    handleVideoInteractions();
-
-    // Document listeners to re-trigger on customizer events
-    document.addEventListener('shopify:section:load', () => {
+    const initAll = () => {
       document.querySelectorAll('.reels-carousel-wrapper').forEach(initCarousel);
+      handleVideoInteractions();
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+
+    document.addEventListener('shopify:section:load', (e) => {
+      const wrapper = e.target.querySelector('.reels-carousel-wrapper');
+      if (wrapper) {
+        wrapper.dataset.reelsInitialized = 'false';
+        initCarousel(wrapper);
+      }
       handleVideoInteractions();
     });
   })();
@@ -334,7 +434,18 @@
 {% schema %}
 {
   "name": "Shoppable Reels",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-4"
+    },
     {
       "type": "text",
       "id": "title",
@@ -389,7 +500,7 @@
           "label": "Lowercase"
         }
       ],
-      "default": "none"
+      "default": "uppercase"
     },
     {
       "type": "header",
@@ -409,6 +520,30 @@
       "max": 10,
       "step": 1,
       "default": 4
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
     }
   ],
   "blocks": [
