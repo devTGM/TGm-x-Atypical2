@@ -2799,31 +2799,30 @@ details[open] > .header__submenu {
 
 /* Header menu */
 .header__inline-menu {
-  margin-left: -1.2rem;
+  margin-left: 0;
   grid-area: navigation;
   display: none;
-}
-
-.header--top-center .header__inline-menu,
-.header--top-center .header__heading-link {
-  margin-left: 0;
 }
 
 @media screen and (min-width: 990px) {
   .header__inline-menu {
     display: block;
+    justify-self: start;
+    text-align: left;
   }
 
-  .header--top-center .header__inline-menu {
-    justify-self: center;
-  }
-
-  .header--top-center .header__inline-menu > .list-menu--inline {
-    justify-content: center;
-  }
-
-  .header--middle-left .header__inline-menu {
+  .header--top-center .header__inline-menu,
+  .header--top-left .header__inline-menu,
+  .header--middle-left .header__inline-menu,
+  .header--middle-center .header__inline-menu {
     margin-left: 0;
+    justify-self: start;
+  }
+
+  .header__inline-menu > .list-menu--inline {
+    justify-content: flex-start;
+    margin-left: 0;
+    padding-left: 0;
   }
 }
 
@@ -2832,45 +2831,92 @@ details[open] > .header__submenu {
 }
 
 .header__menu-item {
-  padding: 1.2rem;
-  text-decoration: none;
+  padding: 1.1rem 1.4rem;
+  text-decoration: none !important;
   color: rgba(var(--color-foreground), 0.75);
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.header__menu-item:hover {
+/* Sibling focus dimming for modern aesthetic */
+.list-menu--inline:hover .header__menu-item {
+  opacity: 0.5;
+}
+
+.list-menu--inline:hover .header__menu-item:hover,
+.list-menu--inline:hover .header__menu-item:focus-visible,
+.list-menu--inline:hover details[open] > .header__menu-item {
+  opacity: 1;
   color: rgb(var(--color-foreground));
 }
 
-.header__menu-item span {
-  transition: text-decoration var(--duration-short) ease;
+.header__menu-item:hover,
+.header__menu-item:focus-visible {
+  color: rgb(var(--color-foreground));
 }
 
-.header__menu-item:hover span {
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
+/* Modern Underline Hover Animation */
+.header__menu-item > span,
+.mega-menu__link > span,
+.header__submenu .header__menu-item > span {
+  position: relative;
+  display: inline-block;
+  text-decoration: none !important;
 }
 
-details[open] > .header__menu-item {
-  text-decoration: underline;
+.header__menu-item > span::after,
+.mega-menu__link > span::after,
+.header__submenu .header__menu-item > span::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.35s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
-details[open]:hover > .header__menu-item {
-  text-decoration-thickness: 0.2rem;
+.header__menu-item:hover > span::after,
+.header__menu-item:focus-visible > span::after,
+.mega-menu__link:hover > span::after,
+.header__submenu .header__menu-item:hover > span::after,
+.header__active-menu-item > span::after,
+.header__active-menu-item::after,
+.list-menu__item--active > span::after,
+.mega-menu__link--active > span::after,
+details[open] > .header__menu-item > span::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.header__menu-item span,
+.header__menu-item:hover span,
+details[open] > .header__menu-item,
+details[open]:hover > .header__menu-item,
+.header__active-menu-item,
+.header__menu-item:hover .header__active-menu-item,
+.list-menu__item--active,
+.list-menu__item--active:hover,
+.mega-menu__link:hover,
+.mega-menu__link--active,
+.mega-menu__link--active:hover,
+.header__submenu .header__menu-item:hover {
+  text-decoration: none !important;
+}
+
+.header__active-menu-item {
+  color: rgb(var(--color-foreground));
+}
+
+.header__menu-item .icon-caret {
+  transition: transform 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 details[open] > .header__menu-item .icon-caret {
   transform: rotate(180deg);
-}
-
-.header__active-menu-item {
-  transition: text-decoration-thickness var(--duration-short) ease;
-  color: rgb(var(--color-foreground));
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-}
-
-.header__menu-item:hover .header__active-menu-item {
-  text-decoration-thickness: 0.2rem;
 }
 
 .header__submenu {
