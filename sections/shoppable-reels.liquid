@@ -1,0 +1,445 @@
+{%- comment -%}
+  Shoppable Reels Section
+  Renders a video slider carousel where each slide contains a Shoppable Reel (MP4 video).
+  Each reel features a linked product card positioned below or overlaid on the video slide.
+{%- endcomment -%}
+
+{%- liquid
+  assign font_size = section.settings.font_size
+  assign heading_alignment = section.settings.heading_alignment
+  assign text_transform = section.settings.text_transform
+  assign auto_rotate = section.settings.auto_rotate
+  assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
+-%}
+
+<style>
+.shoppable-reels-section-{{ section.id }} {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  padding: 48px 0;
+}
+.reels-header-{{ section.id }} {
+  text-align: {{ heading_alignment }};
+  margin-bottom: 32px;
+}
+.reels-title-{{ section.id }} {
+  font-size: {{ font_size }}px;
+  font-weight: 700 !important;
+  letter-spacing: normal;
+  margin: 0;
+  text-transform: {{ text_transform }};
+  color: var(--color-foreground);
+}
+.reels-carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+.reels-grid-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 24px 10px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.reels-grid-scroll::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+.reel-slide-card {
+  flex: 0 0 calc(20% - 16px);
+  min-width: 250px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+.reel-video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9/16;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #000;
+  box-shadow: 0 4px 12px rgba(var(--color-foreground-rgb), 0.08);
+}
+.reel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.reel-mute-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+.reel-product-card {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  color: var(--color-foreground);
+}
+.reel-product-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--color-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.reel-product-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-foreground);
+  margin: 0;
+}
+.reels-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s, background-color 0.2s;
+}
+.reels-nav-btn:hover {
+  background-color: var(--color-selected-variant-background, #000);
+  color: var(--color-selected-variant-text, #fff);
+  transform: translateY(-50%) scale(1.05);
+}
+.reels-nav-prev {
+  left: 12px;
+}
+.reels-nav-next {
+  right: 12px;
+}
+
+@media (max-width: 768px) {
+  .reel-slide-card {
+    flex: 0 0 calc(50% - 10px);
+    min-width: 170px;
+  }
+  .reels-nav-btn {
+    display: none;
+  }
+  .reels-grid-scroll {
+    padding: 10px 16px 10px;
+  }
+}
+</style>
+
+<div class="shoppable-reels-section-{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.title != blank -%}
+      <div class="reels-header-{{ section.id }}">
+        <h2 class="reels-title-{{ section.id }}">{{ section.settings.title }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="reels-carousel-wrapper" id="reels-{{ section.id }}">
+      <button class="reels-nav-btn reels-nav-prev" aria-label="Previous Slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="reels-grid-scroll reels-track">
+        {%- for block in section.blocks -%}
+          {%- assign product = block.settings.product -%}
+          <div class="reel-slide-card" {{ block.shopify_attributes }}>
+            <div class="reel-video-container">
+              {%- if block.settings.video_url != blank -%}
+                <video 
+                  class="reel-video" 
+                  src="{{ block.settings.video_url }}" 
+                  loop 
+                  muted 
+                  autoplay
+                  playsinline
+                  preload="metadata"
+                ></video>
+                <button class="reel-mute-btn" aria-label="Mute Video">
+                  <svg class="mute-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                </button>
+              {%- else -%}
+                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#444; color:#fff; font-size:12px;">
+                  No Video Linked
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if product != blank -%}
+              <a href="{{ product.url }}" class="reel-product-card">
+                <h4 class="reel-product-title">{{ product.title }}</h4>
+                <p class="reel-product-price">{{ product.price | money }}</p>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <button class="reels-nav-btn reels-nav-next" aria-label="Next Slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    // Scroll handling for nav buttons and auto-rotation
+    const initCarousel = (wrapper) => {
+      const track = wrapper.querySelector('.reels-track');
+      const prev = wrapper.querySelector('.reels-nav-prev');
+      const next = wrapper.querySelector('.reels-nav-next');
+      if (!track || !prev || !next) return;
+
+      const getScrollAmount = () => {
+        const firstCard = track.querySelector('.reel-slide-card');
+        return firstCard ? firstCard.clientWidth + 20 : 270;
+      };
+
+      prev.addEventListener('click', () => {
+        track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+        if (typeof resetAutoRotate === 'function') resetAutoRotate();
+      });
+
+      next.addEventListener('click', () => {
+        handleNextScroll();
+        if (typeof resetAutoRotate === 'function') resetAutoRotate();
+      });
+
+      const handleNextScroll = () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (Math.ceil(track.scrollLeft) >= maxScroll - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+        }
+      };
+
+      // Check if auto rotation is enabled
+      const isAutoRotate = {{ auto_rotate | json }};
+      const autoRotateSpeed = {{ auto_rotate_speed | json }};
+      let autoRotateInterval;
+
+      const resetAutoRotate = () => {
+        if (!isAutoRotate) return;
+        clearInterval(autoRotateInterval);
+        autoRotateInterval = setInterval(handleNextScroll, autoRotateSpeed);
+      };
+
+      if (isAutoRotate) {
+        autoRotateInterval = setInterval(handleNextScroll, autoRotateSpeed);
+      }
+    };
+
+    // Auto-play videos & Handle Mute state
+    const handleVideoInteractions = () => {
+      const videos = document.querySelectorAll('.reel-video');
+      
+      videos.forEach((video) => {
+        const parent = video.closest('.reel-video-container');
+        const muteBtn = parent.querySelector('.reel-mute-btn');
+
+        // Play video initially (fallback for browsers blocking native autoplay)
+        video.play().catch(() => {});
+
+        // Touch trigger for mobile play/pause
+        parent.addEventListener('click', (e) => {
+          if (e.target.closest('.reel-mute-btn')) return; // let mute btn click pass through
+          if (video.paused) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+
+        // Handle Mute Button toggle
+        if (muteBtn) {
+          muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            video.muted = !video.muted;
+            
+            // Toggle icon
+            if (video.muted) {
+              muteBtn.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <line x1="23" y1="9" x2="17" y2="15"></line>
+                  <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+              `;
+            } else {
+              muteBtn.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+              `;
+            }
+          });
+        }
+      });
+    };
+
+    // Init all carousels on page load
+    document.querySelectorAll('.reels-carousel-wrapper').forEach(initCarousel);
+    handleVideoInteractions();
+
+    // Document listeners to re-trigger on customizer events
+    document.addEventListener('shopify:section:load', () => {
+      document.querySelectorAll('.reels-carousel-wrapper').forEach(initCarousel);
+      handleVideoInteractions();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Shoppable Reels",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shop the Collection Live"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Heading Font Size",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Heading Case",
+      "options": [
+        {
+          "value": "none",
+          "label": "As written"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Auto Rotation Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Enable Auto Rotation",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "auto_rotate_speed",
+      "label": "Rotation Speed (Seconds)",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reel",
+      "name": "Shoppable Reel",
+      "settings": [
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video MP4 URL",
+          "info": "Upload an MP4 under Content > Files and paste the URL here."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Featured Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shoppable Reels",
+      "blocks": [
+        { "type": "reel" },
+        { "type": "reel" },
+        { "type": "reel" },
+        { "type": "reel" }
+      ]
+    }
+  ]
+}
+{% endschema %}
