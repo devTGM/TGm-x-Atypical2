@@ -1492,3 +1492,102 @@ a.product__text {
     border: none;
   }
 }
+
+/* ==========================================================================
+   Atypical Luxury Streetwear Product Page Styling
+   ========================================================================== */
+
+.product__title h1 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+}
+
+.product__info-container .price {
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+}
+
+.product__info-container .price .price-item--regular {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-foreground, #121212);
+}
+
+.product__info-container .price .price-item--sale {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-foreground, #121212);
+}
+
+.product__info-container .price s.price-item--regular {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--color-foreground-muted, #767676);
+  margin-left: 0.6rem;
+}
+
+/* Variant Pill Enhancements */
+.product-form__input--pill input[type='radio'] + label {
+  border-radius: 8px !important;
+  font-weight: 600;
+  font-size: 1.3rem;
+  padding: 0.8rem 1.6rem;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.15)) !important;
+  background-color: var(--color-background, #ffffff);
+  color: var(--color-foreground, #121212);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease, background-color 0.2s ease !important;
+}
+
+.product-form__input--pill input[type='radio'] + label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  border-color: var(--color-foreground, #000000) !important;
+}
+
+.product-form__input--pill input[type='radio']:checked + label {
+  background-color: var(--color-foreground, #000000) !important;
+  color: var(--color-background, #ffffff) !important;
+  border-color: var(--color-foreground, #000000) !important;
+}
+
+/* Add to Cart & Buy Buttons */
+.product-form__submit {
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  background-color: var(--color-foreground, #000000) !important;
+  color: var(--color-background, #ffffff) !important;
+  border: 1px solid var(--color-foreground, #000000) !important;
+  min-height: 4.8rem !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.product-form__submit:hover:not(:disabled) {
+  background-color: #2b2b2b !important;
+  border-color: #2b2b2b !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.shopify-payment-button .shopify-payment-button__button--unbranded {
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  min-height: 4.8rem !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* Quantity input */
+.quantity {
+  border-radius: 8px !important;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.15)) !important;
+  min-height: 4.4rem;
+}
+.quantity__input {
+  font-weight: 600;
+}
+

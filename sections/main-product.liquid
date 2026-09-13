@@ -688,6 +688,12 @@
                   </product-recommendations>
                 {%- when 'icon-with-text' -%}
                   {% render 'icon-with-text', block: block %}
+                {%- when 'offers' -%}
+                  {% render 'product-offers', block: block %}
+                {%- when 'cross_sell' -%}
+                  {% render 'product-cross-sell', block: block, product: product %}
+                {%- when 'tabs' -%}
+                  {% render 'product-tabs', block: block, product: product %}
               {%- endcase -%}
             {%- endfor -%}
             <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -752,6 +758,10 @@
     </div>
   </product-component>
 </product-info>
+
+{%- if section.settings.enable_sticky_cart -%}
+  {% render 'product-sticky-cart', product: product %}
+{%- endif -%}
 
 {% schema %}
 {
@@ -2144,9 +2154,100 @@
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
         }
       ]
+    },
+    {
+      "type": "offers",
+      "name": "Rewards / Offers Grid",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "REWARDS WITH PURCHASE"
+        },
+        {
+          "type": "text",
+          "id": "offer1_badge",
+          "label": "Offer 1 Badge",
+          "default": "PREPAID"
+        },
+        {
+          "type": "text",
+          "id": "offer1_text",
+          "label": "Offer 1 Text",
+          "default": "5% OFF"
+        },
+        {
+          "type": "text",
+          "id": "offer2_badge",
+          "label": "Offer 2 Badge",
+          "default": "BUY 2"
+        },
+        {
+          "type": "text",
+          "id": "offer2_text",
+          "label": "Offer 2 Text",
+          "default": "₹200 OFF"
+        },
+        {
+          "type": "text",
+          "id": "offer3_badge",
+          "label": "Offer 3 Badge",
+          "default": "BUY 3"
+        },
+        {
+          "type": "text",
+          "id": "offer3_text",
+          "label": "Offer 3 Text",
+          "default": "₹400 OFF"
+        },
+        {
+          "type": "text",
+          "id": "footer_text",
+          "label": "Footer Note",
+          "default": "Auto-applied at checkout — no code needed"
+        }
+      ]
+    },
+    {
+      "type": "cross_sell",
+      "name": "Pairs Well With",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "PAIRS WELL WITH"
+        },
+        {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "Products to Feature",
+          "limit": 4
+        }
+      ]
+    },
+    {
+      "type": "tabs",
+      "name": "Luxury Tab System",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Displays Description, Delivery Time, Exchanges, Shipping Badges, and Social/WhatsApp Support links matching atypicalclothing.in"
+        }
+      ]
     }
   ],
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_cart",
+      "default": true,
+      "label": "Enable Sticky Add to Cart Bar"
+    },
     {
       "type": "checkbox",
       "id": "enable_sticky_info",

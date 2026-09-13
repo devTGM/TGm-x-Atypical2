@@ -1,1 +1,106 @@
-{"sections":{"main":{"type":"main-product","blocks":{"vendor":{"type":"text","disabled":true,"settings":{"text":"{{ product.vendor }}","text_style":"uppercase"}},"title":{"type":"title","settings":{}},"price":{"type":"price","settings":{}},"variant-picker":{"type":"variant_picker","settings":{"picker_type":"button","swatch_shape":"circle"}},"buy_buttons":{"type":"buy_buttons","settings":{"show_dynamic_checkout":true,"show_gift_card_recipient":true}}},"block_order":["vendor","title","price","variant-picker","buy_buttons"],"settings":{"enable_sticky_info":true,"color_scheme":"scheme-4","media_size":"medium","constrain_to_viewport":true,"media_fit":"contain","gallery_layout":"stacked","mobile_thumbnails":"show","media_position":"left","image_zoom":"lightbox","hide_variants":true,"enable_video_looping":false,"padding_top":8,"padding_bottom":16}},"disclosures":{"type":"disclosures","settings":{"heading":"Disclosures","heading_size":"h2","open_by_default":false,"color_scheme":"","padding_top":36,"padding_bottom":0}},"related-products":{"type":"related-products","settings":{"heading":"You may also like","heading_size":"h2","products_to_show":4,"columns_desktop":4,"columns_mobile":"2","color_scheme":"scheme-4","image_ratio":"portrait","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"padding_top":36,"padding_bottom":28}}},"order":["main","disclosures","related-products"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant-picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "none"
+          }
+        },
+        "offers": {
+          "type": "offers",
+          "settings": {
+            "title": "REWARDS WITH PURCHASE",
+            "offer1_badge": "PREPAID",
+            "offer1_text": "5% OFF",
+            "offer2_badge": "BUY 2",
+            "offer2_text": "₹200 OFF",
+            "offer3_badge": "BUY 3",
+            "offer3_text": "₹400 OFF",
+            "footer_text": "Auto-applied at checkout — no code needed"
+          }
+        },
+        "cross_sell": {
+          "type": "cross_sell",
+          "settings": {
+            "heading": "PAIRS WELL WITH"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": false
+          }
+        },
+        "tabs": {
+          "type": "tabs",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "variant-picker",
+        "offers",
+        "cross_sell",
+        "quantity_selector",
+        "buy_buttons",
+        "tabs"
+      ],
+      "settings": {
+        "enable_sticky_cart": true,
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-4",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "show",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 8,
+        "padding_bottom": 24
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-4",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products"
+  ]
+}
