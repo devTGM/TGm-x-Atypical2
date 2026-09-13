@@ -11,14 +11,16 @@
 
 {%- liquid
   assign collection_image = card_collection.featured_image | default: card_collection.products.first.featured_image
-  assign ratio = 0.75
+  assign ratio = 0.58
   if collection_image and media_aspect_ratio == 'adapt'
     assign ratio = collection_image.aspect_ratio
   elsif collection_image and media_aspect_ratio == 'square'
     assign ratio = 1
+  elsif media_aspect_ratio == 'portrait' or media_aspect_ratio == 'tall'
+    assign ratio = 0.58
   endif
   if ratio == 0 or ratio == null
-    assign ratio = 0.75
+    assign ratio = 0.58
   endif
 -%}
 
