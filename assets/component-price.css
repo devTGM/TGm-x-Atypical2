@@ -109,3 +109,35 @@
   margin-top: 0.2rem;
   color: rgba(var(--color-foreground), 0.7);
 }
+
+/* Discount Badge Luxury Styling (PDP / Price snippet) */
+.price .price__badge-sale {
+  background-color: rgba(18, 18, 18, 0.88) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 9999px !important;
+  padding: 0.32rem 0.85rem !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+  vertical-align: middle !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+@media screen and (max-width: 749px) {
+  .price .price__badge-sale {
+    font-size: 0.9rem !important;
+    padding: 0.25rem 0.65rem !important;
+    letter-spacing: 0.03em !important;
+  }
+}
+
