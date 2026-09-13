@@ -16,9 +16,18 @@
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset{% if link.child_active %} header__menu-item--active{% endif %}"
               >
-                <span class="btn-text" data-text>{{ link.title | escape }}</span>
-                <span class="btn-text btn-duplicate" aria-hidden="true">{{ link.title | escape }}</span>
-                {{- 'icon-caret.svg' | inline_asset_content -}}
+                <span class="btn-text" data-text>
+                  <span>{{ link.title | escape }}</span>
+                  <span class="menu__arrow" aria-hidden="true">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
+                </span>
+                <span class="btn-text btn-duplicate" aria-hidden="true">
+                  <span>{{ link.title | escape }}</span>
+                  <span class="menu__arrow" aria-hidden="true">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
+                </span>
               </summary>
               <ul
                 id="HeaderMenu-MenuList-{{ forloop.index }}"
@@ -38,7 +47,6 @@
                         {% endif %}
                       >
                         <span class="btn-text" data-text>{{ childlink.title | escape }}</span>
-                        <span class="btn-text btn-duplicate" aria-hidden="true">{{ childlink.title | escape }}</span>
                       </a>
                     {%- else -%}
                       <details id="Details-HeaderSubMenu-{{ link.handle }}-{{ childlink.handle }}">
@@ -47,8 +55,9 @@
                           class="header__menu-item link link--text list-menu__item focus-inset caption-large{% if childlink.child_active %} header__menu-item--active{% endif %}"
                         >
                           <span class="btn-text" data-text>{{ childlink.title | escape }}</span>
-                          <span class="btn-text btn-duplicate" aria-hidden="true">{{ childlink.title | escape }}</span>
-                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                          <span class="submenu__arrow" aria-hidden="true">
+                            <svg class="icon icon-chevron-right" viewBox="0 0 6 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="m1 1 4 4-4 4"/></svg>
+                          </span>
                         </summary>
                         <ul
                           id="HeaderMenu-SubMenuList-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
@@ -65,7 +74,6 @@
                                 {% endif %}
                               >
                                 <span class="btn-text" data-text>{{ grandchildlink.title | escape }}</span>
-                                <span class="btn-text btn-duplicate" aria-hidden="true">{{ grandchildlink.title | escape }}</span>
                               </a>
                             </li>
                           {%- endfor -%}
