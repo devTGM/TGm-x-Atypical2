@@ -282,37 +282,15 @@
           <span class="footer-trust__desc">{{ section.settings.trust_2_desc | default: "Easy returns & exchanges" }}</span>
         </div>
 
-        <!-- 3. Money Back Promise -->
-        <div class="footer-trust__item">
-          <div class="footer-trust__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
-            </svg>
-          </div>
-          <span class="footer-trust__label">{{ section.settings.trust_3_title | default: "Money back promise" }}</span>
-          <span class="footer-trust__desc">{{ section.settings.trust_3_desc | default: "100% refund on defects" }}</span>
-        </div>
-
-        <!-- 4. German Threading -->
-        <div class="footer-trust__item">
-          <div class="footer-trust__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-            </svg>
-          </div>
-          <span class="footer-trust__label">{{ section.settings.trust_4_title | default: "German threading" }}</span>
-          <span class="footer-trust__desc">{{ section.settings.trust_4_desc | default: "Precision-built durability" }}</span>
-        </div>
-
-        <!-- 5. 10,000+ Orders -->
+        <!-- 3. 10,000+ Orders -->
         <div class="footer-trust__item">
           <div class="footer-trust__icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
           </div>
-          <span class="footer-trust__label">{{ section.settings.trust_5_title | default: "10,000+ orders" }}</span>
-          <span class="footer-trust__desc">{{ section.settings.trust_5_desc | default: "Trusted by thousands" }}</span>
+          <span class="footer-trust__label">{{ section.settings.trust_3_title | default: section.settings.trust_5_title | default: "10,000+ orders" }}</span>
+          <span class="footer-trust__desc">{{ section.settings.trust_3_desc | default: section.settings.trust_5_desc | default: "Trusted by thousands" }}</span>
         </div>
       </div>
     </div>
@@ -350,40 +328,24 @@
 
     <!-- Copyright & Horizontal Policies Row -->
     <div class="footer-copyright page-width">
-      <div class="footer-copyright__left">
-        <div class="footer-copyright__credits">
-          {%- assign clean_cp = section.settings.copyright_text | replace: "(www.thinkgrowmedia.com)", "" | replace: "www.thinkgrowmedia.com", "" | strip -%}
-          {%- if clean_cp contains "Think Grow Media" -%}
-            {%- assign cp_parts = clean_cp | split: "Think Grow Media" -%}
-            {{ cp_parts[0] }}<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="footer-copyright__agency">Think Grow Media</a>
-          {%- elsif clean_cp != blank -%}
-            {{ clean_cp }}
-          {%- else -%}
-            &copy;&nbsp;{{ "now" | date: "%Y" }}&nbsp;ATYPICAL.&nbsp;<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="footer-copyright__agency">Designed and Managed by Think Grow Media</a>
-          {%- endif -%}
-        </div>
-        <ul class="footer-copyright__policies">
-          <li><a href="/policies/privacy-policy">Privacy policy</a></li>
-          <li><a href="/policies/refund-policy">Refund policy</a></li>
-          <li><a href="/policies/terms-of-service">Terms of service</a></li>
-          <li><a href="/policies/shipping-policy">Shipping policy</a></li>
-          <li><a href="/policies/contact-information">Contact information</a></li>
-        </ul>
+      <div class="footer-copyright__credits">
+        {%- assign clean_cp = section.settings.copyright_text | replace: "(www.thinkgrowmedia.com)", "" | replace: "www.thinkgrowmedia.com", "" | strip -%}
+        {%- if clean_cp contains "Think Grow Media" -%}
+          {%- assign cp_parts = clean_cp | split: "Think Grow Media" -%}
+          {{ cp_parts[0] }}<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="footer-copyright__agency">Think Grow Media</a>
+        {%- elsif clean_cp != blank -%}
+          {{ clean_cp }}
+        {%- else -%}
+          &copy;&nbsp;{{ "now" | date: "%Y" }}&nbsp;ATYPICAL.&nbsp;<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="footer-copyright__agency">Designed and Managed by Think Grow Media</a>
+        {%- endif -%}
       </div>
-
-      <!-- Currency Switcher Pill -->
-      <div class="footer-copyright__right">
-        <div class="sunya-currency-pill" role="region" aria-label="Currency Selector">
-          <span class="sunya-currency-pill__side is-active">
-            <span class="sunya-currency-pill__flag">🇮🇳</span>
-            <span>₹ INR</span>
-          </span>
-          <span class="sunya-currency-pill__side">
-            <span class="sunya-currency-pill__flag">🇺🇸</span>
-            <span>$ USD</span>
-          </span>
-        </div>
-      </div>
+      <ul class="footer-copyright__policies">
+        <li><a href="/policies/privacy-policy">Privacy policy</a></li>
+        <li><a href="/policies/refund-policy">Refund policy</a></li>
+        <li><a href="/policies/terms-of-service">Terms of service</a></li>
+        <li><a href="/policies/shipping-policy">Shipping policy</a></li>
+        <li><a href="/policies/contact-information">Contact information</a></li>
+      </ul>
     </div>
   </div>
 
@@ -547,36 +509,12 @@
       "type": "text",
       "id": "trust_3_title",
       "label": "Pillar 3 Title",
-      "default": "Money back promise"
+      "default": "10,000+ orders"
     },
     {
       "type": "text",
       "id": "trust_3_desc",
       "label": "Pillar 3 Subtitle",
-      "default": "100% refund on defects"
-    },
-    {
-      "type": "text",
-      "id": "trust_4_title",
-      "label": "Pillar 4 Title",
-      "default": "German threading"
-    },
-    {
-      "type": "text",
-      "id": "trust_4_desc",
-      "label": "Pillar 4 Subtitle",
-      "default": "Precision-built durability"
-    },
-    {
-      "type": "text",
-      "id": "trust_5_title",
-      "label": "Pillar 5 Title",
-      "default": "10,000+ orders"
-    },
-    {
-      "type": "text",
-      "id": "trust_5_desc",
-      "label": "Pillar 5 Subtitle",
       "default": "Trusted by thousands"
     },
     {

@@ -813,8 +813,10 @@
 
 .footer-trust__grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .footer-trust__item {
@@ -994,23 +996,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 18px 1.5rem 28px;
+  gap: 20px;
+  padding: 20px 1.5rem 28px;
   max-width: 1440px;
   margin: 0 auto;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.footer-copyright__left {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: clamp(14px, 2vw, 24px);
-}
-
 .footer-copyright__credits {
   font-size: 1.22rem;
   color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
 }
 
 .footer-copyright__agency {
@@ -1029,7 +1025,9 @@
 .footer-copyright__policies {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px 20px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -1044,52 +1042,6 @@
 
 .footer-copyright__policies a:hover {
   color: #ffffff;
-}
-
-.sunya-currency-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.sunya-currency-pill__side {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 36px;
-  padding: 0 15px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 1.25rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.sunya-currency-pill__side.is-active {
-  background: #ffffff;
-  color: #121212;
-  font-weight: 700;
-  cursor: default;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-}
-
-.sunya-currency-pill__side:not(.is-active):hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.sunya-currency-pill__flag {
-  font-size: 1.4rem;
-  line-height: 1;
 }
 
 /* --------------------------------------------------------------------------
@@ -1186,24 +1138,49 @@
   }
 
   .footer-trust__inner {
-    padding: 2rem 1.2rem;
+    padding: 1.8rem 1rem;
   }
 
   .footer-trust__grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.4rem 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .footer-trust__item {
+    padding: 0.6rem 0.35rem;
+    gap: 0.35rem;
   }
 
   .footer-trust__item:not(:last-child)::after {
-    display: none;
-  }
-
-  .footer-trust__item:nth-child(odd):not(:last-child)::after {
     display: block;
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.08);
   }
 
-  .footer-trust__item:last-child:nth-child(odd) {
-    grid-column: span 2;
+  .footer-trust__icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .footer-trust__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .footer-trust__label {
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-trust__desc {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    max-width: 100%;
   }
 
   .sunya-fx__inner {
@@ -1224,14 +1201,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 18px;
-    padding: 18px 1.2rem 28px;
-  }
-
-  .footer-copyright__left {
-    flex-direction: column;
-    align-items: center;
     gap: 12px;
+    padding: 18px 1.2rem 28px;
   }
 
   .footer-copyright__credits {
@@ -1243,11 +1214,6 @@
   .footer-copyright__policies {
     justify-content: center;
     gap: 10px 16px;
-  }
-
-  .footer-copyright__right {
-    order: -1;
-    margin-bottom: 2px;
   }
 }
 
@@ -1265,11 +1231,5 @@
   .sunya-pay__item--cod {
     font-size: 1.05rem;
     min-width: 52px;
-  }
-
-  .sunya-currency-pill__side {
-    padding: 0 12px;
-    min-height: 32px;
-    font-size: 1.15rem;
   }
 }
