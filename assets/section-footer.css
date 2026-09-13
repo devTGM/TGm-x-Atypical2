@@ -548,9 +548,27 @@
   padding-inline-end: clamp(32px, 5vw, 70px);
 }
 
-.sunya-footer__col {
+.sunya-footer__col,
+.sunya-footer__accordion {
   flex: 1;
   min-width: 0;
+  display: block;
+}
+
+.sunya-footer__accordion-summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sunya-footer__accordion-summary::-webkit-details-marker,
+.sunya-footer__accordion-summary::marker {
+  display: none;
+}
+
+.sunya-footer__accordion-chevron {
+  display: none;
 }
 
 .sunya-footer__col-heading {
@@ -560,6 +578,17 @@
   margin: 0 0 1.6rem 0;
   letter-spacing: -0.02em;
   line-height: 1.25;
+}
+
+.sunya-footer__accordion-summary .sunya-footer__col-heading {
+  margin-bottom: 1.6rem;
+}
+
+@media (min-width: 990px) {
+  .sunya-footer__accordion-summary {
+    pointer-events: none;
+    cursor: default;
+  }
 }
 
 .sunya-footer__links {
@@ -1061,24 +1090,102 @@
    RESPONSIVE LAYOUT
    -------------------------------------------------------------------------- */
 @media (max-width: 989px) {
+  .sunya-footer__main-wrap {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+
   .sunya-footer__main {
     grid-template-columns: 1fr;
-    gap: 44px;
+    gap: 36px;
   }
 
   .sunya-footer__left {
     border-inline-end: none;
     padding-inline-end: 0;
-    gap: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .sunya-footer__accordion {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .sunya-footer__accordion:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .sunya-footer__accordion-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+  }
+
+  .sunya-footer__accordion-summary .sunya-footer__col-heading {
+    margin: 0;
+    font-size: 1.55rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+  }
+
+  .sunya-footer__accordion-chevron {
+    display: block;
+    width: 18px;
+    height: 18px;
+    stroke: rgba(255, 255, 255, 0.65);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .sunya-footer__accordion[open] .sunya-footer__accordion-chevron {
+    transform: rotate(180deg);
+    stroke: #ffffff;
+  }
+
+  .sunya-footer__accordion-content {
+    padding: 4px 0 18px;
+  }
+
+  .sunya-footer__accordion-content .sunya-footer__links {
+    gap: 1.1rem;
+  }
+
+  .sunya-footer__accordion-content .sunya-footer__link {
+    font-size: 1.4rem;
+    padding: 2px 0;
+    color: rgba(255, 255, 255, 0.75);
   }
 
   .sunya-footer__right {
     max-width: 100%;
+    align-items: flex-start;
+  }
+
+  .sunya-footer__newsletter-title {
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+
+  .sunya-footer__newsletter-form {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .footer-trust__inner {
+    padding: 2rem 1.2rem;
   }
 
   .footer-trust__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem 0;
+    gap: 1.4rem 0;
   }
 
   .footer-trust__item:not(:last-child)::after {
@@ -1093,11 +1200,26 @@
     grid-column: span 2;
   }
 
+  .sunya-fx__inner {
+    padding: 28px 1.2rem 16px;
+    gap: 20px;
+  }
+
+  .sunya-legal {
+    padding-top: 18px;
+  }
+
+  .sunya-legal__name {
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+  }
+
   .footer-copyright {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 16px;
+    gap: 18px;
+    padding: 18px 1.2rem 28px;
   }
 
   .footer-copyright__left {
@@ -1106,26 +1228,42 @@
     gap: 12px;
   }
 
+  .footer-copyright__credits {
+    font-size: 1.18rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+
   .footer-copyright__policies {
     justify-content: center;
-    gap: 12px;
+    gap: 10px 16px;
   }
 
   .footer-copyright__right {
     order: -1;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 }
 
 @media (max-width: 640px) {
-  .sunya-footer__left {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
+  .sunya-pay__item {
+    width: 50px;
+    height: 31px;
+    padding: 5px 6px;
   }
 
-  .sunya-pay__item {
-    width: 52px;
-    height: 32px;
+  .sunya-pay__item--tight {
+    padding: 5px 7px;
+  }
+
+  .sunya-pay__item--cod {
+    font-size: 1.05rem;
+    min-width: 52px;
+  }
+
+  .sunya-currency-pill__side {
+    padding: 0 12px;
+    min-height: 32px;
+    font-size: 1.15rem;
   }
 }

@@ -12,7 +12,7 @@
 <footer class="sunya-footer">
   <!-- =========================================================================
        TIER 1: MAIN FOOTER (Dark #1f1f1f)
-       Left: Navigation / Accordion columns with vertical divider
+       Left: Navigation / Accordion columns (expandable on mobile, open on desktop)
        Right: Brand logo, Newsletter subscription form, Social icons
        ========================================================================= -->
   <div class="sunya-footer__main-wrap">
@@ -23,86 +23,117 @@
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when "link_list" -%}
-                <div class="sunya-footer__col" {{ block.shopify_attributes }}>
-                  <h3 class="sunya-footer__col-heading">
-                    {%- if block.settings.heading != blank -%}
-                      {%- if block.settings.heading == "Quick links" -%}
-                        Information
+                {%- assign col_title = block.settings.heading -%}
+                {%- if col_title == blank and block.settings.menu != blank -%}
+                  {%- assign col_title = block.settings.menu.title -%}
+                {%- elsif col_title == "Quick links" -%}
+                  {%- assign col_title = "Information" -%}
+                {%- elsif col_title == blank -%}
+                  {%- assign col_title = "Information" -%}
+                {%- endif -%}
+
+                <details class="sunya-footer__accordion" open {{ block.shopify_attributes }}>
+                  <summary class="sunya-footer__accordion-summary">
+                    <span class="sunya-footer__col-heading">{{ col_title }}</span>
+                    <svg class="sunya-footer__accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </summary>
+                  <div class="sunya-footer__accordion-content">
+                    <ul class="sunya-footer__links">
+                      {%- if block.settings.menu != blank and linklists[block.settings.menu].links.size > 0 -%}
+                        {%- for link in linklists[block.settings.menu].links -%}
+                          <li>
+                            <a href="{{ link.url }}" class="sunya-footer__link">{{ link.title }}</a>
+                          </li>
+                        {%- endfor -%}
+                      {%- elsif block.settings.heading == "Shop" -%}
+                        <li><a href="/collections/oversized-tshirts" class="sunya-footer__link">Oversized Tees</a></li>
+                        <li><a href="/collections/shirts" class="sunya-footer__link">Shirts</a></li>
+                        <li><a href="/collections/waffle-knits" class="sunya-footer__link">Winters</a></li>
+                        <li><a href="/collections/all" class="sunya-footer__link">Best Sellers</a></li>
                       {%- else -%}
-                        {{ block.settings.heading }}
+                        <li><a href="/policies/privacy-policy" class="sunya-footer__link">Privacy Policy</a></li>
+                        <li><a href="/policies/refund-policy" class="sunya-footer__link">Refund Policy</a></li>
+                        <li><a href="/policies/shipping-policy" class="sunya-footer__link">Shipping Policy</a></li>
+                        <li><a href="/policies/terms-of-service" class="sunya-footer__link">Terms of Service</a></li>
+                        <li><a href="/policies/contact-information" class="sunya-footer__link">Contact Information</a></li>
                       {%- endif -%}
-                    {%- elsif block.settings.menu != blank -%}
-                      {{ block.settings.menu.title }}
-                    {%- else -%}
-                      Information
-                    {%- endif -%}
-                  </h3>
-                  <ul class="sunya-footer__links">
-                    {%- if block.settings.menu != blank and linklists[block.settings.menu].links.size > 0 -%}
-                      {%- for link in linklists[block.settings.menu].links -%}
-                        <li>
-                          <a href="{{ link.url }}" class="sunya-footer__link">{{ link.title }}</a>
-                        </li>
-                      {%- endfor -%}
-                    {%- elsif block.settings.heading == "Shop" -%}
-                      <li><a href="/collections/oversized-tshirts" class="sunya-footer__link">Oversized Tees</a></li>
-                      <li><a href="/collections/shirts" class="sunya-footer__link">Shirts</a></li>
-                      <li><a href="/collections/waffle-knits" class="sunya-footer__link">Winters</a></li>
-                      <li><a href="/collections/all" class="sunya-footer__link">Best Sellers</a></li>
-                    {%- else -%}
-                      <li><a href="/policies/privacy-policy" class="sunya-footer__link">Privacy Policy</a></li>
-                      <li><a href="/policies/refund-policy" class="sunya-footer__link">Refund Policy</a></li>
-                      <li><a href="/policies/shipping-policy" class="sunya-footer__link">Shipping Policy</a></li>
-                      <li><a href="/policies/terms-of-service" class="sunya-footer__link">Terms of Service</a></li>
-                      <li><a href="/policies/contact-information" class="sunya-footer__link">Contact Information</a></li>
-                    {%- endif -%}
-                  </ul>
-                </div>
+                    </ul>
+                  </div>
+                </details>
 
               {%- when "brand_information" -%}
-                <div class="sunya-footer__col" {{ block.shopify_attributes }}>
-                  <h3 class="sunya-footer__col-heading">{{ section.settings.brand_column_heading | default: "From Zero to Infinite" }}</h3>
-                  <ul class="sunya-footer__links">
-                    <li><a href="/pages/about-us" class="sunya-footer__link">Atypical's Origin</a></li>
-                    <li><a href="mailto:support@atypicalclothing.in" class="sunya-footer__link">Need Help?</a></li>
-                    <li><a href="{{ routes.account_url }}" class="sunya-footer__link">My Account</a></li>
-                    <li><a href="{{ routes.account_url }}" class="sunya-footer__link">Track Orders</a></li>
-                  </ul>
-                </div>
+                {%- assign brand_heading = block.settings.heading | default: section.settings.brand_column_heading | default: "From Zero to Infinite" -%}
+                <details class="sunya-footer__accordion" open {{ block.shopify_attributes }}>
+                  <summary class="sunya-footer__accordion-summary">
+                    <span class="sunya-footer__col-heading">{{ brand_heading }}</span>
+                    <svg class="sunya-footer__accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </summary>
+                  <div class="sunya-footer__accordion-content">
+                    <ul class="sunya-footer__links">
+                      <li><a href="/pages/about-us" class="sunya-footer__link">Atypical's Origin</a></li>
+                      <li><a href="mailto:support@atypicalclothing.in" class="sunya-footer__link">Need Help?</a></li>
+                      <li><a href="{{ routes.account_url }}" class="sunya-footer__link">My Account</a></li>
+                      <li><a href="{{ routes.account_url }}" class="sunya-footer__link">Track Orders</a></li>
+                    </ul>
+                  </div>
+                </details>
 
               {%- when "text" -%}
-                <div class="sunya-footer__col" {{ block.shopify_attributes }}>
-                  {%- if block.settings.heading != blank -%}
-                    <h3 class="sunya-footer__col-heading">{{ block.settings.heading }}</h3>
-                  {%- endif -%}
-                  <div class="sunya-footer__text rte">
-                    {{ block.settings.subtext }}
+                <details class="sunya-footer__accordion" open {{ block.shopify_attributes }}>
+                  <summary class="sunya-footer__accordion-summary">
+                    <span class="sunya-footer__col-heading">{{ block.settings.heading | default: "About" }}</span>
+                    <svg class="sunya-footer__accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </summary>
+                  <div class="sunya-footer__accordion-content">
+                    <div class="sunya-footer__text rte">
+                      {{ block.settings.subtext }}
+                    </div>
                   </div>
-                </div>
+                </details>
             {%- endcase -%}
           {%- endfor -%}
         {%- else -%}
           <!-- Default Fallback Columns -->
-          <div class="sunya-footer__col">
-            <h3 class="sunya-footer__col-heading">Information</h3>
-            <ul class="sunya-footer__links">
-              <li><a href="/policies/privacy-policy" class="sunya-footer__link">Privacy Policy</a></li>
-              <li><a href="/policies/refund-policy" class="sunya-footer__link">Refund Policy</a></li>
-              <li><a href="/policies/shipping-policy" class="sunya-footer__link">Shipping Policy</a></li>
-              <li><a href="/policies/terms-of-service" class="sunya-footer__link">Terms of Service</a></li>
-              <li><a href="/policies/contact-information" class="sunya-footer__link">Contact Information</a></li>
-            </ul>
-          </div>
+          <details class="sunya-footer__accordion" open>
+            <summary class="sunya-footer__accordion-summary">
+              <span class="sunya-footer__col-heading">Information</span>
+              <svg class="sunya-footer__accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <div class="sunya-footer__accordion-content">
+              <ul class="sunya-footer__links">
+                <li><a href="/policies/privacy-policy" class="sunya-footer__link">Privacy Policy</a></li>
+                <li><a href="/policies/refund-policy" class="sunya-footer__link">Refund Policy</a></li>
+                <li><a href="/policies/shipping-policy" class="sunya-footer__link">Shipping Policy</a></li>
+                <li><a href="/policies/terms-of-service" class="sunya-footer__link">Terms of Service</a></li>
+                <li><a href="/policies/contact-information" class="sunya-footer__link">Contact Information</a></li>
+              </ul>
+            </div>
+          </details>
 
-          <div class="sunya-footer__col">
-            <h3 class="sunya-footer__col-heading">{{ section.settings.brand_column_heading | default: "From Zero to Infinite" }}</h3>
-            <ul class="sunya-footer__links">
-              <li><a href="/pages/about-us" class="sunya-footer__link">Atypical's Origin</a></li>
-              <li><a href="mailto:support@atypicalclothing.in" class="sunya-footer__link">Need Help?</a></li>
-              <li><a href="{{ routes.account_url }}" class="sunya-footer__link">My Account</a></li>
-              <li><a href="{{ routes.account_url }}" class="sunya-footer__link">Track Orders</a></li>
-            </ul>
-          </div>
+          <details class="sunya-footer__accordion" open>
+            <summary class="sunya-footer__accordion-summary">
+              <span class="sunya-footer__col-heading">{{ section.settings.brand_column_heading | default: "From Zero to Infinite" }}</span>
+              <svg class="sunya-footer__accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <div class="sunya-footer__accordion-content">
+              <ul class="sunya-footer__links">
+                <li><a href="/pages/about-us" class="sunya-footer__link">Atypical's Origin</a></li>
+                <li><a href="mailto:support@atypicalclothing.in" class="sunya-footer__link">Need Help?</a></li>
+                <li><a href="{{ routes.account_url }}" class="sunya-footer__link">My Account</a></li>
+                <li><a href="{{ routes.account_url }}" class="sunya-footer__link">Track Orders</a></li>
+              </ul>
+            </div>
+          </details>
         {%- endif -%}
       </div>
 
@@ -321,10 +352,15 @@
     <div class="footer-copyright page-width">
       <div class="footer-copyright__left">
         <div class="footer-copyright__credits">
-          &copy;&nbsp;{{ "now" | date: "%Y" }}&nbsp;ATYPICAL.&nbsp;
-          <a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="footer-copyright__agency">
-            Designed and Managed by Think Grow Media(www.thinkgrowmedia.com)
-          </a>
+          {%- assign clean_cp = section.settings.copyright_text | replace: "(www.thinkgrowmedia.com)", "" | replace: "www.thinkgrowmedia.com", "" | strip -%}
+          {%- if clean_cp contains "Think Grow Media" -%}
+            {%- assign cp_parts = clean_cp | split: "Think Grow Media" -%}
+            {{ cp_parts[0] }}<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="footer-copyright__agency">Think Grow Media</a>
+          {%- elsif clean_cp != blank -%}
+            {{ clean_cp }}
+          {%- else -%}
+            &copy;&nbsp;{{ "now" | date: "%Y" }}&nbsp;ATYPICAL.&nbsp;<a href="https://www.thinkgrowmedia.com" target="_blank" rel="noopener noreferrer" class="footer-copyright__agency">Designed and Managed by Think Grow Media</a>
+          {%- endif -%}
         </div>
         <ul class="footer-copyright__policies">
           <li><a href="/policies/privacy-policy">Privacy policy</a></li>
@@ -350,6 +386,38 @@
       </div>
     </div>
   </div>
+
+  <script>
+    (function() {
+      var lastWidth = window.innerWidth;
+      function syncFooterAccordions(force) {
+        var currentWidth = window.innerWidth;
+        if (!force && currentWidth === lastWidth) return;
+        var wasDesktop = lastWidth >= 990;
+        var isDesktop = currentWidth >= 990;
+        lastWidth = currentWidth;
+
+        var accordions = document.querySelectorAll('.sunya-footer__accordion');
+        if (!isDesktop && (force || wasDesktop)) {
+          accordions.forEach(function(acc) {
+            acc.removeAttribute('open');
+          });
+        } else if (isDesktop) {
+          accordions.forEach(function(acc) {
+            acc.setAttribute('open', '');
+          });
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { syncFooterAccordions(true); });
+      } else {
+        syncFooterAccordions(true);
+      }
+      window.addEventListener('resize', function() {
+        syncFooterAccordions(false);
+      });
+    })();
+  </script>
 </footer>
 
 {% schema %}
@@ -525,7 +593,7 @@
       "type": "text",
       "id": "copyright_text",
       "label": "Copyright Text",
-      "default": "© 2026 ATYPICAL. Designed and Managed by Think Grow Media(www.thinkgrowmedia.com)"
+      "default": "© 2026 ATYPICAL. Designed and Managed by Think Grow Media"
     }
   ],
   "default": {
