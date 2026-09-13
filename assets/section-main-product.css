@@ -1298,25 +1298,20 @@ a.product__text {
 }
 
 .product-media-container.constrain-height {
-  /* arbitrary offset value based on average theme spacing and header height */
-  --viewport-offset: 400px;
-  --constrained-min-height: 300px;
-  --constrained-height: max(var(--constrained-min-height), calc(100vh - var(--viewport-offset)));
   margin-right: auto;
   margin-left: auto;
 }
 
-.product-media-container.constrain-height.media-fit-contain {
-  --contained-width: calc(var(--constrained-height) * var(--aspect-ratio));
-  width: min(var(--contained-width), 100%);
+.product-media-container.constrain-height.media-fit-contain,
+.product-media-container.constrain-height,
+.product-media-container {
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
-.product-media-container .media {
-  padding-top: var(--ratio-percent);
-}
-
+.product-media-container .media,
 .product-media-container.constrain-height .media {
-  padding-top: min(var(--constrained-height), var(--ratio-percent));
+  padding-top: var(--ratio-percent) !important;
 }
 
 @media screen and (max-width: 749px) {
@@ -1545,7 +1540,11 @@ a.product__text {
 
 /* Variant Pill Enhancements */
 .product-form__input--pill {
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
 
 .product-form__input--pill .form__label {
@@ -1555,19 +1554,20 @@ a.product__text {
   text-transform: uppercase;
   color: rgba(var(--color-foreground), 0.7);
   margin-bottom: 0.8rem;
+  width: 100%;
 }
 
 .product-form__input--pill input[type='radio'] + label {
   border-radius: 8px !important;
   font-weight: 600;
   font-size: 1.25rem;
-  min-width: 44px;
+  min-width: 42px;
   height: 38px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 1.4rem;
-  margin: 0.4rem 0.6rem 0.4rem 0;
+  padding: 0 1.2rem !important;
+  margin: 0 !important;
   border: 1px solid rgba(var(--color-foreground), 0.16) !important;
   background-color: rgba(var(--color-foreground), 0.03) !important;
   color: rgb(var(--color-foreground)) !important;
@@ -1649,4 +1649,73 @@ a.product__text {
   letter-spacing: 0.04em !important;
   font-size: 1.3rem !important;
 }
+
+/* ==========================================================================
+   Full Width PDP & Desktop Layout Scaling
+   ========================================================================== */
+
+.product-page-full-width,
+.page-width.product-page-full-width,
+product-info .page-width {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+@media screen and (min-width: 750px) {
+  .product-page-full-width,
+  .page-width.product-page-full-width,
+  product-info .page-width {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .product-page-full-width,
+  .page-width.product-page-full-width,
+  product-info .page-width {
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+  }
+
+  .product:not(.product--no-media) .product__media-wrapper {
+    max-width: 58% !important;
+    width: calc(58% - var(--grid-desktop-horizontal-spacing) / 2) !important;
+  }
+
+  .product:not(.product--no-media) .product__info-wrapper {
+    max-width: 42% !important;
+    width: calc(42% - var(--grid-desktop-horizontal-spacing) / 2) !important;
+    padding-left: 3.5rem !important;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .product-page-full-width,
+  .page-width.product-page-full-width,
+  product-info .page-width {
+    padding-left: 5rem !important;
+    padding-right: 5rem !important;
+    max-width: 1720px !important;
+    margin: 0 auto !important;
+  }
+
+  .product:not(.product--no-media) .product__info-wrapper {
+    padding-left: 5rem !important;
+  }
+}
+
+.product__info-container {
+  max-width: 580px !important;
+  width: 100% !important;
+}
+
+.product-media-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
 

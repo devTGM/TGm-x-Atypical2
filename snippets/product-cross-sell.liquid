@@ -184,7 +184,7 @@
   }
   .atypical-cross-sell-header-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 10px;
   }
@@ -193,13 +193,14 @@
     font-weight: 600;
     color: rgb(var(--color-foreground));
     text-decoration: none;
-    display: block;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.3;
+    line-height: 1.35;
     flex: 1;
     min-width: 0;
+    word-break: break-word;
   }
   .atypical-cross-sell-title:hover {
     text-decoration: underline;
