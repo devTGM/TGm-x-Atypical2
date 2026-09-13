@@ -99,7 +99,7 @@
                 >
                 {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
 
-                {%- if card_product.media[1] != null and show_secondary_image -%}
+                {%- if card_product.media[1] != null -%}
                   <img
                     srcset="
                       {%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | image_url: width: 165 }} 165w,{%- endif -%}
@@ -122,6 +122,59 @@
               </div>
             </div>
           {%- endif -%}
+
+          {%- assign top_tag = '' -%}
+          {%- if card_product.metafields.custom.top_tag != blank -%}
+            {%- assign top_tag = card_product.metafields.custom.top_tag -%}
+          {%- elsif card_product.metafields.custom.pattern != blank -%}
+            {%- assign top_tag = card_product.metafields.custom.pattern -%}
+          {%- elsif card_product.type != blank -%}
+            {%- assign top_tag = card_product.type -%}
+          {%- elsif card_product.tags.size > 0 -%}
+            {%- for tag in card_product.tags -%}
+              {%- assign tag_lower = tag | downcase -%}
+              {%- unless tag_lower contains '_' or tag_lower contains 'badge:' or tag_lower contains 'filter' -%}
+                {%- assign top_tag = tag -%}
+                {%- break -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {%- if top_tag != blank -%}
+            <div class="product-card__top-tag">
+              <span class="tag-pill">{{ top_tag }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if card_product.media.size > 1 -%}
+            <div class="product-card__slider-arrows" aria-hidden="true">
+              <button type="button" class="product-card__arrow product-card__arrow--prev" aria-label="Previous image" tabindex="-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button type="button" class="product-card__arrow product-card__arrow--next" aria-label="Next image" tabindex="-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          {%- endif -%}
+
+          <div class="product-card__hover-actions">
+            {%- if quick_add == 'standard' and card_product.variants_count > 1 -%}
+              <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
+                <button
+                  type="button"
+                  class="product-card__choose-options"
+                  aria-haspopup="dialog"
+                  data-product-url="{{ card_product.url }}"
+                >
+                  Choose options
+                </button>
+              </modal-opener>
+            {%- else -%}
+              <a href="{{ card_product.url }}" class="product-card__choose-options">
+                Choose options
+              </a>
+            {%- endif -%}
+          </div>
+
           <div class="card__content">
             <div class="card__information">
               <h3
@@ -144,14 +197,14 @@
               {%- if card_product.available == false -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                  class="badge badge--top-right color-{{ settings.sold_out_badge_color_scheme }}"
+                  class="badge badge--top-right price__badge-sold-out"
                 >
                   {{- 'products.product.sold_out' | t -}}
                 </span>
               {%- elsif discount_percent > 0 and card_product.available -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                  class="badge badge--top-right color-{{ settings.sale_badge_color_scheme }}"
+                  class="badge badge--top-right"
                 >
                   {{ discount_percent }}% OFF
                 </span>
@@ -181,6 +234,24 @@
                 {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
               </div>
             </div>
+            {%- assign subtitle_text = '' -%}
+            {%- if card_product.metafields.custom.subtitle != blank -%}
+              {%- assign subtitle_text = card_product.metafields.custom.subtitle -%}
+            {%- else -%}
+              {%- for option in card_product.options_with_values -%}
+                {%- assign opt_name = option.name | downcase -%}
+                {%- if opt_name == 'color' or opt_name == 'colour' or opt_name contains 'color' or opt_name contains 'colour' -%}
+                  {%- assign subtitle_text = card_product.selected_or_first_available_variant.options[forloop.index0] | default: option.values.first -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+            {%- if subtitle_text == blank and card_product.variants.size > 0 and card_product.variants.first.title != 'Default Title' -%}
+              {%- assign subtitle_text = card_product.selected_or_first_available_variant.title -%}
+            {%- endif -%}
+            {%- if subtitle_text != blank -%}
+              <div class="product-card__subtitle">{{ subtitle_text | escape }}</div>
+            {%- endif -%}
             <div class="card-information">
               {%- if show_vendor -%}
                 <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
@@ -248,6 +319,89 @@
                       {{- value -}}
                       {%- unless is_size_available -%}<span class="visually-hidden"> — Sold Out</span>{%- endunless -%}
                     </span>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+              {%- assign color_option = nil -%}
+              {%- assign color_option_index = 0 -%}
+              {%- for option in card_product.options_with_values -%}
+                {%- assign option_name_lower = option.name | downcase -%}
+                {%- if option_name_lower == 'color' or option_name_lower == 'colour' or option_name_lower contains 'color' or option_name_lower contains 'colour' -%}
+                  {%- assign color_option = option -%}
+                  {%- assign color_option_index = forloop.index0 -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if color_option != nil and color_option.values.size > 0 -%}
+                <div class="product-card__swatches" role="group" aria-label="Colors">
+                  {%- for value in color_option.values -%}
+                    {%- liquid
+                      assign swatch_color = value | downcase | strip
+                      assign is_selected = false
+                      if subtitle_text != blank and subtitle_text == value
+                        assign is_selected = true
+                      elsif forloop.first
+                        assign is_selected = true
+                      endif
+
+                      assign variant_img = ''
+                      for variant in card_product.variants
+                        if variant.options[color_option_index] == value and variant.featured_media != blank
+                          assign variant_img = variant.featured_media | image_url: width: 533
+                          break
+                        endif
+                      endfor
+
+                      assign swatch_bg = ''
+                      if value.swatch.image
+                        assign swatch_img_url = value.swatch.image | image_url: width: 40
+                        assign swatch_bg = 'background-image: url(' | append: swatch_img_url | append: ');'
+                      elsif value.swatch.color
+                        assign swatch_bg = 'background-color: rgb(' | append: value.swatch.color.rgb | append: ');'
+                      else
+                        case swatch_color
+                          when 'white'
+                            assign swatch_bg = 'background-color: #ffffff; border: 1px solid #dcdcdc;'
+                          when 'black'
+                            assign swatch_bg = 'background-color: #1a1a1a;'
+                          when 'blue'
+                            assign swatch_bg = 'background-color: #3b6b9b;'
+                          when 'navy'
+                            assign swatch_bg = 'background-color: #1b2838;'
+                          when 'ecru', 'cream', 'off-white', 'off white'
+                            assign swatch_bg = 'background-color: #e5dec9;'
+                          when 'ink', 'dark blue'
+                            assign swatch_bg = 'background-color: #2b333e;'
+                          when 'blush', 'pink'
+                            assign swatch_bg = 'background-color: #e2b4b7;'
+                          when 'tan', 'beige', 'khaki', 'sand'
+                            assign swatch_bg = 'background-color: #be9e77;'
+                          when 'olive', 'green', 'sage'
+                            assign swatch_bg = 'background-color: #5b6e4e;'
+                          when 'red', 'maroon', 'burgundy', 'wine'
+                            assign swatch_bg = 'background-color: #6b151b;'
+                          when 'grey', 'gray'
+                            assign swatch_bg = 'background-color: #8c8c8c;'
+                          when 'brown'
+                            assign swatch_bg = 'background-color: #795548;'
+                          when 'yellow', 'mustard'
+                            assign swatch_bg = 'background-color: #d4a017;'
+                          when 'orange', 'rust'
+                            assign swatch_bg = 'background-color: #c45b28;'
+                          else
+                            assign swatch_bg = 'background-color: ' | append: swatch_color | append: ';'
+                        endcase
+                      endif
+                    -%}
+                    <span
+                      class="product-card__swatch-dot{% if is_selected %} is-active{% endif %}"
+                      title="{{ value }}"
+                      data-color-name="{{ value | escape }}"
+                      {% if variant_img != '' %}data-variant-image="{{ variant_img }}"{% endif %}
+                      style="{{ swatch_bg }}"
+                    ></span>
                   {%- endfor -%}
                 </div>
               {%- endif -%}
@@ -669,3 +823,60 @@
     </div>
   </div>
 {%- endif -%}
+
+<script>
+  if (!window.__cardProductInteractiveLoaded) {
+    window.__cardProductInteractiveLoaded = true;
+    document.addEventListener('click', function(e) {
+      var arrow = e.target.closest('.product-card__arrow');
+      if (arrow) {
+        e.preventDefault();
+        e.stopPropagation();
+        var card = arrow.closest('.product-card-wrapper') || arrow.closest('.product-card') || arrow.closest('.card');
+        if (!card) return;
+        var mediaImgs = card.querySelectorAll('.card__media .media > img');
+        if (mediaImgs.length >= 2) {
+          var isNext = arrow.classList.contains('product-card__arrow--next');
+          if (isNext) {
+            mediaImgs[0].style.opacity = '0';
+            mediaImgs[1].style.opacity = '1';
+          } else {
+            mediaImgs[0].style.opacity = '1';
+            mediaImgs[1].style.opacity = '0';
+          }
+        }
+        return;
+      }
+
+      var swatch = e.target.closest('.product-card__swatch-dot');
+      if (swatch) {
+        e.preventDefault();
+        e.stopPropagation();
+        var card = swatch.closest('.product-card-wrapper') || swatch.closest('.product-card') || swatch.closest('.card');
+        if (!card) return;
+        card.querySelectorAll('.product-card__swatch-dot').forEach(function(s) {
+          s.classList.remove('is-active');
+        });
+        swatch.classList.add('is-active');
+
+        var colorName = swatch.getAttribute('data-color-name');
+        var subtitleEl = card.querySelector('.product-card__subtitle');
+        if (subtitleEl && colorName) {
+          subtitleEl.textContent = colorName;
+        }
+
+        var variantImg = swatch.getAttribute('data-variant-image');
+        if (variantImg) {
+          var primaryImg = card.querySelector('.card__media .media > img');
+          if (primaryImg) {
+            primaryImg.src = variantImg;
+            primaryImg.removeAttribute('srcset');
+            primaryImg.style.opacity = '1';
+            var secondImg = card.querySelectorAll('.card__media .media > img')[1];
+            if (secondImg) secondImg.style.opacity = '0';
+          }
+        }
+      }
+    });
+  }
+</script>
