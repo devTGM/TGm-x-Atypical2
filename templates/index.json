@@ -106,8 +106,8 @@
         "text": "ATYPICAL",
         "padding_top": 4,
         "padding_bottom": 0,
-        "padding_top_mobile": 16,
-        "padding_bottom_mobile": 16
+        "padding_top_mobile": 4,
+        "padding_bottom_mobile": 0
       }
     },
     "collection-list": {
@@ -181,7 +181,7 @@
         "text": "ATYPICAL",
         "padding_top": 4,
         "padding_bottom": 0,
-        "padding_top_mobile": 16,
+        "padding_top_mobile": 4,
         "padding_bottom_mobile": 16
       }
     },
