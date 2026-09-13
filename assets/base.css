@@ -3802,3 +3802,12 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* Hide slider pagination and counter */
+.featured-collection .slider-buttons,
+.collection .slider-buttons,
+.collection-list .slider-buttons,
+.product-grid-container .slider-buttons {
+  display: none !important;
+}
+
