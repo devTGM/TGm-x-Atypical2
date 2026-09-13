@@ -2888,7 +2888,7 @@ details[open] > .header__submenu {
   font-size: 1.35rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: rgb(var(--color-foreground));
+  color: #ffffff !important;
   overflow: hidden;
   cursor: pointer;
   background-color: transparent;
@@ -2905,6 +2905,7 @@ details[open] > .header__submenu {
   white-space: nowrap;
   pointer-events: none;
   z-index: 1;
+  color: #ffffff !important;
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
 }
 
@@ -2916,8 +2917,9 @@ details[open] > .header__submenu {
   height: 100%;
   padding: 0 1.8rem;
   border-radius: 9999px;
-  color: rgb(var(--color-background));
-  background-color: rgb(var(--color-foreground));
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2927,22 +2929,34 @@ details[open] > .header__submenu {
   pointer-events: none;
 }
 
-/* Hover & Active Transform States */
+/* Hover Transform States (only on hover / open details) */
 .header__menu-item:hover .btn-text:not(.btn-duplicate),
 details[open] > .header__menu-item .btn-text:not(.btn-duplicate) {
   transform: translateY(-100%);
 }
 
 .header__menu-item:hover .btn-duplicate,
-.header__menu-item--active .btn-duplicate,
-.header__menu-item.list-menu__item--active .btn-duplicate,
 details[open] > .header__menu-item .btn-duplicate {
   transform: translateY(0%) scale(1);
 }
 
+/* Active Menu Item styling */
 .header__menu-item--active,
 .header__menu-item.list-menu__item--active {
-  color: rgb(var(--color-background));
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure all header menu items and Home specifically are white */
+.header__menu-item,
+.header__menu-item span,
+.header__menu-item .btn-text,
+.header__active-menu-item,
+#HeaderMenu-home,
+#HeaderMenu-home span,
+#HeaderMenu-home .btn-text {
+  color: #ffffff !important;
 }
 
 /* Clean Menu Chevron & Arrow Styling */
