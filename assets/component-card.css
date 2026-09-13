@@ -616,11 +616,93 @@
   padding: 0;
 }
 
-/* Badge pinned strictly to top right */
+/* ==========================================================================
+   THE SUNYA LUXURY STREETWEAR PRODUCT CARD STYLING
+   ========================================================================== */
+
+/* Outer Card Wrapper */
+.product-card-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Unified Card Container */
+.product-card-wrapper .card,
+.card.product-card,
+.contains-card--product .card {
+  position: relative !important;
+  background-color: #141414 !important;
+  border-radius: 1.4rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.55) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease !important;
+}
+
+.product-card-wrapper:hover .card,
+.card.product-card:hover,
+.contains-card--product .card:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Card Media & Aspect Ratio */
+.product-card-wrapper .card__inner,
+.card.product-card .card__inner,
+.contains-card--product .card__inner {
+  border-radius: 1.4rem 1.4rem 0 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.product-card-wrapper .card__inner:after,
+.card.product-card .card__inner:after,
+.contains-card--product .card__inner:after {
+  display: none !important;
+}
+
+.product-card-wrapper .card__media,
+.card.product-card .card__media,
+.contains-card--product .card__media {
+  margin: 0 !important;
+  width: 100% !important;
+  border-radius: 1.4rem 1.4rem 0 0 !important;
+  overflow: hidden !important;
+}
+
+.product-card-wrapper .card__media .media,
+.card.product-card .card__media .media,
+.contains-card--product .card__media .media {
+  aspect-ratio: 2 / 3 !important;
+  border-radius: 1.4rem 1.4rem 0 0 !important;
+  overflow: hidden !important;
+}
+
+.product-card-wrapper .card__media img,
+.card.product-card .card__media img,
+.contains-card--product .card__media img {
+  object-fit: cover !important;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.product-card-wrapper:hover .card__media img,
+.card.product-card:hover .card__media img,
+.contains-card--product:hover .card__media img {
+  transform: scale(1.04) !important;
+}
+
+/* Luxury Glassmorphic Top-Right Discount / Sold Out Badge */
 .card__inner .card__badge,
 .card--media .card__inner .card__badge,
-.card__badge.top.right,
-.card__badge {
+.product-card-wrapper .card__badge,
+.card.product-card .card__badge {
   position: absolute !important;
   top: 1.2rem !important;
   right: 1.2rem !important;
@@ -628,80 +710,199 @@
   left: auto !important;
   z-index: 4 !important;
   margin: 0 !important;
+  pointer-events: none !important;
+  display: flex !important;
   align-self: flex-start !important;
   justify-self: flex-end !important;
-  display: flex !important;
-  pointer-events: none;
 }
 
-/* Modern Luxury Glassmorphic Pill Badge */
-.card__badge .badge {
+/* Prevent duplicate badges in the content area */
+.product-card-wrapper .card > .card__content > .card__badge,
+.card.product-card > .card__content > .card__badge {
+  display: none !important;
+}
+
+.product-card-wrapper .card__badge .badge,
+.card.product-card .card__badge .badge,
+.contains-card--product .card__badge .badge {
   background-color: rgba(18, 18, 18, 0.85) !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.22) !important;
   border-radius: 9999px !important;
-  padding: 0.5rem 1.1rem !important;
-  font-size: 1.15rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.04em !important;
+  padding: 0.45rem 1.05rem !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
   line-height: 1.1 !important;
   text-transform: uppercase !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-.card__badge .badge.price__badge-sold-out {
-  background-color: rgba(30, 30, 30, 0.9) !important;
-  color: rgba(255, 255, 255, 0.75) !important;
+.product-card-wrapper .card__badge .badge.price__badge-sold-out,
+.card.product-card .card__badge .badge.price__badge-sold-out {
+  background-color: rgba(26, 26, 26, 0.9) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-/* Clean Card Information & Typography */
-.card--standard > .card__content .card__information {
-  padding-top: 1.2rem !important;
-  padding-bottom: 0.6rem !important;
-  padding-left: 0.2rem !important;
-  padding-right: 0.2rem !important;
+/* Card Content / Details Area */
+.product-card-wrapper .card__content,
+.card.product-card .card__content,
+.contains-card--product .card__content {
+  padding: 1.3rem 1.3rem 1.5rem !important;
+  flex-grow: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  background-color: #141414 !important;
+  border-radius: 0 0 1.4rem 1.4rem !important;
+  border: none !important;
 }
 
+.product-card-wrapper .card__information,
+.card.product-card .card__information {
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.product-card-wrapper .card-information,
+.card.product-card .card-information {
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+/* Title and Price Header Info */
+.product-card__header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .product-card__header-info {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 0.8rem;
+  }
+}
+
+.product-card__header-info .card__heading,
 .card__heading {
-  font-size: 1.45rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.02em !important;
-  line-height: 1.35 !important;
-  margin-bottom: 0.5rem !important;
-}
-
-.card__heading a {
-  text-decoration: none !important;
-  color: rgb(var(--color-foreground)) !important;
-  transition: opacity 0.25s ease;
-}
-
-.card-wrapper:hover .card__heading a {
-  opacity: 0.75;
-  text-decoration: none !important;
-}
-
-.card .price {
+  margin: 0 !important;
   font-size: 1.45rem !important;
   font-weight: 600 !important;
   letter-spacing: 0.01em !important;
+  line-height: 1.35 !important;
+  color: #ffffff !important;
 }
 
-.card .price .price-item--regular {
+.product-card__header-info .card__heading a,
+.card__heading a {
+  text-decoration: none !important;
+  color: #ffffff !important;
+  transition: opacity 0.25s ease !important;
+}
+
+.product-card-wrapper:hover .card__heading a,
+.card.product-card:hover .card__heading a {
+  opacity: 0.8 !important;
+  text-decoration: none !important;
+}
+
+.product-card__price-wrap {
+  white-space: nowrap;
+}
+
+@media screen and (min-width: 750px) {
+  .product-card__price-wrap {
+    justify-self: end;
+    text-align: right;
+  }
+}
+
+/* Price Row Styling */
+.card .price {
+  font-size: 1.45rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  margin: 0 !important;
+}
+
+.card .price .price__sale {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 0.75rem !important;
+  margin: 0 !important;
+}
+
+.card .price-item--sale,
+.card .price-item--last {
+  font-size: 1.45rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: -0.01em !important;
+}
+
+.card .price-item--regular {
   font-size: 1.25rem !important;
   font-weight: 400 !important;
-  color: rgba(var(--color-foreground), 0.55) !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  text-decoration: line-through !important;
 }
 
-@media screen and (min-width: 990px) {
-  .card-wrapper:hover .media.media--hover-effect > img:first-child:only-child,
-  .card-wrapper:hover .media.media--hover-effect > img + img {
-    transform: scale(1.04) !important;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
-  }
+/* Size Chips Row (thesunya.co signature) */
+.product-card__sizes {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.6rem 0.85rem !important;
+  margin-top: 0.9rem !important;
+  padding-top: 0.85rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  width: 100% !important;
+}
+
+.product-card__size {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  line-height: 1 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-transform: uppercase !important;
+}
+
+.product-card__size.is-out {
+  color: rgba(255, 255, 255, 0.28) !important;
+  text-decoration: line-through !important;
+  font-weight: 500 !important;
+}
+
+/* Quick Add Button */
+.product-card-wrapper .quick-add .button,
+.card.product-card .quick-add .button {
+  border-radius: 9999px !important;
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  padding: 0.8rem 1.6rem !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.product-card-wrapper .quick-add .button:hover,
+.card.product-card .quick-add .button:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
 }
