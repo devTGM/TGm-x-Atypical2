@@ -134,7 +134,7 @@
   .tab-headers-scroll {
     overflow-x: auto;
     width: 100%;
-    border-bottom: 1px solid var(--color-border, #e0e0e0);
+    border-bottom: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.12);
     -webkit-overflow-scrolling: touch;
   }
   .tab-headers-scroll::-webkit-scrollbar {
@@ -142,7 +142,7 @@
   }
   .tab-headers {
     display: flex;
-    gap: 32px;
+    gap: 28px;
     padding-bottom: 0;
     white-space: nowrap;
   }
@@ -154,14 +154,14 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-foreground-muted, #999999);
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.5);
     cursor: pointer;
     position: relative;
     transition: color 0.2s ease;
     font-family: inherit;
   }
   .tab-button:hover {
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
   }
   .tab-button::after {
     content: '';
@@ -170,12 +170,13 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: var(--color-foreground, #000000);
+    background-color: rgb(var(--color-foreground));
     transform: scaleX(0);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .tab-button.active {
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
+    font-weight: 700;
   }
   .tab-button.active::after {
     transform: scaleX(1);
@@ -195,15 +196,18 @@
   }
   .tab-content-inner .rte {
     font-size: 13px;
-    line-height: 1.6;
-    color: var(--color-foreground, #2b2b2b);
+    line-height: 1.7;
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.85);
   }
   .tab-content-inner .rte p {
     margin: 0 0 12px;
   }
+  .tab-content-inner .rte strong {
+    color: rgb(var(--color-foreground));
+  }
   .tab-content-inner .rte ul {
     margin: 0 0 12px;
-    padding-left: 18px;
+    padding-left: 20px;
   }
   .tab-content-inner .rte li {
     margin-bottom: 6px;
@@ -211,13 +215,15 @@
 
   /* Shipping & Trust Features Widget */
   .shipping-features-widget {
-    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
-    border-radius: 16px;
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.1);
+    border-radius: 14px;
     padding: 16px 8px;
-    background-color: var(--color-background, #ffffff);
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.03);
     margin-top: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 4px 12px rgba(var(--color-foreground-rgb, 0, 0, 0), 0.02);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .features-columns {
     display: grid;
@@ -237,32 +243,31 @@
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    background-color: rgba(var(--color-foreground-rgb, 0, 0, 0), 0.05);
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 8px;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
   }
   .feature-label {
     font-size: 8px;
     font-weight: 600;
-    color: var(--color-foreground-muted, #767676);
-    letter-spacing: 0.05em;
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.55);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 2px;
   }
   .feature-value {
     font-size: 11px;
     font-weight: 700;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
     white-space: nowrap;
   }
   .feature-divider {
     width: 1px;
-    height: 40px;
-    background-color: var(--color-border, rgba(0, 0, 0, 0.12));
-    opacity: 0.6;
+    height: 38px;
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.12);
   }
 
   /* Share & Help Row */
@@ -285,10 +290,10 @@
   .share-title {
     font-size: 13px;
     font-weight: 500;
-    color: var(--color-foreground-muted, #767676);
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.55);
   }
   .social-share-row a {
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
     display: flex;
     align-items: center;
     transition: opacity 0.2s ease, transform 0.2s ease;
@@ -301,14 +306,14 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
     text-decoration: underline;
     font-weight: 600;
     font-size: 13px;
     transition: opacity 0.2s ease;
   }
   .help-link:hover {
-    opacity: 0.7;
+    opacity: 0.75;
   }
 
   @media screen and (max-width: 480px) {

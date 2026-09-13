@@ -37,10 +37,6 @@
             "heading": "PAIRS WELL WITH"
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -59,7 +55,6 @@
         "variant-picker",
         "offers",
         "cross_sell",
-        "quantity_selector",
         "buy_buttons",
         "tabs"
       ],

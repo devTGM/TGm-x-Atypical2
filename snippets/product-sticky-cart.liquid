@@ -65,11 +65,13 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background: var(--color-background, #ffffff);
-    border-top: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+    background: rgba(var(--color-background-rgb, 18, 18, 18), 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.12);
     padding: 12px 20px;
     z-index: 999;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.25);
     transform: translateY(110%);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-sizing: border-box;
@@ -97,8 +99,8 @@
     border-radius: 8px;
     overflow: hidden;
     flex-shrink: 0;
-    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
-    background: #f6f6f6;
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.1);
+    background: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.05);
   }
   .sticky-add-to-cart__media img {
     width: 100%;
@@ -115,7 +117,7 @@
     font-size: 14px;
     font-weight: 700;
     margin: 0;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -124,7 +126,7 @@
   .sticky-add-to-cart__variant {
     font-size: 11px;
     font-weight: 600;
-    color: var(--color-foreground-muted, #767676);
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.6);
     margin-top: 2px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -141,18 +143,18 @@
     gap: 8px;
     font-size: 15px;
     font-weight: 700;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
   }
   .sticky-add-to-cart__price .price-compare {
     font-size: 12px;
-    color: var(--color-foreground-muted, #767676);
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.45);
     text-decoration: line-through;
     font-weight: 400;
   }
   .sticky-add-to-cart__button {
-    background-color: var(--color-foreground, #000000);
-    color: var(--color-background, #ffffff);
-    border: 1px solid var(--color-foreground, #000000);
+    background-color: rgb(var(--color-foreground));
+    color: rgb(var(--color-background));
+    border: 1px solid rgb(var(--color-foreground));
     border-radius: 40px;
     padding: 10px 24px;
     font-size: 12px;
@@ -168,13 +170,12 @@
     font-family: inherit;
   }
   .sticky-add-to-cart__button:hover:not(:disabled) {
-    background-color: #2b2b2b;
-    border-color: #2b2b2b;
+    opacity: 0.88;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 14px rgba(var(--color-foreground-rgb, 255, 255, 255), 0.2);
   }
   .sticky-add-to-cart__button:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 
@@ -214,7 +215,6 @@
     if (stickyBar && mainBuySection) {
       const observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
-          // If the main buy buttons are above the viewport, show sticky bar
           if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
             stickyBar.classList.add('is-visible');
             stickyBar.setAttribute('aria-hidden', 'false');
@@ -228,7 +228,6 @@
       observer.observe(mainBuySection);
     }
 
-    // Listen for variant change events on product page
     document.addEventListener('variant:change', function(e) {
       if (e.detail && e.detail.variant) {
         const v = e.detail.variant;

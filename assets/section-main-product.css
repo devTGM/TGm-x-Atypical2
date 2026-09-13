@@ -1497,97 +1497,151 @@ a.product__text {
    Atypical Luxury Streetwear Product Page Styling
    ========================================================================== */
 
+.product__info-container {
+  padding-right: 1.5rem;
+}
+
 .product__title h1 {
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.2;
   margin-top: 0;
   margin-bottom: 0.8rem;
+  color: rgb(var(--color-foreground));
+  font-size: 2.6rem;
+}
+
+@media screen and (min-width: 750px) {
+  .product__title h1 {
+    font-size: 3rem;
+  }
 }
 
 .product__info-container .price {
-  margin-bottom: 1.6rem;
-  padding-bottom: 1.6rem;
-  border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  margin-bottom: 2rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
 }
 
 .product__info-container .price .price-item--regular {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-foreground, #121212);
+  color: rgb(var(--color-foreground));
 }
 
 .product__info-container .price .price-item--sale {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--color-foreground, #121212);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: rgb(var(--color-foreground));
 }
 
 .product__info-container .price s.price-item--regular {
   font-size: 1.5rem;
   font-weight: 400;
-  color: var(--color-foreground-muted, #767676);
-  margin-left: 0.6rem;
+  color: rgba(var(--color-foreground), 0.45);
+  margin-left: 0.8rem;
 }
 
 /* Variant Pill Enhancements */
+.product-form__input--pill {
+  margin-bottom: 1.6rem;
+}
+
+.product-form__input--pill .form__label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.7);
+  margin-bottom: 1rem;
+}
+
 .product-form__input--pill input[type='radio'] + label {
   border-radius: 8px !important;
   font-weight: 600;
   font-size: 1.3rem;
-  padding: 0.8rem 1.6rem;
-  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.15)) !important;
-  background-color: var(--color-background, #ffffff);
-  color: var(--color-foreground, #121212);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease, background-color 0.2s ease !important;
+  min-width: 48px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.6rem;
+  margin: 0.4rem 0.6rem 0.4rem 0;
+  border: 1px solid rgba(var(--color-foreground), 0.18) !important;
+  background-color: rgba(var(--color-foreground), 0.04) !important;
+  color: rgb(var(--color-foreground)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer;
 }
 
 .product-form__input--pill input[type='radio'] + label:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  border-color: var(--color-foreground, #000000) !important;
+  border-color: rgba(var(--color-foreground), 0.5) !important;
+  background-color: rgba(var(--color-foreground), 0.08) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .product-form__input--pill input[type='radio']:checked + label {
-  background-color: var(--color-foreground, #000000) !important;
-  color: var(--color-background, #ffffff) !important;
-  border-color: var(--color-foreground, #000000) !important;
+  background-color: rgb(var(--color-foreground)) !important;
+  color: rgb(var(--color-background)) !important;
+  border-color: rgb(var(--color-foreground)) !important;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(var(--color-foreground), 0.2);
+}
+
+.size-chart-trigger-btn {
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
+  text-decoration: underline;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  letter-spacing: normal;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.size-chart-trigger-btn:hover {
+  opacity: 0.75;
 }
 
 /* Add to Cart & Buy Buttons */
+.product-form__buttons {
+  margin-top: 1.6rem;
+  margin-bottom: 2rem;
+}
+
 .product-form__submit {
   border-radius: 10px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
   text-transform: uppercase !important;
-  background-color: var(--color-foreground, #000000) !important;
-  color: var(--color-background, #ffffff) !important;
-  border: 1px solid var(--color-foreground, #000000) !important;
-  min-height: 4.8rem !important;
+  font-size: 1.3rem !important;
+  background-color: rgb(var(--color-foreground)) !important;
+  color: rgb(var(--color-background)) !important;
+  border: 1px solid rgb(var(--color-foreground)) !important;
+  min-height: 5rem !important;
+  height: 5rem !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .product-form__submit:hover:not(:disabled) {
-  background-color: #2b2b2b !important;
-  border-color: #2b2b2b !important;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .shopify-payment-button .shopify-payment-button__button--unbranded {
   border-radius: 10px !important;
   font-weight: 700 !important;
-  min-height: 4.8rem !important;
+  min-height: 5rem !important;
   letter-spacing: 0.06em !important;
-}
-
-/* Quantity input */
-.quantity {
-  border-radius: 8px !important;
-  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.15)) !important;
-  min-height: 4.4rem;
-}
-.quantity__input {
-  font-weight: 600;
+  font-size: 1.3rem !important;
 }
 

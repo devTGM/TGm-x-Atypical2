@@ -7,10 +7,26 @@
 {% liquid
   assign cross_sell_products = block.settings.product_list
   if cross_sell_products == blank or cross_sell_products.count == 0
-    assign cross_sell_products = collections.all.products
+    if collections['latest'] != blank and collections['latest'].products_count > 0
+      assign cross_sell_products = collections['latest'].products
+    elsif collections['waffle-knits'] != blank and collections['waffle-knits'].products_count > 0
+      assign cross_sell_products = collections['waffle-knits'].products
+    elsif collections['shirts'] != blank and collections['shirts'].products_count > 0
+      assign cross_sell_products = collections['shirts'].products
+    elsif collections['oversized-tshirts'] != blank and collections['oversized-tshirts'].products_count > 0
+      assign cross_sell_products = collections['oversized-tshirts'].products
+    endif
   endif
+
+  assign valid_products_count = 0
+  for cp in cross_sell_products
+    if cp.id != product.id and cp.available
+      assign valid_products_count = valid_products_count | plus: 1
+    endif
+  endfor
 %}
 
+{% if valid_products_count > 0 %}
 <div class="atypical-cross-sell-wrapper" {{ block.shopify_attributes }}>
   <div class="atypical-cross-sell-header">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -32,8 +48,8 @@
                 src="{{ cross_product.featured_image | image_url: width: 140 }}"
                 alt="{{ cross_product.title | escape }}"
                 loading="lazy"
-                width="70"
-                height="70"
+                width="64"
+                height="64"
               >
             {% else %}
               {{ 'image' | placeholder_svg_tag }}
@@ -88,18 +104,21 @@
     {% endfor %}
   </div>
 </div>
+{% endif %}
 
 <style>
   .atypical-cross-sell-wrapper {
-    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
-    border-radius: 12px;
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.12);
+    border-radius: 14px;
     padding: 16px;
-    background-color: var(--color-background, #ffffff);
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.03);
     margin-top: 0;
     margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(var(--color-foreground-rgb, 0, 0, 0), 0.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
     width: 100%;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .atypical-cross-sell-header {
     display: flex;
@@ -109,7 +128,7 @@
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
     margin-bottom: 12px;
   }
   .atypical-cross-sell-list {
@@ -118,9 +137,9 @@
     gap: 10px;
   }
   .atypical-cross-sell-card {
-    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.1);
     border-radius: 10px;
-    background-color: var(--color-background, #ffffff);
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.04);
     padding: 10px 12px;
     display: flex;
     align-items: center;
@@ -128,17 +147,18 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .atypical-cross-sell-card:hover {
-    border-color: rgba(var(--color-foreground-rgb, 0, 0, 0), 0.25);
-    box-shadow: 0 4px 12px rgba(var(--color-foreground-rgb, 0, 0, 0), 0.04);
+    border-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.3);
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.07);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     transform: translateY(-1px);
   }
   .atypical-cross-sell-thumb {
-    width: 54px;
-    height: 54px;
+    width: 52px;
+    height: 52px;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #f6f6f6;
-    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.06);
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.1);
     flex-shrink: 0;
     display: block;
   }
@@ -160,7 +180,7 @@
   .atypical-cross-sell-title {
     font-size: 13px;
     font-weight: 600;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
     text-decoration: none;
     display: block;
     white-space: nowrap;
@@ -184,34 +204,38 @@
     gap: 6px;
     font-size: 13px;
     font-weight: 700;
-    color: var(--color-foreground, #121212);
+    color: rgb(var(--color-foreground));
   }
   .atypical-cross-sell-price .price-compare {
     font-size: 11px;
     font-weight: 400;
-    color: var(--color-foreground-muted, #767676);
+    color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.5);
     text-decoration: line-through;
   }
   .atypical-cross-sell-variant-select {
     font-size: 11px;
     font-weight: 600;
-    color: var(--color-foreground, #121212);
-    background-color: var(--color-background, #ffffff);
-    border: 1px solid var(--color-border, #d1d1d1);
+    color: rgb(var(--color-foreground));
+    background-color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.08);
+    border: 1px solid rgba(var(--color-foreground-rgb, 255, 255, 255), 0.2);
     border-radius: 6px;
-    padding: 2px 6px;
+    padding: 3px 8px;
     cursor: pointer;
     outline: none;
     line-height: 1.2;
   }
+  .atypical-cross-sell-variant-select option {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
   .atypical-cross-sell-variant-select:focus {
-    border-color: var(--color-foreground, #121212);
+    border-color: rgb(var(--color-foreground));
   }
   .atypical-cross-sell-btn {
     flex-shrink: 0;
-    background-color: var(--color-foreground, #000000);
-    color: var(--color-background, #ffffff);
-    border: 1px solid var(--color-foreground, #000000);
+    background-color: rgb(var(--color-foreground));
+    color: rgb(var(--color-background));
+    border: 1px solid rgb(var(--color-foreground));
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -226,13 +250,12 @@
     justify-content: center;
   }
   .atypical-cross-sell-btn:hover:not(:disabled) {
-    background-color: #2b2b2b;
-    border-color: #2b2b2b;
+    opacity: 0.85;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(var(--color-foreground-rgb, 255, 255, 255), 0.2);
   }
   .atypical-cross-sell-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
   }
   .atypical-cross-sell-btn.added {
