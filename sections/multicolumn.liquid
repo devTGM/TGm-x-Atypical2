@@ -21,9 +21,21 @@
   if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
     assign show_mobile_slider = true
   endif
+
+  assign title_down = section.settings.title | downcase
+  assign is_review_section = false
+  if title_down contains 'review'
+    assign is_review_section = true
+  endif
+  for block in section.blocks
+    if block.settings.text contains '⭐'
+      assign is_review_section = true
+      break
+    endif
+  endfor
 -%}
 
-<div class="multicolumn color-{{ section.settings.color_scheme }} gradient{% unless section.settings.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ section.settings.background_style }}{% endunless %}{% if section.settings.title == blank %} no-heading{% endif %}">
+<div class="multicolumn color-{{ section.settings.color_scheme }} gradient{% if is_review_section %} multicolumn--reviews{% endif %}{% unless section.settings.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ section.settings.background_style }}{% endunless %}{% if section.settings.title == blank %} no-heading{% endif %}">
   <div
     class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     {% if settings.animations_reveal_on_scroll %}
@@ -31,10 +43,22 @@
     {% endif %}
   >
     {%- unless section.settings.title == blank -%}
-      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title{% if is_review_section %} multicolumn__title--reviews center{% endif %}">
         <h2 class="title inline-richtext {{ section.settings.heading_size }}">
           {{ section.settings.title }}
         </h2>
+        {%- if is_review_section -%}
+          <div class="reviews-summary-badge">
+            <div class="reviews-summary-stars" aria-label="5 out of 5 stars">
+              {%- for i in (1..5) -%}
+                <svg class="review-star review-star--filled" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              {%- endfor -%}
+            </div>
+            <span class="reviews-summary-text">4.9 / 5.0 RATING · VERIFIED CUSTOMERS</span>
+          </div>
+        {%- endif -%}
         {%- if section.settings.button_label != blank and show_mobile_slider -%}
           <a href="{{ section.settings.button_link }}" class="link underlined-link large-up-hide">
             {{- section.settings.button_label | escape -}}
@@ -68,80 +92,141 @@
 
           <li
             id="Slide-{{ section.id }}-{{ forloop.index }}"
-            class="multicolumn-list__item grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if section.settings.column_alignment == 'center' %} center{% endif %}{{ empty_column }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="multicolumn-list__item grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if section.settings.column_alignment == 'center' and is_review_section == false %} center{% endif %}{{ empty_column }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {{ block.shopify_attributes }}
             {% if settings.animations_reveal_on_scroll %}
               data-cascade
               style="--animation-order: {{ forloop.index }};"
             {% endif %}
           >
-            <div class="multicolumn-card content-container">
-              {%- if block.settings.image != blank -%}
-                {% if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle' %}
-                  {% assign spaced_image = true %}
-                {% endif %}
-                <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
-                  <div
-                    class="media media--transparent media--{{ section.settings.image_ratio }}"
-                    {% if section.settings.image_ratio == 'adapt' %}
-                      style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"
-                    {% endif %}
-                  >
-                    {%- liquid
-                      assign number_of_columns = section.settings.columns_desktop
-                      assign number_of_columns_mobile = section.settings.columns_mobile
-                      assign grid_space_desktop = number_of_columns | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
-                      assign grid_space_tablet = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
-                      assign grid_space_mobile = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | divided_by: 2 | plus: 30 | append: 'px'
-                      if section.settings.image_width == 'half'
-                        assign image_width = 0.5
-                      elsif section.settings.image_width == 'third'
-                        assign image_width = 0.33
-                      else
-                        assign image_width = 1
-                      endif
-                    -%}
-                    {% capture sizes %}
-                      (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ grid_space_desktop }}) * {{ image_width }} /  {{ number_of_columns }}),
-                      (min-width: 990px) calc((100vw - {{ grid_space_desktop }}) * {{ image_width }} / {{ number_of_columns }}),
-                      (min-width: 750px) calc((100vw - {{ grid_space_tablet }}) * {{ image_width }} / {{ number_of_columns_mobile }}),
-                      calc((100vw - {{ grid_space_mobile }}) * {{ image_width }} / {{ number_of_columns_mobile }})
-                    {% endcapture %}
-                    {{
-                      block.settings.image
-                      | image_url: width: 3200
-                      | image_tag:
-                        widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
-                        sizes: sizes,
-                        class: 'multicolumn-card__image'
-                    }}
+            {%- if is_review_section -%}
+              {%- liquid
+                assign star_count = 5
+                if block.settings.text contains '⭐⭐⭐⭐⭐'
+                  assign star_count = 5
+                elsif block.settings.text contains '⭐⭐⭐⭐'
+                  assign star_count = 4
+                elsif block.settings.text contains '⭐⭐⭐'
+                  assign star_count = 3
+                endif
+
+                assign clean_text = block.settings.text | remove: '⭐⭐⭐⭐⭐' | remove: '⭐⭐⭐⭐' | remove: '⭐⭐⭐' | remove: '⭐⭐' | remove: '⭐'
+                assign clean_text = clean_text | replace: '<p><br/></p>', '' | replace: '<p><br></p>', '' | replace: '<br/>', ' ' | replace: '<br>', ' '
+                assign clean_text = clean_text | strip
+
+                assign title_str = block.settings.title | replace: ' - ', '—' | replace: '- ', '—' | replace: ' -', '—' | replace: '-', '—'
+                assign title_parts = title_str | split: '—'
+                assign reviewer_name = title_parts[0] | strip
+                assign product_name = ''
+                if title_parts.size > 1
+                  assign product_name = title_parts[1] | strip
+                endif
+                assign reviewer_initial = reviewer_name | slice: 0, 1 | upcase
+              -%}
+
+              <div class="multicolumn-card review-card content-container">
+                <div class="review-card__header">
+                  <div class="review-card__stars" aria-label="{{ star_count }} out of 5 stars">
+                    {%- for i in (1..5) -%}
+                      <svg class="review-star{% if i <= star_count %} review-star--filled{% else %} review-star--empty{% endif %}" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    {%- endfor -%}
+                  </div>
+                  <span class="review-card__verified">
+                    <svg class="review-card__verified-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="8" cy="8" r="7.25" fill="rgba(255, 255, 255, 0.1)" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1"/>
+                      <path d="M5 8.2L7 10.2L11 5.8" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Verified Buyer
+                  </span>
+                </div>
+
+                <div class="review-card__quote rte">
+                  {{ clean_text }}
+                </div>
+
+                <div class="review-card__footer">
+                  <div class="review-card__avatar">
+                    <span>{{ reviewer_initial }}</span>
+                  </div>
+                  <div class="review-card__meta">
+                    <span class="review-card__author">{{ reviewer_name }}</span>
+                    {%- if product_name != blank -%}
+                      <span class="review-card__product">{{ product_name }}</span>
+                    {%- endif -%}
                   </div>
                 </div>
-              {%- endif -%}
-              <div class="multicolumn-card__info">
-                {%- if block.settings.title != blank -%}
-                  <h3 class="inline-richtext">{{ block.settings.title }}</h3>
-                {%- endif -%}
-                {%- if block.settings.text != blank -%}
-                  <div class="rte">{{ block.settings.text }}</div>
-                {%- endif -%}
-                {%- if block.settings.link_label != blank -%}
-                  <a
-                    class="link animate-arrow"
-                    {% if block.settings.link == blank %}
-                      role="link" aria-disabled="true"
-                    {% else %}
-                      href="{{ block.settings.link }}"
-                    {% endif %}
-                  >
-                    {{- block.settings.link_label | escape -}}
-                    <span class="svg-wrapper"
-                      ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
-                    >
-                  </a>
-                {%- endif -%}
               </div>
-            </div>
+            {%- else -%}
+              <div class="multicolumn-card content-container">
+                {%- if block.settings.image != blank -%}
+                  {% if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle' %}
+                    {% assign spaced_image = true %}
+                  {% endif %}
+                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
+                    <div
+                      class="media media--transparent media--{{ section.settings.image_ratio }}"
+                      {% if section.settings.image_ratio == 'adapt' %}
+                        style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"
+                      {% endif %}
+                    >
+                      {%- liquid
+                        assign number_of_columns = section.settings.columns_desktop
+                        assign number_of_columns_mobile = section.settings.columns_mobile
+                        assign grid_space_desktop = number_of_columns | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                        assign grid_space_tablet = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                        assign grid_space_mobile = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | divided_by: 2 | plus: 30 | append: 'px'
+                        if section.settings.image_width == 'half'
+                          assign image_width = 0.5
+                        elsif section.settings.image_width == 'third'
+                          assign image_width = 0.33
+                        else
+                          assign image_width = 1
+                        endif
+                      -%}
+                      {% capture sizes %}
+                        (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ grid_space_desktop }}) * {{ image_width }} /  {{ number_of_columns }}),
+                        (min-width: 990px) calc((100vw - {{ grid_space_desktop }}) * {{ image_width }} / {{ number_of_columns }}),
+                        (min-width: 750px) calc((100vw - {{ grid_space_tablet }}) * {{ image_width }} / {{ number_of_columns_mobile }}),
+                        calc((100vw - {{ grid_space_mobile }}) * {{ image_width }} / {{ number_of_columns_mobile }})
+                      {% endcapture %}
+                      {{
+                        block.settings.image
+                        | image_url: width: 3200
+                        | image_tag:
+                          widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+                          sizes: sizes,
+                          class: 'multicolumn-card__image'
+                      }}
+                    </div>
+                  </div>
+                {%- endif -%}
+                <div class="multicolumn-card__info">
+                  {%- if block.settings.title != blank -%}
+                    <h3 class="inline-richtext">{{ block.settings.title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.text != blank -%}
+                    <div class="rte">{{ block.settings.text }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.link_label != blank -%}
+                    <a
+                      class="link animate-arrow"
+                      {% if block.settings.link == blank %}
+                        role="link" aria-disabled="true"
+                      {% else %}
+                        href="{{ block.settings.link }}"
+                      {% endif %}
+                    >
+                      {{- block.settings.link_label | escape -}}
+                      <span class="svg-wrapper"
+                        ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
+                      >
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
           </li>
         {%- endfor -%}
       </ul>
