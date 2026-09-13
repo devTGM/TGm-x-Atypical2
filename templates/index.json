@@ -7,4 +7,392 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{"sections":{"image_banner_WBmTFn":{"type":"image-banner","blocks":{"heading_hfFMGY":{"type":"heading","disabled":true,"settings":{"heading":"","heading_size":"h1"}},"text_VkWTmT":{"type":"text","disabled":true,"settings":{"text":"","text_style":"body"}}},"block_order":["heading_hfFMGY","text_VkWTmT"],"name":"t:sections.image-banner.presets.name","settings":{"image":"shopify://shop_images/ATYPICAL_21.png","image_overlay_opacity":0,"image_height":"large","image_behavior":"none","desktop_content_position":"bottom-center","desktop_content_alignment":"center","show_text_box":true,"color_scheme":"","stack_images_on_mobile":false,"mobile_content_alignment":"center","show_text_below":false}},"hero-slideshow":{"type":"slideshow","settings":{"layout":"full_bleed","slide_height":"small","slider_visual":"dots","auto_rotate":false,"change_slides_speed":5,"image_behavior":"none","show_text_below":true,"accessibility_info":"Slideshow about our brand"}},"all-products":{"type":"featured-collection","settings":{"collection":"latest","products_to_show":8,"title":"<strong>LATEST ARRIVALS</strong>","heading_size":"h2","description":"","show_description":true,"description_style":"subtitle","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"solid","color_scheme":"scheme-4","image_ratio":"portrait","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":true,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":false,"padding_top":16,"padding_bottom":16}},"collection-list":{"type":"collection-list","blocks":{"collection-0":{"type":"featured_collection","settings":{"collection":"waffle-knits"}},"featured_collection_p7FPkJ":{"type":"featured_collection","settings":{"collection":"shirts"}},"collection-1":{"type":"featured_collection","settings":{"collection":"oversized-tshirts"}},"collection-2":{"type":"featured_collection","settings":{"collection":"ringer-tees"}},"collection-3":{"type":"featured_collection","settings":{"collection":"sweatpants"}}},"block_order":["collection-0","featured_collection_p7FPkJ","collection-1","collection-2","collection-3"],"settings":{"title":"SHOP BY COLLECTION","heading_size":"h2","image_ratio":"portrait","columns_desktop":6,"color_scheme":"scheme-4","show_view_all":true,"columns_mobile":"2","swipe_on_mobile":true,"padding_top":12,"padding_bottom":0}},"image-banner":{"type":"image-banner","settings":{"image":"shopify://shop_images/ChatGPTImageAug20_2026_08_04_58PM.png","image_overlay_opacity":0,"image_height":"adapt","image_behavior":"none","desktop_content_position":"top-left","desktop_content_alignment":"center","show_text_box":false,"color_scheme":"","stack_images_on_mobile":true,"mobile_content_alignment":"center","show_text_below":true}},"featured_collection_RGb6rU":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"shirts","products_to_show":10,"title":"<strong>SHIRTS</strong>","heading_size":"h2","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":true,"full_width":false,"show_view_all":true,"view_all_style":"link","color_scheme":"scheme-4","image_ratio":"portrait","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":true,"padding_top":16,"padding_bottom":8}},"featured_collection_pqTwDH":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"ringer-tees","products_to_show":10,"title":"<strong>RINGER TEE</strong>","heading_size":"h2","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"link","color_scheme":"scheme-4","image_ratio":"portrait","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":true,"padding_top":8,"padding_bottom":8}},"custom_liquid_H7zxnG":{"type":"custom-liquid","name":"t:sections.custom-liquid.presets.name","settings":{"custom_liquid":"<style>\nvideo {\nwidth: 100%;\nheight: auto;\ndisplay: block;\nmargin: 0 auto;\n}\n</style>\n<video muted autoplay playsinline loop>\n    <source src=\"/media/cc0-videos/flower.webm\"\n                  type=\"video/mp4\">\n    <source src=\"https://cdn.shopify.com/videos/c/o/v/e573abce19f74edda85f6e0c2e4628df.mp4\"\n                  type=\"video/mp4\">\n</video>","color_scheme":"","padding_top":0,"padding_bottom":0}},"featured_collection_QfW6Nk":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"waffle-knits","products_to_show":10,"title":"<strong>WAFFLE FULLSLEEVES</strong>","heading_size":"h2","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":true,"full_width":false,"show_view_all":true,"view_all_style":"link","color_scheme":"scheme-4","image_ratio":"portrait","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":true,"padding_top":12,"padding_bottom":8}},"featured_collection_iFzgn3":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"oversized-tshirts","products_to_show":10,"title":"<strong>Oversized Tshirts</strong>","heading_size":"h2","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"link","color_scheme":"scheme-4","image_ratio":"portrait","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":true,"padding_top":8,"padding_bottom":0}},"multicolumn_3GRt3Y":{"type":"multicolumn","blocks":{"column_PPGdMT":{"type":"column","settings":{"title":"Mayank - Second Sight Tee","text":"<p>\u2b50\u2b50\u2b50\u2b50\u2b50</p><p>The fit is honestly perfect. Oversized without looking sloppy and the fabric feels way more premium than I expected for the price. Definitely ordering again.</p>","link_label":"","link":""}},"column_zAaycm":{"type":"column","settings":{"title":"Arjun - Spllater Wash Black","text":"<p>\u2b50\u2b50\u2b50\u2b50<br/>The wash is exactly what I was looking for. Super clean streetwear look and the oversized fit is on point.</p>","link_label":"","link":""}},"column_PTEmiL":{"type":"column","settings":{"title":"Yash- Celestial Rise Waffle Tee","text":"<p>\u2b50\u2b50\u2b50\u2b50\u2b50<br/>The waffle fabric is actually really comfortable. Looks premium, feels breathable and the fit is \ud83d\udd25</p>","link_label":"","link":""}},"column_bLkzKf":{"type":"column","settings":{"title":"Aryan- Can't Rush Greatness Ringer","text":"<p>\u2b50\u2b50\u2b50\u2b50\u2b50<br/>Such a clean piece. Love the vintage vibe and the fit is really nice. Definitely worth it.</p>","link_label":"","link":""}},"column_mWTtdp":{"type":"column","settings":{"title":"Tushar- Heavens Wing Embroidered","text":"<p>\u2b50\u2b50\u2b50\u2b50\u2b50<br/>The embroidery is really clean. Feels premium and the tee itself has a great fit. Very happy with this one</p>","link_label":"","link":""}},"column_UgCP93":{"type":"column","settings":{"title":"Ayaan- Interline Tee","text":"<p>\u2b50\u2b50\u2b50\u2b50<br/>The combination of the tee body and waffle sleeves looks so good. Got compliments the first day I wore it.</p>","link_label":"","link":""}}},"block_order":["column_PPGdMT","column_zAaycm","column_PTEmiL","column_bLkzKf","column_mWTtdp","column_UgCP93"],"name":"t:sections.multicolumn.presets.name","settings":{"title":"<strong>REVIEWS</strong>","heading_size":"h2","image_width":"full","image_ratio":"adapt","button_label":"","button_link":"","columns_desktop":4,"column_alignment":"center","background_style":"primary","color_scheme":"scheme-4","columns_mobile":"1","swipe_on_mobile":true,"padding_top":8,"padding_bottom":12}},"contact_form_CjRGBR":{"type":"contact-form","name":"t:sections.contact-form.presets.name","settings":{"heading":"Contact form","heading_size":"h1","color_scheme":"scheme-4","padding_top":36,"padding_bottom":36}}},"order":["image_banner_WBmTFn","hero-slideshow","all-products","collection-list","image-banner","featured_collection_RGb6rU","featured_collection_pqTwDH","custom_liquid_H7zxnG","featured_collection_QfW6Nk","featured_collection_iFzgn3","multicolumn_3GRt3Y","contact_form_CjRGBR"]}
+{
+  "sections": {
+    "image_banner_WBmTFn": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_hfFMGY": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_VkWTmT": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_hfFMGY",
+        "text_VkWTmT"
+      ],
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/ATYPICAL_21.png",
+        "image_overlay_opacity": 0,
+        "image_height": "large",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "hero-slideshow": {
+      "type": "slideshow",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "small",
+        "slider_visual": "dots",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "all-products": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "latest",
+        "products_to_show": 10,
+        "title": "<strong>LATEST ARRIVALS</strong>",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": true,
+        "description_style": "subtitle",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-4",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "collection-list": {
+      "type": "collection-list",
+      "blocks": {
+        "collection-0": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "waffle-knits"
+          }
+        },
+        "featured_collection_p7FPkJ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "shirts"
+          }
+        },
+        "collection-1": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "oversized-tshirts"
+          }
+        },
+        "collection-2": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "ringer-tees"
+          }
+        },
+        "collection-3": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sweatpants"
+          }
+        }
+      },
+      "block_order": [
+        "collection-0",
+        "featured_collection_p7FPkJ",
+        "collection-1",
+        "collection-2",
+        "collection-3"
+      ],
+      "settings": {
+        "title": "SHOP BY COLLECTION",
+        "heading_size": "h2",
+        "image_ratio": "portrait",
+        "columns_desktop": 5,
+        "color_scheme": "scheme-4",
+        "show_view_all": true,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 12,
+        "padding_bottom": 0
+      }
+    },
+    "image-banner": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify://shop_images/ChatGPTImageAug20_2026_08_04_58PM.png",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "top-left",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "featured_collection_RGb6rU": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "shirts",
+        "products_to_show": 10,
+        "title": "<strong>SHIRTS</strong>",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-4",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
+    "featured_collection_pqTwDH": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "ringer-tees",
+        "products_to_show": 10,
+        "title": "<strong>RINGER TEE</strong>",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-4",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
+    "custom_liquid_H7zxnG": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<style>\nvideo {\nwidth: 100%;\nheight: auto;\ndisplay: block;\nmargin: 0 auto;\n}\n</style>\n<video muted autoplay playsinline loop>\n    <source src=\"/media/cc0-videos/flower.webm\"\n                  type=\"video/mp4\">\n    <source src=\"https://cdn.shopify.com/videos/c/o/v/e573abce19f74edda85f6e0c2e4628df.mp4\"\n                  type=\"video/mp4\">\n</video>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "featured_collection_QfW6Nk": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "waffle-knits",
+        "products_to_show": 10,
+        "title": "<strong>WAFFLE FULLSLEEVES</strong>",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-4",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 12,
+        "padding_bottom": 8
+      }
+    },
+    "featured_collection_iFzgn3": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "oversized-tshirts",
+        "products_to_show": 10,
+        "title": "<strong>Oversized Tshirts</strong>",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-4",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 8,
+        "padding_bottom": 0
+      }
+    },
+    "multicolumn_3GRt3Y": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_PPGdMT": {
+          "type": "column",
+          "settings": {
+            "title": "Mayank - Second Sight Tee",
+            "text": "<p>⭐⭐⭐⭐⭐</p><p>The fit is honestly perfect. Oversized without looking sloppy and the fabric feels way more premium than I expected for the price. Definitely ordering again.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_zAaycm": {
+          "type": "column",
+          "settings": {
+            "title": "Arjun - Spllater Wash Black",
+            "text": "<p>⭐⭐⭐⭐<br/>The wash is exactly what I was looking for. Super clean streetwear look and the oversized fit is on point.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_PTEmiL": {
+          "type": "column",
+          "settings": {
+            "title": "Yash- Celestial Rise Waffle Tee",
+            "text": "<p>⭐⭐⭐⭐⭐<br/>The waffle fabric is actually really comfortable. Looks premium, feels breathable and the fit is 🔥</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_bLkzKf": {
+          "type": "column",
+          "settings": {
+            "title": "Aryan- Can't Rush Greatness Ringer",
+            "text": "<p>⭐⭐⭐⭐⭐<br/>Such a clean piece. Love the vintage vibe and the fit is really nice. Definitely worth it.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_mWTtdp": {
+          "type": "column",
+          "settings": {
+            "title": "Tushar- Heavens Wing Embroidered",
+            "text": "<p>⭐⭐⭐⭐⭐<br/>The embroidery is really clean. Feels premium and the tee itself has a great fit. Very happy with this one</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_UgCP93": {
+          "type": "column",
+          "settings": {
+            "title": "Ayaan- Interline Tee",
+            "text": "<p>⭐⭐⭐⭐<br/>The combination of the tee body and waffle sleeves looks so good. Got compliments the first day I wore it.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_PPGdMT",
+        "column_zAaycm",
+        "column_PTEmiL",
+        "column_bLkzKf",
+        "column_mWTtdp",
+        "column_UgCP93"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "<strong>REVIEWS</strong>",
+        "heading_size": "h2",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "primary",
+        "color_scheme": "scheme-4",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 8,
+        "padding_bottom": 12
+      }
+    },
+    "contact_form_CjRGBR": {
+      "type": "contact-form",
+      "name": "t:sections.contact-form.presets.name",
+      "settings": {
+        "heading": "Contact form",
+        "heading_size": "h1",
+        "color_scheme": "scheme-4",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image_banner_WBmTFn",
+    "hero-slideshow",
+    "all-products",
+    "collection-list",
+    "image-banner",
+    "featured_collection_RGb6rU",
+    "featured_collection_pqTwDH",
+    "custom_liquid_H7zxnG",
+    "featured_collection_QfW6Nk",
+    "featured_collection_iFzgn3",
+    "multicolumn_3GRt3Y",
+    "contact_form_CjRGBR"
+  ]
+}
