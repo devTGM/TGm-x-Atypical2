@@ -21,8 +21,19 @@
     assign target = product
   endif
 
+  if show_compare_at_price == nil
+    assign show_compare_at_price = true
+  endif
+
   assign compare_at_price = target.compare_at_price
   assign price = target.price | default: 1999
+  if compare_at_price == blank or compare_at_price == 0
+    if product.compare_at_price > price
+      assign compare_at_price = product.compare_at_price
+    elsif product.compare_at_price_max > price
+      assign compare_at_price = product.compare_at_price_max
+    endif
+  endif
   assign price_min = product.price_min
   assign price_max = product.price_max
   assign available = target.available | default: false
@@ -48,7 +59,7 @@
       {%- if available == false %} price--sold-out{% endif -%}
       {%- if compare_at_price > price and product.quantity_price_breaks_configured? != true %} price--on-sale{% endif -%}
       {%- if compare_at_price > price and product.quantity_price_breaks_configured? %} volume-pricing--sale-badge{% endif -%}
-      {%- if product.price_varies == false and product.compare_at_price_varies %} price--no-compare{% endif -%}
+      {%- if target == product and product.price_varies == false and product.compare_at_price_varies %} price--no-compare{% endif -%}
       {%- if show_badges %} price--show-badge{% endif -%}
     "
   >
@@ -68,7 +79,7 @@
             -}}
           </span>
           {%- if show_compare_at_price and compare_at_price -%}
-            {%- unless product.price_varies == false and product.compare_at_price_varies %}
+            {%- unless target == product and product.price_varies == false and product.compare_at_price_varies %}
               <span class="visually-hidden visually-hidden--inline">
                 {{- 'products.product.price.regular_price' | t -}}
               </span>
@@ -96,7 +107,7 @@
           {{ money_price }}
         </span>
         {%- if show_compare_at_price -%}
-          {%- unless product.price_varies == false and product.compare_at_price_varies %}
+          {%- unless target == product and product.price_varies == false and product.compare_at_price_varies %}
             <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
             <span>
               <s class="price-item price-item--regular">

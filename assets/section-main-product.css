@@ -1537,11 +1537,14 @@ a.product__text {
   color: rgb(var(--color-foreground));
 }
 
-.product__info-container .price s.price-item--regular {
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.45);
-  margin-left: 0.4rem;
+.product__info-container .price s.price-item--regular,
+.product__info-container .price .price--on-sale .price-item--regular {
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+  color: rgba(var(--color-foreground-rgb, 255, 255, 255), 0.45) !important;
+  text-decoration: line-through !important;
+  margin-left: 0.2rem;
+  display: inline-block;
 }
 
 .product__info-container .price .price__badge-sale {
