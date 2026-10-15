@@ -154,7 +154,7 @@
       "settings": {
         "title": "SHOP BY COLLECTION",
         "heading_size": "h2",
-        "image_ratio": "portrait",
+        "image_ratio": "square",
         "columns_desktop": 5,
         "color_scheme": "scheme-4",
         "show_view_all": true,
